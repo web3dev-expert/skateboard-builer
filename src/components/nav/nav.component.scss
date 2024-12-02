@@ -2,9 +2,9 @@
     color:lightgray;
     transition: .5s;
     &:hover{
-        color: greenyellow;
-        transition: .5s;
-        scale: 1.1;
-        font-weight: bold;
+        color: greenyellow!important;
+        transition: .5s!important;
+        scale: 1.1!important;
+        font-weight: bold!important;
     }
 }

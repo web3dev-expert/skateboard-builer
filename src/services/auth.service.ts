@@ -1,9 +1,21 @@
 import { Injectable } from '@angular/core';
+import { AuthGuard } from '../core/auth.guard';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor() { }
+  public isAuthenticatedUser:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  constructor(private authGuard:AuthGuard) { }
+
+  authenticateUser(bool:boolean){
+    console.log(bool)
+
+    this.authGuard.isAuthenticated = bool;
+    this.isAuthenticatedUser.next(bool);
+    console.log(bool)
+  }
 }
