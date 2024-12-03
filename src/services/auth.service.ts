@@ -12,10 +12,7 @@ export class AuthService {
   constructor(private authGuard:AuthGuard) { }
 
   authenticateUser(bool:boolean){
-    console.log(bool)
-
     this.authGuard.isAuthenticated = bool;
     this.isAuthenticatedUser.next(bool);
-    console.log(bool)
   }
 }

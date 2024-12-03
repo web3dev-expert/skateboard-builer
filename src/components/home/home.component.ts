@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { NgFor, NgIf } from '@angular/common';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [NgIf,NgFor],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

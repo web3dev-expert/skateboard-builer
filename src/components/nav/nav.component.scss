@@ -1,10 +1,34 @@
-.btn{
-    color:lightgray;
+.btn {
+    color: lightgray;
     transition: .5s;
-    &:hover{
-        color: greenyellow!important;
-        transition: .5s!important;
-        scale: 1.1!important;
-        font-weight: bold!important;
+
+    &:hover {
+        color: greenyellow !important;
+        transition: .5s !important;
+        scale: 1.1 !important;
+        font-weight: bold !important;
     }
+}
+
+.mode {
+    .light {
+        transition: .5s;
+        &:hover {
+            color: white !important;
+            transition: .5s !important;
+            scale: 1.1 !important;
+            font-weight: bold !important;
+        }
+    }
+
+    .dark {
+        transition: .5s;
+        &:hover {
+            color: black !important;
+            transition: .5s !important;
+            scale: 1.1 !important;
+            font-weight: bold !important;
+        }
+    }
+
 }
