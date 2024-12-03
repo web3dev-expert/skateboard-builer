@@ -26,5 +26,11 @@ h2,
     transition: 1s;
     -webkit-box-shadow: 0 0 10px lightyellow !important;
     box-shadow: 0 0 10px lightyellow !important;
+    text-shadow: 0 0 2px lightyellow !important;
+  }
+}
+h1{
+  span{
+    text-decoration: underline black!important;
   }
 }

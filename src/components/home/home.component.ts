@@ -9,11 +9,5 @@ import { Component, HostListener } from '@angular/core';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  @HostListener('window:resize', ['$event'])
-  onResize(event:any) {
-    var  svg = document.getElementById("svg")! as unknown as SVGGraphicsElement;
-    var  bbox = svg.getBBox();
-    svg.setAttribute("width", String(bbox.x + bbox.width + bbox.x));
-//     svg.setAttribute("height",  String(bbox.y + bbox.height + bbox.y)); 
- }
+
 }
