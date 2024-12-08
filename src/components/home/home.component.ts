@@ -25,7 +25,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     this.interval = setInterval(() => {
+
       let starContainer = document.querySelector('.star-container');
+      if (this.starCount == 6) {
+        starContainer!.innerHTML = ''
+        this.starCount = 0;
+        return;
+      }
       starContainer?.classList.add('py-5')
       let img = document.createElement('img') as HTMLImageElement;
       img.src = 'assets/home/star.png';
@@ -34,11 +40,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       img.classList.add('m-auto')
       if (this.starCount == 5) {
         starContainer!.innerHTML = ''
-        this.starCount=0;
+      } else {
+        starContainer?.append(img);
       }
       this.starCount++;
-      starContainer?.append(img);
-    }, 2000);
+    }, 1500);
   }
   ngOnDestroy(): void {
     clearInterval(this.interval);
