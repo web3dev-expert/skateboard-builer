@@ -1,11 +1,11 @@
-import { NgFor, NgIf } from '@angular/common';
-import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { TimeInterval } from 'rxjs/internal/operators/timeInterval';
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { ModeService } from '../../services/mode.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NgIf, NgFor],
+  imports: [NgIf, NgFor, NgClass],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -13,6 +13,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   starCount: number = 0;
   interval: any;
+  mode:string = 'light';
+  constructor(private modeService:ModeService) {
+    this.modeService.mode.subscribe((data:string)=>{
+      this.mode=data;
+    })
+   }
+
   rotate(id: string) {
     let div = document.querySelector(`#${id}`) as HTMLDivElement;
     div.style.transition = '1s';
@@ -25,7 +32,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     this.interval = setInterval(() => {
+
       let starContainer = document.querySelector('.star-container');
+      if (this.starCount == 6) {
+        starContainer!.innerHTML = ''
+        this.starCount = 0;
+        return;
+      }
       starContainer?.classList.add('py-5')
       let img = document.createElement('img') as HTMLImageElement;
       img.src = 'assets/home/star.png';
@@ -34,11 +47,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       img.classList.add('m-auto');
       if (this.starCount == 5) {
         starContainer!.innerHTML = ''
+<<<<<<< HEAD
         this.starCount = 0;
+=======
+      } else {
+        starContainer?.append(img);
+>>>>>>> home-nav
       }
       this.starCount++;
-      starContainer?.append(img);
-    }, 2000);
+    }, 1500);
   }
   ngOnDestroy(): void {
     clearInterval(this.interval);
