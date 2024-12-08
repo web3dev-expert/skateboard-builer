@@ -1,11 +1,11 @@
-import { NgFor, NgIf } from '@angular/common';
-import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { TimeInterval } from 'rxjs/internal/operators/timeInterval';
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { ModeService } from '../../services/mode.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NgIf, NgFor],
+  imports: [NgIf, NgFor, NgClass],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -13,6 +13,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   starCount: number = 0;
   interval: any;
+  mode:string = 'light';
+  constructor(private modeService:ModeService) {
+    this.modeService.mode.subscribe((data:string)=>{
+      this.mode=data;
+    })
+   }
+
   rotate(id: string) {
     let div = document.querySelector(`#${id}`) as HTMLDivElement;
     div.style.transition = '1s';

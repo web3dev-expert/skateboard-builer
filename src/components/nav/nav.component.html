@@ -13,7 +13,8 @@
                 <button class="btn" [ngClass]="mode!='light'?'text-light':'text-dark'"  [routerLink]="'/home'">Home</button>
             </div>
             <div class="col-md-4">
-                <button class="btn" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/game-field'">Game field</button>
+                <button class="btn" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/game-field'" 
+                *ngIf="isAuthenticatedUser">Game field</button>
             </div>
             <div class="col-md-4" *ngIf="!isAuthenticatedUser;else logOut">
                 <button class="btn" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/'">Login</button>
