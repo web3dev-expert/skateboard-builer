@@ -29,13 +29,15 @@ h2,
     text-shadow: 0 0 2px lightyellow !important;
   }
 }
-h1{
-  span{
-    text-decoration: underline black!important;
+
+h1 {
+  span {
+    text-decoration: underline black !important;
   }
 }
+
 .flip-card {
-  perspective: 1000px; 
+  perspective: 1000px;
 }
 
 .flip-card-inner {
@@ -53,12 +55,13 @@ h1{
   transition: 1s;
 }
 
-.flip-card-front, .flip-card-back {
+.flip-card-front,
+.flip-card-back {
   position: absolute;
   width: 100%;
   height: 400px;
   overflow: auto;
-  -webkit-backface-visibility: hidden; 
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transition: 1s;
 }
@@ -66,4 +69,219 @@ h1{
 .flip-card-back {
   transform: rotateY(180deg);
   transition: 1s;
+}
+
+.six-to-hover {
+  transition: 1s;
+
+  span {
+    transition: 1s;
+  }
+
+  &:hover {
+    transition: 1s;
+    scale: 1.1;
+
+    span {
+      color: green !important;
+      transition: 1s;
+    }
+  }
+}
+
+.six-relative {
+  height: 500px;
+  transition: 2s;
+
+  :first-child {
+    top: 100px;
+    transition: 2s;
+    margin: auto;
+
+    img {
+      height: 250px;
+      position: relative;
+      z-index: 5 !important;
+    }
+  }
+
+  .lower-part {
+    bottom: 100px;
+    transition: 2s;
+
+    p {
+      position: relative;
+      max-height: 250px;
+      overflow: auto;
+      z-index: 1 !important;
+    }
+  }
+
+  &:hover {
+    transition: 2s;
+
+    :first-child {
+      transition: 2s;
+      top: 0px;
+      margin: auto;
+
+      img {
+        height: 250px;
+        position: relative;
+        z-index: 5 !important;
+      }
+    }
+
+    .lower-part {
+      bottom: 0px;
+
+      p {
+        position: relative;
+        max-height: 250px;
+        overflow: auto;
+        z-index: 1 !important;
+      }
+    }
+  }
+}
+
+.shaking {
+  transition: 1s;
+  &:hover {
+    transition: 1s;
+    animation-name: tilt-shaking;
+    animation-duration: 4s;
+  }
+}
+
+@keyframes tilt-shaking {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  1% {
+    transform: rotate(5deg);
+  }
+
+  2% {
+    transform: rotate(0eg);
+  }
+
+  3% {
+    transform: rotate(-5deg);
+  }
+
+  4% {
+    transform: rotate(0deg);
+  }
+  5% {
+    transform: rotate(5deg);
+  }
+
+  6% {
+    transform: rotate(0eg);
+  }
+
+  7% {
+    transform: rotate(-5deg);
+  }
+
+  8% {
+    transform: rotate(0deg);
+  }
+  9% {
+    transform: rotate(5deg);
+  }
+
+  10% {
+    transform: rotate(0eg);
+  }
+
+  11% {
+    transform: rotate(-5deg);
+  }
+
+  12% {
+    transform: rotate(0deg);
+  }
+  13% {
+    transform: rotate(5deg);
+  }
+
+  14% {
+    transform: rotate(0eg);
+  }
+
+  15% {
+    transform: rotate(-5deg);
+  }
+
+  16% {
+    transform: rotate(0deg);
+  }
+  17% {
+    transform: rotate(5deg);
+  }
+
+  18% {
+    transform: rotate(0eg);
+  }
+
+  19% {
+    transform: rotate(-5deg);
+  }
+
+  20% {
+    transform: rotate(0deg);
+  }
+}
+.rotation-image{
+  &:hover{
+  animation-name:rotation;
+  animation-duration: 5s,
+  }
+}
+
+@keyframes rotation {
+0%{
+  transform: rotate(40deg);
+  scale:1.03;
+} 
+1%{
+  transform: rotate(80deg);
+  scale:1.06;
+}
+2%{
+  transform: rotate(120deg);
+  scale:1.09;
+}
+3%{
+  transform: rotate(160deg);
+  scale:1.1;
+} 
+4%{
+  transform: rotate(200deg);
+  scale:1.13;
+} 
+5%{
+  transform: rotate(240deg);
+  scale:1.16;
+} 
+6%{
+  transform: rotate(280deg);
+  scale:1.19;
+}  
+7%{
+  transform: rotate(320deg);
+  scale:1.22;
+}  
+8%{
+  transform: rotate(360deg);
+  scale:1.25;
+}  
+100%{
+  transform: rotate(360deg);
+  scale:1.28;
+  transition: 1s;
+}
 }
