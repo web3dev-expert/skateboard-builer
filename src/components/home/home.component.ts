@@ -31,10 +31,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       img.src = 'assets/home/star.png';
       img.style.width = '50px';
       img.style.height = '50px';
-      img.classList.add('m-auto')
+      img.classList.add('m-auto');
       if (this.starCount == 5) {
         starContainer!.innerHTML = ''
-        this.starCount=0;
+        this.starCount = 0;
       }
       this.starCount++;
       starContainer?.append(img);
