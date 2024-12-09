@@ -13,12 +13,22 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   starCount: number = 0;
   interval: any;
+<<<<<<< HEAD
   mode:string = 'light';
   constructor(private modeService:ModeService) {
     this.modeService.mode.subscribe((data:string)=>{
       this.mode=data;
     })
    }
+=======
+  mode: string = 'light;'
+
+  constructor(private modeService: ModeService) {
+    this.modeService.mode.subscribe((data: string) => {
+      this.mode = data;
+    })
+  }
+>>>>>>> footer
 
   rotate(id: string) {
     let div = document.querySelector(`#${id}`) as HTMLDivElement;
