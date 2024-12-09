@@ -2,25 +2,25 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-end mode">
-                <button class="btn text-light light" (click)="updateMode('light')" *ngIf="mode=='dark'">
+                <button class="btn text-light light fs-4" (click)="updateMode('light')" *ngIf="mode=='dark'">
                     Light mode ☀️
                 </button>
-                <button class="btn text-dark dark" (click)="updateMode('dark')" *ngIf="mode=='light'">
+                <button class="btn text-dark dark fs-4" (click)="updateMode('dark')" *ngIf="mode=='light'">
                     Dark mode 🌙
                 </button>
             </div>
             <div class="col-md-4">
-                <button class="btn" [ngClass]="mode!='light'?'text-light':'text-dark'"  [routerLink]="'/home'">Home</button>
+                <button class="btn fs-4" [ngClass]="mode!='light'?'text-light':'text-dark'"  [routerLink]="'/home'">Home</button>
             </div>
             <div class="col-md-4">
-                <button class="btn" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/game-field'">Game field</button>
+                <button class="btn fs-4" *ngIf="isAuthenticatedUser" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/game-field'">Game field</button>
             </div>
             <div class="col-md-4" *ngIf="!isAuthenticatedUser;else logOut">
-                <button class="btn" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/'">Login</button>
+                <button class="btn fs-4" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/'">Login</button>
             </div>
             <ng-template #logOut>
                 <div class="col-md-4" *ngIf="isAuthenticatedUser">
-                    <button class="btn" (click)="logout()" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/home'">Logout</button>
+                    <button class="btn fs-4" (click)="logout()" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/home'">Logout</button>
                 </div>
             </ng-template>
         </div>
