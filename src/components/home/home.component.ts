@@ -13,22 +13,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   starCount: number = 0;
   interval: any;
-<<<<<<< HEAD
   mode:string = 'light';
   constructor(private modeService:ModeService) {
     this.modeService.mode.subscribe((data:string)=>{
       this.mode=data;
     })
    }
-=======
-  mode: string = 'light;'
-
-  constructor(private modeService: ModeService) {
-    this.modeService.mode.subscribe((data: string) => {
-      this.mode = data;
-    })
-  }
->>>>>>> footer
 
   rotate(id: string) {
     let div = document.querySelector(`#${id}`) as HTMLDivElement;
@@ -57,12 +47,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       img.classList.add('m-auto');
       if (this.starCount == 5) {
         starContainer!.innerHTML = ''
-<<<<<<< HEAD
         this.starCount = 0;
-=======
-      } else {
-        starContainer?.append(img);
->>>>>>> home-nav
       }
       this.starCount++;
     }, 1500);
