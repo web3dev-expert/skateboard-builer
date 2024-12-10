@@ -9,11 +9,11 @@ import { AuthGuard } from '../core/auth.guard';
 export const routes: Routes = [
     {
         path:'',
-        component:FormsComponent
+        loadChildren: () => import('../components/forms/forms.module').then(m => m.FormsModule) 
     },
     {
         path:'forms',
-        component:FormsComponent
+        loadChildren: () => import('../components/forms/forms.module').then(m => m.FormsModule) 
     },
     {
         path:'home',
