@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup} from '@angular/forms';
 
 @Component({
@@ -7,9 +7,12 @@ import { FormGroup} from '@angular/forms';
   templateUrl: './forms.component.html',
   styleUrl: './forms.component.scss'
 })
-export class FormsComponent {
+export class FormsComponent implements OnInit{
 section:string = 'login';
 login:FormGroup = new FormGroup({});
 signup:FormGroup = new FormGroup({});
 
+ngOnInit(): void {
+  console.log(this.section)
+}
 }
