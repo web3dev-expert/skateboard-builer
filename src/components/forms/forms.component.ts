@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup} from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forms',
@@ -8,11 +9,11 @@ import { FormGroup} from '@angular/forms';
   styleUrl: './forms.component.scss'
 })
 export class FormsComponent implements OnInit{
-section:string = 'login';
 login:FormGroup = new FormGroup({});
 signup:FormGroup = new FormGroup({});
 
+constructor(private router:Router){}
 ngOnInit(): void {
-  console.log(this.section)
+// this.router.navigate(['forms/login'])
 }
 }

@@ -8,7 +8,8 @@ import { AuthGuard } from '../core/auth.guard';
 export const routes: Routes = [
     {
         path:'',
-        loadChildren: () => import('../components/forms/forms.module').then(m => m.FormsModule) 
+        redirectTo:'forms',
+         pathMatch: 'full'
     },
     {
         path:'forms',
