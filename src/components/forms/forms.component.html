@@ -1,9 +1,9 @@
 <div class="container py-5 text-center">
     <div class="row">
         <div class="col-md-12 py-5">
-            <h1>Login</h1>
+            <h1>Accedi o registrati</h1>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12 text-center">
             <p class="fs-4">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
@@ -12,9 +12,11 @@
                 deserunt mollit anim id est laborum.
             </p>
         </div>
-        <div class="col-md-6">
-<router-outlet><router-outlet />
-   
-            </div>
     </div>
 </div>
+<router-outlet><router-outlet />
+    <div class="container py-5 text-center">
+        <div class="row">
+<a href="" [routerLink]="'/forms/signup'">Signup here</a>
+        </div>
+    </div>
