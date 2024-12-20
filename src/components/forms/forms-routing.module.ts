@@ -17,6 +17,10 @@ export const routes: Routes = [
     {
         path: 'forms/signup',
         component: SignupComponent
+    },
+    {
+        path: '**',
+        component: SignupComponent
     }
 ];
 @NgModule({
