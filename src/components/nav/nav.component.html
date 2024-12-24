@@ -16,7 +16,7 @@
                 <button class="btn fs-4" *ngIf="isAuthenticatedUser" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/game-field'">Game field</button>
             </div>
             <div class="col-md-4" *ngIf="!isAuthenticatedUser;else logOut">
-                <button class="btn fs-4" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/'">Login</button>
+                <button class="btn fs-4" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/forms'">Login</button>
             </div>
             <ng-template #logOut>
                 <div class="col-md-4" *ngIf="isAuthenticatedUser">

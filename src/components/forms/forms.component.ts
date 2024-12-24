@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup} from '@angular/forms';
 import { Router } from '@angular/router';
+import { FormsModule } from './forms.module';
 
 @Component({
   selector: 'app-forms',
-  standalone: false,
   templateUrl: './forms.component.html',
   styleUrl: './forms.component.scss'
 })
@@ -14,7 +14,6 @@ signup:FormGroup = new FormGroup({});
 
 constructor(private router:Router){}
 ngOnInit(): void {
-// this.router.navigate(['forms/login'])
 }
 
 route(direction:string){

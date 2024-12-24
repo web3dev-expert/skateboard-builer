@@ -1,7 +1,15 @@
-<div class="container text-center">
-    <div class="row">
+<div class="container text-center py-5">
+    <div class="row py-5">
         <div class="col-md-12">
             <h1>Login here</h1>
+        </div>
+        <div class="col-md-12">
+            <form [formGroup]="loginForm" class="p-3 w-50 m-auto">
+                <label for="email"></label>
+                <input type="email" name="email" id="email" formControlName="email" class="form-control">
+                <label for="password"></label>
+                <input type="password" name="password" id="password" formControlName="password" class="form-control">
+            </form>
         </div>
     </div>
 </div>

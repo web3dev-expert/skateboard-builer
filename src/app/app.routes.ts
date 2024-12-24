@@ -6,14 +6,15 @@ import { NotFoundComponent } from '../components/not-found/not-found.component';
 import { AuthGuard } from '../core/auth.guard';
 
 export const routes: Routes = [
-    {
-        path:'',
-        redirectTo:'forms',
-         pathMatch: 'full'
-    },
+    
     {
         path:'forms',
-        loadChildren: () => import('../components/forms/forms.module').then(m => m.FormsModule) 
+        loadChildren: () => import('../components/forms/forms.module').then(m => m.FormsModule)
+    },
+    {
+        path:'',
+        redirectTo:'home',
+        pathMatch: 'full'
     },
     {
         path:'home',
