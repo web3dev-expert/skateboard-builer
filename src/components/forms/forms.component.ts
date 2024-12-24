@@ -16,4 +16,9 @@ constructor(private router:Router){}
 ngOnInit(): void {
 // this.router.navigate(['forms/login'])
 }
+
+route(direction:string){
+  console.log(direction)
+  this.router.navigate([`forms/${direction}`])
+}
 }

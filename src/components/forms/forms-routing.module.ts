@@ -8,15 +8,10 @@ export const routes: Routes = [
     {
         path: '',
         component: FormsComponent,
-        pathMatch: 'full'
-    },
-    {
-        path: 'forms/login',
-        component: LoginComponent
-    },
-    {
-        path: 'forms/signup',
-        component: SignupComponent
+        children: [
+            { path: 'login', component: LoginComponent },
+            { path: 'signup', component: SignupComponent }, 
+          ],
     },
     {
         path: '**',

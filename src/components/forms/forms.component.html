@@ -2,6 +2,11 @@
 <router-outlet><router-outlet />
     <div class="container py-5 text-center">
         <div class="row">
-<a href="" [routerLink]="'/forms/signup'">Signup here</a>
-        </div>
+<button class="btn" (click)="route('signup')">
+    Signup here
+</button> 
+<button class="btn" (click)="route('login')">
+    Login here
+</button>
+</div>
     </div>
