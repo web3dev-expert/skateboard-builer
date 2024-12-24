@@ -5,12 +5,14 @@ import { CommonModule } from "@angular/common";
 import { FormsRoutingModule } from "./forms-routing.module";
 import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./components/signup/signup.component";
+import { FormsLabelComponent } from "./components/forms-label/forms-label.component";
 
 @NgModule({
       declarations: [
         FormsComponent,
         LoginComponent,
-        SignupComponent
+        SignupComponent,
+        FormsLabelComponent
       ],
       imports: [
         CommonModule,
@@ -19,7 +21,8 @@ import { SignupComponent } from "./components/signup/signup.component";
       ],
       exports: [
         LoginComponent,
-        SignupComponent
+        SignupComponent,
+        FormsLabelComponent
       ]
     })
 export class FormsModule {}
