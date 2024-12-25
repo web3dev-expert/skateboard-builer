@@ -6,6 +6,7 @@ import { FormsRoutingModule } from "./forms-routing.module";
 import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./components/signup/signup.component";
 import { FormsLabelComponent } from "./components/forms-label/forms-label.component";
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
       declarations: [
@@ -17,12 +18,26 @@ import { FormsLabelComponent } from "./components/forms-label/forms-label.compon
       imports: [
         CommonModule,
         ReactiveFormsModule,
-        FormsRoutingModule
+        FormsRoutingModule,
+        ToastrModule.forRoot()
       ],
       exports: [
         LoginComponent,
         SignupComponent,
         FormsLabelComponent
+      ],
+      providers: [
+        provideAnimations(), 
+        provideToastr(),
       ]
     })
 export class FormsModule {}
+
+function provideAnimations(): import("@angular/core").Provider | import("@angular/core").EnvironmentProviders {
+  throw new Error("Function not implemented.");
+}
+
+
+function provideToastr(): import("@angular/core").Provider | import("@angular/core").EnvironmentProviders {
+  throw new Error("Function not implemented.");
+}
