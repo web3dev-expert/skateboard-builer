@@ -18,7 +18,6 @@ ngOnInit(): void {
 }
 
 route(direction:string){
-  console.log(direction)
   this.router.navigate([`forms/${direction}`])
 }
 }

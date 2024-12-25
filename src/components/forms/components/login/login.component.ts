@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { ToastrIconClasses, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup = new FormGroup({});
   isLoginFormSubmitted: boolean = false;
 
-  constructor(private toastr:ToastrService) { }
+  constructor(private toastr : ToastrService) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
