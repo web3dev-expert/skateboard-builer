@@ -2,14 +2,23 @@
     <div class="row py-5">
         <div class="col-md-12 d-flex justify-content-end">
             <div class="w-auto text-center">
-                 <button class="btn" (click)="toggleMenu(!isOpen)"><svg xmlns="http://www.w3.org/2000/svg" height="24px"
-                    viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-                    <path d="M480-360 280-560h400L480-360Z" />
-                </svg>
-            </button>
-                <div class="menu text-center overflow-hidden" [style.height]="isOpen?'100px':'0px'" [ngClass]="isOpen ? 'border rounded' : 'border-none' ">
-                    <p>Signup</p>
-                    <p>Forms</p>
+                <button class="btn" (click)="toggleMenu(!isOpen)"><svg xmlns="http://www.w3.org/2000/svg" height="24px"
+                        viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                        <path d="M480-360 280-560h400L480-360Z" />
+                    </svg>
+                </button>
+                <div class="menu text-center overflow-hidden bg-white" [style.height]="isOpen?'100px':'0px'"
+                    [ngClass]="isOpen ? 'border rounded shadow' : '' ">
+                    <p>
+                        <button class="btn">
+                            Signup
+                        </button>
+                    </p>
+                    <p>
+                        <button class="btn">
+                            Forms
+                        </button>
+                    </p>
                 </div>
             </div>
         </div>
@@ -17,7 +26,7 @@
             <h1>Login here</h1>
         </div>
         <div class="col-md-12">
-            <form [formGroup]="loginForm" class="p-3 w-50 m-auto">
+            <form [formGroup]="loginForm" class="p-3 login-form m-auto">
                 <label for="email"></label>
                 <input type="email" name="email" id="email" formControlName="email" class="form-control">
                 <label for="password"></label>

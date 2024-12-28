@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrIconClasses, ToastrService } from 'ngx-toastr';
@@ -21,6 +21,16 @@ export class LoginComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)])
     })
+
+    let form = document.getElementsByClassName('login-form')[0] as HTMLElement;
+    if (window.innerWidth > 767) {
+      form.classList.add('w-50','border','shadow','rounded','p-3','my-3')
+      form.classList.remove('w-75')
+    } else {
+      form.classList.add('w-75','border','shadow','rounded','p-3','my-3')
+      form.classList.remove('w-50')
+    }
+
   }
 
   login() {
@@ -33,5 +43,19 @@ export class LoginComponent implements OnInit {
 
   toggleMenu(open: boolean) {
     this.isOpen = open;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    let form = document.getElementsByClassName('login-form')[0] as HTMLElement;
+
+    if (event.target.innerWidth > 767) {
+      form.classList.add('w-50','border','shadow','rounded','p-3','my-3')
+      form.classList.remove('w-75')
+    } else {
+      form.classList.add('w-75','border','shadow','rounded','p-3','my-3')
+      form.classList.remove('w-50')
+    }
+    console.log(event.target.innerWidth)
   }
 }

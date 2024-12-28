@@ -7,8 +7,19 @@ h2,
 }
 .w-auto{
   max-width: 130px;
-}
-.menu{
+  position:relative;
+  .menu{
   width: 100px;
   transition: 1s;
+  position: absolute;
+  right: 10px;
+  z-index: 40;
+  
+  div{.p{
+    &:hover{
+      background-color: red;
+    }
+  }
+}
+}
 }
