@@ -5,6 +5,11 @@ h2,
   font-weight: 400;
   font-style: normal;
 }
+.w-auto{
+  max-width: 130px;
+}
 .menu{
   width: 100px;
+  height: 0px;
+  transition: 1s;
 }

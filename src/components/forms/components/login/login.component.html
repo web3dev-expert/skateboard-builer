@@ -1,14 +1,17 @@
 <div class="container text-center py-5">
     <div class="row py-5">
-        <div class="col-md-12 text-end">
-            <button class="btn" (click)="goToSignup('signup')"><svg xmlns="http://www.w3.org/2000/svg" height="24px"
+        <div class="col-md-12 d-flex justify-content-end">
+            <div class="w-auto text-center">
+                 <button class="btn" (click)="toggleMenu(!isOpen)"><svg xmlns="http://www.w3.org/2000/svg" height="24px"
                     viewBox="0 -960 960 960" width="24px" fill="#5f6368">
                     <path d="M480-360 280-560h400L480-360Z" />
-                </svg></button>
-                <div class="menu border p-4 rounded text-center">
+                </svg>
+            </button>
+                <div class="menu text-center overflow-hidden">
                     <p>Signup</p>
                     <p>Forms</p>
                 </div>
+            </div>
         </div>
         <div class="col-md-12">
             <h1>Login here</h1>

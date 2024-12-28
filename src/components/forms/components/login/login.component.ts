@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup = new FormGroup({});
   isLoginFormSubmitted: boolean = false;
-
+  isOpen:boolean=false
   constructor(private toastr: ToastrService,private router:Router) { }
 
   ngOnInit(): void {
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-goToSignup(route:string){
-  this.router.navigate([`forms/${route}`])
+goToSignup(open:boolean){
+  this.isOpen=open;
 }
 }
