@@ -12,8 +12,8 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup = new FormGroup({});
   isLoginFormSubmitted: boolean = false;
-  isOpen:boolean=false
-  constructor(private toastr: ToastrService,private router:Router) { }
+  isOpen: boolean = false
+  constructor(private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -30,7 +30,16 @@ export class LoginComponent implements OnInit {
     }
   }
 
-goToSignup(open:boolean){
-  this.isOpen=open;
-}
+  toggleMenu(open: boolean) {
+    this.isOpen = open;
+    console.log(open)
+    let menu = document.getElementsByClassName('menu')[0] as HTMLDivElement;
+
+    if (this.isOpen) {
+      menu.style.transition = '1s;'
+      menu.classList.add('border', 'rounded')
+    } else {
+      menu.classList.remove('border')
+    }
+  }
 }
