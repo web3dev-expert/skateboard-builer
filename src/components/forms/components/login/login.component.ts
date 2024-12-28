@@ -12,7 +12,8 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup = new FormGroup({});
   isLoginFormSubmitted: boolean = false;
-  isOpen: boolean = false
+  isOpen: boolean = false;
+  canMoveMenu: boolean = false;
   constructor(private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
@@ -32,14 +33,5 @@ export class LoginComponent implements OnInit {
 
   toggleMenu(open: boolean) {
     this.isOpen = open;
-    console.log(open)
-    let menu = document.getElementsByClassName('menu')[0] as HTMLDivElement;
-
-    if (this.isOpen) {
-      menu.style.transition = '1s;'
-      menu.classList.add('border', 'rounded')
-    } else {
-      menu.classList.remove('border')
-    }
   }
 }

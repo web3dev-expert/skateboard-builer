@@ -7,7 +7,7 @@
                     <path d="M480-360 280-560h400L480-360Z" />
                 </svg>
             </button>
-                <div class="menu text-center overflow-hidden" [style.height]="isOpen?'100px':'0px'">
+                <div class="menu text-center overflow-hidden" [style.height]="isOpen?'100px':'0px'" [ngClass]="isOpen ? 'border rounded' : 'border-none' ">
                     <p>Signup</p>
                     <p>Forms</p>
                 </div>
