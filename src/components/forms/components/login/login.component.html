@@ -10,12 +10,12 @@
                 <div class="menu text-center overflow-hidden bg-white" [style.height]="isOpen?'100px':'0px'"
                     [ngClass]="isOpen ? 'border rounded shadow' : '' ">
                     <p>
-                        <button class="btn">
+                        <button class="btn" (click)="switchRoute('signup')">
                             Signup
                         </button>
                     </p>
                     <p>
-                        <button class="btn">
+                        <button class="btn" (click)="switchRoute('forms')">
                             Forms
                         </button>
                     </p>

@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   isLoginFormSubmitted: boolean = false;
   isOpen: boolean = false;
   canMoveMenu: boolean = false;
-  constructor(private toastr: ToastrService) { }
+  constructor(private toastr: ToastrService,private router:Router) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -57,5 +57,8 @@ export class LoginComponent implements OnInit {
       form.classList.add('w-75','border','shadow','rounded','p-3','my-3')
       form.classList.remove('w-50')
     }
+  }
+  switchRoute(route:string){
+route=='forms'?this.router.navigate(['forms']):this.router.navigate(['forms/signup'])
   }
 }
