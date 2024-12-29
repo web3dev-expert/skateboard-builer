@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   isLoginFormSubmitted: boolean = false;
   isOpen: boolean = false;
   canMoveMenu: boolean = false;
-  constructor(private toastr: ToastrService,private router:Router) { }
+  constructor(private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -24,10 +24,10 @@ export class LoginComponent implements OnInit {
 
     let form = document.getElementsByClassName('login-form')[0] as HTMLElement;
     if (window.innerWidth > 767) {
-      form.classList.add('w-50','border','shadow','rounded','p-3','my-3')
+      form.classList.add('w-50', 'border', 'shadow', 'rounded', 'p-3', 'my-3')
       form.classList.remove('w-75')
     } else {
-      form.classList.add('w-75','border','shadow','rounded','p-3','my-3')
+      form.classList.add('w-75', 'border', 'shadow', 'rounded', 'p-3', 'my-3')
       form.classList.remove('w-50')
     }
 
@@ -51,14 +51,14 @@ export class LoginComponent implements OnInit {
     let form = document.getElementsByClassName('login-form')[0] as HTMLElement;
 
     if (event.target.innerWidth > 767) {
-      form.classList.add('w-50','border','shadow','rounded','p-3','my-3')
+      form.classList.add('w-50', 'border', 'shadow', 'rounded', 'p-3', 'my-3')
       form.classList.remove('w-75')
     } else {
-      form.classList.add('w-75','border','shadow','rounded','p-3','my-3')
+      form.classList.add('w-75', 'border', 'shadow', 'rounded', 'p-3', 'my-3')
       form.classList.remove('w-50')
     }
   }
-  switchRoute(route:string){
-route=='forms'?this.router.navigate(['forms']):this.router.navigate(['forms/signup'])
+  switchRoute(route: string) {
+    route == 'forms' ? this.router.navigate(['forms']) : this.router.navigate(['forms/signup'])
   }
 }
