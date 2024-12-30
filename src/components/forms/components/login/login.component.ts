@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   isLoginFormSubmitted: boolean = false;
   isOpen: boolean = false;
   canMoveMenu: boolean = false;
-  constructor(private toastr: ToastrService, private router: Router) { }
+  constructor(private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    console.log('login :' + this.loginForm.valid)
     if (this.loginForm.valid) {
 
     } else {
