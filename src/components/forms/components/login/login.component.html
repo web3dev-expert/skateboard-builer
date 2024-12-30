@@ -26,11 +26,12 @@
             <h1>Login here</h1>
         </div>
         <div class="col-md-12">
-            <form [formGroup]="loginForm" class="p-3 login-form m-auto">
-                <label for="email"></label>
+            <form [formGroup]="loginForm" class="p-3 login-form m-auto py-5">
+                <label for="email" class="py-3">Inserisci la tua email</label>
                 <input type="email" name="email" id="email" formControlName="email" class="form-control">
-                <label for="password"></label>
+                <label for="password" class="py-3">Inserisci la password</label>
                 <input type="password" name="password" id="password" formControlName="password" class="form-control">
+                <button class="btn my-3 btn-warning border">Login</button>
             </form>
         </div>
     </div>

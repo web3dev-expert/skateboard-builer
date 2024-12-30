@@ -56,6 +56,5 @@ export class LoginComponent implements OnInit {
       form.classList.add('w-75','border','shadow','rounded','p-3','my-3')
       form.classList.remove('w-50')
     }
-    console.log(event.target.innerWidth)
   }
 }
