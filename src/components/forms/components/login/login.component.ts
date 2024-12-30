@@ -22,15 +22,6 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', [Validators.required, Validators.minLength(6)])
     })
 
-    let form = document.getElementsByClassName('login-form')[0] as HTMLElement;
-    if (window.innerWidth > 767) {
-      form.classList.add('w-50', 'border', 'shadow', 'rounded', 'p-3', 'my-3')
-      form.classList.remove('w-75')
-    } else {
-      form.classList.add('w-75', 'border', 'shadow', 'rounded', 'p-3', 'my-3')
-      form.classList.remove('w-50')
-    }
-
   }
 
   login() {
@@ -46,18 +37,6 @@ export class LoginComponent implements OnInit {
     this.isOpen = open;
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    let form = document.getElementsByClassName('login-form')[0] as HTMLElement;
-
-    if (event.target.innerWidth > 767) {
-      form.classList.add('w-50', 'border', 'shadow', 'rounded', 'p-3', 'my-3')
-      form.classList.remove('w-75')
-    } else {
-      form.classList.add('w-75', 'border', 'shadow', 'rounded', 'p-3', 'my-3')
-      form.classList.remove('w-50')
-    }
-  }
   switchRoute(route: string) {
     route == 'forms' ? this.router.navigate(['forms']) : this.router.navigate(['forms/signup'])
   }
