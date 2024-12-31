@@ -46,11 +46,51 @@
         </div>
         <div class="col-lg-6 py-5 my-5">
             <form [formGroup]="signupForm" class="p-3 login-form m-auto py-5 border rounded shadow w-75">
-                <label for="email" class="py-3">Inserisci la tua email</label>
-                <input type="email" name="email" id="email" formControlName="email" class="form-control">
-                <label for="password" class="py-3">Inserisci la password</label>
-                <input type="password" name="password" id="password" formControlName="password" class="form-control">
-                <button class="btn my-3 btn-warning border" (click)="signup()">Login</button>
+                <div *ngIf="signupStep==1">
+                    <label for="nome" class="py-3">Inserisci il tuo nome</label>
+                    <input type="text" name="nome" id="nome" formControlName="nome" class="form-control">
+                    <label for="cognome" class="py-3">Inserisci il tuo cognome</label>
+                    <input type="text" name="cognome" id="cognome" formControlName="cognome" class="form-control">
+                    <div class="d-flex justify-content-around">
+                        <button class="btn my-3 btn-warning border" (click)="signupStep=2">Next</button>
+                    </div>                </div>
+                <div *ngIf="signupStep==2">
+                    <label for="email" class="py-3">Inserisci la tua email</label>
+                    <input type="email" name="email" id="email" formControlName="email" class="form-control">
+                    <label for="password" class="py-3">Inserisci la tua password</label>
+                    <input type="password" name="password" id="password" formControlName="password" class="form-control">
+                    <div class="d-flex justify-content-around">
+                        <button class="btn my-3 btn-warning border" (click)="signupStep=1">Previous</button>
+                        <button class="btn my-3 btn-warning border" (click)="signupStep=3">Next</button>
+                    </div>                </div>
+                <div *ngIf="signupStep==3">
+                    <label for="citta" class="py-3">Inserisci la tua città</label>
+                    <select type="text" name="citta" id="citta" formControlName="citta" class="form-select">
+                        <option value="">Seleziona una città.</option>
+                        <option *ngFor="let c of cities" [value]="c.id"></option>
+                    </select>
+                    <label for="immagineProfilo" class="py-3">Inserisci la tua immagine del profilo</label>
+                    <input type="file" name="immagineProfilo" id="immagineProfilo" class="form-control" #file accept="image/png, image/gif, image/jpeg" (change)="handleProfileImage($event)">
+                    <div *ngIf="url!=''" class="py-3">
+                        <p class="text-end">
+                            <button class="btn" (click)="deleteProfileImage(file)">Elimina</button>
+                        </p>
+                        <img [src]="url" alt="your_choosed_profile_image" class="profile-image border rounded-circle shadow-sm m-auto">
+                    </div>
+                    <div class="d-flex justify-content-around">
+                        <button class="btn my-3 btn-warning border" (click)="signupStep=2">Previous</button>
+                        <button class="btn my-3 btn-warning border" (click)="signupStep=4">Next</button>
+                    </div>
+                </div>
+                <div *ngIf="signupStep==4">
+                    <label for="nome" class="py-3">Inserisci il tuo nome</label>
+                    <input type="text" name="nome" id="nome" formControlName="nome" class="form-control">
+                    <label for="cognome" class="py-3">Inserisci il tuo cognome</label>
+                    <input type="text" name="cognome" id="cognome" formControlName="cognome" class="form-control">
+                    <div class="d-flex justify-content-around">
+                        <button class="btn my-3 btn-warning border" (click)="signupStep=3">Previous</button>
+                    </div>                    
+                </div>
             </form>
         </div>
     </div>
