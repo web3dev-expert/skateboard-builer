@@ -7,23 +7,24 @@ import { Router } from '@angular/router';
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })
-export class SignupComponent implements OnInit{
-  isOpen:boolean = false;
-  signupForm:FormGroup = new FormGroup({});
-  signupStep:number = 1;
-  cities:any[] = [];
-  selectedImage:any = null;
-  url:string = '';
-  constructor(private router:Router){
+export class SignupComponent implements OnInit {
+  isOpen: boolean = false;
+  signupForm: FormGroup = new FormGroup({});
+  signupStep: number = 1;
+  cities: any[] = [{id:0,name:'Bolzano'},{id:1,name:'Cosenza'},{id:2,name:'Catanzaro'}];
+  selectedImage: any = null;
+  url: string = '';
+  selectedCity: any = '';
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
-      nome: new FormControl('',[Validators.required]),
-      cognome: new FormControl('',[Validators.required]),
-      email: new FormControl('',[Validators.required,Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]),
-      password: new FormControl('',[Validators.required,Validators.minLength(8)]),
-      citta: new FormControl('',[Validators.required])
+      nome: new FormControl('', [Validators.required]),
+      cognome: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      citta: new FormControl('', [Validators.required])
     })
   }
 
@@ -35,7 +36,7 @@ export class SignupComponent implements OnInit{
     route == 'forms' ? this.router.navigate(['forms']) : this.router.navigate(['forms/login'])
   }
 
-  signup(){}
+  signup() { }
 
   handleProfileImage(event: any) {
     if (event && event.target && event.target.files && event.target.files[0]) {
@@ -50,9 +51,16 @@ export class SignupComponent implements OnInit{
       };
     }
   }
-  deleteProfileImage(fileInput:HTMLInputElement){
-    this.url='';
-    this.selectedImage=null;
-    fileInput.value='';
+  deleteProfileImage(fileInput: HTMLInputElement) {
+    this.url = '';
+    this.selectedImage = null;
+    fileInput.value = '';
+  }
+  updateSelectedCity() {
+    this.selectedCity = this.cities.filter(c => c.id == this.signupForm.controls['citta'].value)[0];
+  }
+ 
+  signupCheck():boolean{
+    return this.signupForm.valid&&this.selectedImage;
   }
 }
