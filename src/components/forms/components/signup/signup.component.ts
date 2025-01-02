@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -16,7 +16,8 @@ export class SignupComponent implements OnInit {
   selectedImage: any = null;
   url: string = '';
   selectedCity: any = '';
-  constructor(private router: Router, private toastr: ToastrService) {
+  missedDatas: string[] = []
+  constructor(private router: Router, private toastr: ToastrService,private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -41,7 +42,7 @@ export class SignupComponent implements OnInit {
     if (
       this.signupForm.valid && this.selectedImage
     ) {
-
+      console.log('signing')
     } else {
       this.toastr.error("Assicurati di avere inserito tutti i dati mancanti.")
     }
@@ -66,6 +67,10 @@ export class SignupComponent implements OnInit {
     fileInput.value = '';
   }
   updateSelectedCity() {
+    if(this.signupForm.controls['citta'].value==''){
+      this.selectedCity='';
+      return;
+    }
     this.selectedCity = this.cities.filter(c => c.id == this.signupForm.controls['citta'].value)[0];
   }
 
@@ -73,17 +78,20 @@ export class SignupComponent implements OnInit {
     return this.signupForm.valid && this.selectedImage;
   }
 
-  missedDatas(): string[] {
-    let missedDatas: string[] = []
+  populateMissedDatasArray() {
+    this.missedDatas=[];
     Object.keys(this.signupForm.controls).forEach(key => {
       const control = this.signupForm.get(key);
       if(control?.invalid){
-        missedDatas.push(key)
+        this.missedDatas.push(key)
       }
     });
     if(!this.selectedImage){
-      missedDatas.push('immagine del profilo')
+      this.missedDatas.push('immagine del profilo')
     }
-    return missedDatas;
+  }
+  updateFourthStep(){
+    this.signupStep=4;
+    this.populateMissedDatasArray()
   }
 }

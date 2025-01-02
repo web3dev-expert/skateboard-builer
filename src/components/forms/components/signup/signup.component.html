@@ -68,7 +68,8 @@
                 </div>
                 <div *ngIf="signupStep==3">
                     <label for="citta" class="py-3">Inserisci la tua città</label>
-                    <select type="text" name="citta" id="citta" formControlName="citta" class="form-select" (change)="updateSelectedCity()">
+                    <select type="text" name="citta" id="citta" formControlName="citta" class="form-select"
+                        (change)="updateSelectedCity()">
                         <option value="">Seleziona una città.</option>
                         <option *ngFor="let c of cities" [value]="c.id">{{c.name}}</option>
                     </select>
@@ -84,7 +85,7 @@
                     </div>
                     <div class="d-flex justify-content-around">
                         <button class="btn my-3 btn-warning border" (click)="signupStep=2">Previous</button>
-                        <button class="btn my-3 btn-warning border" (click)="signupStep=4">Next</button>
+                        <button class="btn my-3 btn-warning border" (click)="updateFourthStep()">Next</button>
                     </div>
                 </div>
                 <div *ngIf="signupStep==4">
@@ -131,17 +132,20 @@
                             </span>
                         </div>
                         <div class="col-md-8 p-2 border-bottom">
-                            <img [src]="url!=''?url:'assets/forms/signup/empty_avatar.jpg'" alt="your_choosed_profile_image"
+                            <img [src]="url!=''?url:'assets/forms/signup/empty_avatar.jpg'"
+                                alt="your_choosed_profile_image"
                                 class="profile-image border rounded-circle shadow-sm m-auto">
                         </div>
                     </div>
-                    <div class="py-1 d-block">
-                    <p>Dati mancanti : </p>
-                        <span *ngFor="let d of missedDatas(), index as i">{{d}} </span>
+                    <div class="py-1 d-block" *ngIf="missedDatas.length>0">
+                        <p class="text-danger">Dati mancanti : </p>
+                        <span *ngFor="let d of missedDatas, index as i">{{d}} {{i+1==missedDatas.length?".":',
+                            '}} </span>
                     </div>
                     <div class="d-flex justify-content-around">
                         <button class="btn my-3 btn-warning border" (click)="signupStep=3">Previous</button>
-                        <button class="btn my-3 btn-warning border" (click)="signup()" *ngIf="signupCheck()">Signup</button>
+                        <button class="btn my-3 btn-warning border" (click)="signup()"
+                            *ngIf="signupCheck()">Signup</button>
                     </div>
                 </div>
             </form>
