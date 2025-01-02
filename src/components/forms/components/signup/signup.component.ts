@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup',
@@ -11,11 +12,11 @@ export class SignupComponent implements OnInit {
   isOpen: boolean = false;
   signupForm: FormGroup = new FormGroup({});
   signupStep: number = 1;
-  cities: any[] = [{id:0,name:'Bolzano'},{id:1,name:'Cosenza'},{id:2,name:'Catanzaro'}];
+  cities: any[] = [{ id: 0, name: 'Bolzano' }, { id: 1, name: 'Cosenza' }, { id: 2, name: 'Catanzaro' }];
   selectedImage: any = null;
   url: string = '';
   selectedCity: any = '';
-  constructor(private router: Router) {
+  constructor(private router: Router, private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -36,7 +37,15 @@ export class SignupComponent implements OnInit {
     route == 'forms' ? this.router.navigate(['forms']) : this.router.navigate(['forms/login'])
   }
 
-  signup() { }
+  signup() {
+    if (
+      this.signupForm.valid && this.selectedImage
+    ) {
+
+    } else {
+      this.toastr.error("Assicurati di avere inserito tutti i dati mancanti.")
+    }
+  }
 
   handleProfileImage(event: any) {
     if (event && event.target && event.target.files && event.target.files[0]) {
@@ -59,8 +68,22 @@ export class SignupComponent implements OnInit {
   updateSelectedCity() {
     this.selectedCity = this.cities.filter(c => c.id == this.signupForm.controls['citta'].value)[0];
   }
- 
-  signupCheck():boolean{
-    return this.signupForm.valid&&this.selectedImage;
+
+  signupCheck(): boolean {
+    return this.signupForm.valid && this.selectedImage;
+  }
+
+  missedDatas(): string[] {
+    let missedDatas: string[] = []
+    Object.keys(this.signupForm.controls).forEach(key => {
+      const control = this.signupForm.get(key);
+      if(control?.invalid){
+        missedDatas.push(key)
+      }
+    });
+    if(!this.selectedImage){
+      missedDatas.push('immagine del profilo')
+    }
+    return missedDatas;
   }
 }
