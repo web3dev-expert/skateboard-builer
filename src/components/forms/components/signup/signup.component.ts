@@ -1,7 +1,8 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ModeService } from '../../../../services/mode.service';
 
 @Component({
   selector: 'app-signup',
@@ -17,7 +18,16 @@ export class SignupComponent implements OnInit {
   url: string = '';
   selectedCity: any = '';
   missedDatas: string[] = []
-  constructor(private router: Router, private toastr: ToastrService,private cdr: ChangeDetectorRef) {
+  showPassword: boolean = false;
+  maskedPassword: string = '';
+  mode:string = 'light';
+
+  constructor(private router: Router, private toastr: ToastrService,private modeService:ModeService) {
+    this.modeService.mode.subscribe((data:string)=>{
+     if(data){
+      this.mode = data;
+     }
+    })
   }
 
   ngOnInit(): void {
@@ -42,7 +52,6 @@ export class SignupComponent implements OnInit {
     if (
       this.signupForm.valid && this.selectedImage
     ) {
-      console.log('signing')
     } else {
       this.toastr.error("Assicurati di avere inserito tutti i dati mancanti.")
     }
@@ -91,7 +100,8 @@ export class SignupComponent implements OnInit {
     }
   }
   updateFourthStep(){
-    this.signupStep=4;
     this.populateMissedDatasArray()
+    
+    this.signupStep=4;
   }
 }

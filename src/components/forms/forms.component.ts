@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup} from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormsModule } from './forms.module';
+import { ModeService } from '../../services/mode.service';
 
 @Component({
   selector: 'app-forms',
@@ -11,8 +12,14 @@ import { FormsModule } from './forms.module';
 export class FormsComponent implements OnInit{
 login:FormGroup = new FormGroup({});
 signup:FormGroup = new FormGroup({});
-
-constructor(private router:Router){}
+mode:string = 'light';
+constructor(private router:Router,private modeService:ModeService){
+  this.modeService.mode.subscribe((data:string)=>{
+    if(data){
+      this.mode=data;
+    }
+  })
+}
 ngOnInit(): void {
 }
 

@@ -1,7 +1,8 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastrIconClasses, ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
+import { ModeService } from '../../../../services/mode.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,15 @@ export class LoginComponent implements OnInit {
   isLoginFormSubmitted: boolean = false;
   isOpen: boolean = false;
   canMoveMenu: boolean = false;
-  constructor(private toastr: ToastrService, private router: Router) { }
+  mode: string = 'light';
+
+  constructor(private toastr: ToastrService, private router: Router,private modeService:ModeService) {
+      this.modeService.mode.subscribe((data:string)=>{
+       if(data){
+        this.mode = data;
+       }
+      })
+    }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -25,9 +34,9 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log('login :' + this.loginForm.valid)
+    this.isLoginFormSubmitted = true;
     if (this.loginForm.valid) {
-
+    
     } else {
       this.toastr.error("Completa correttamente il form!")
     }

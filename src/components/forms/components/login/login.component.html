@@ -1,57 +1,73 @@
-<div class="container text-center py-5">
-    <div class="row py-5">
-        <div class="col-md-12 d-flex justify-content-end">
-            <div class="w-auto text-center">
-                <button class="btn" (click)="toggleMenu(!isOpen)"><svg xmlns="http://www.w3.org/2000/svg" height="24px"
-                        viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-                        <path d="M480-360 280-560h400L480-360Z" />
-                    </svg>
-                </button>
-                <div class="menu text-center overflow-hidden bg-white" [style.height]="isOpen?'100px':'0px'"
-                    [ngClass]="isOpen ? 'border rounded shadow' : '' ">
-                    <p>
-                        <button class="btn" (click)="switchRoute('signup')">
-                            Signup
-                        </button>
-                    </p>
-                    <p>
-                        <button class="btn" (click)="switchRoute('forms')">
-                            Forms
-                        </button>
-                    </p>
+<div class="w-100" [ngClass]="mode=='light'?'bg-light':'bg-secondary'">
+    <div class="container text-center py-5">
+        <div class="row py-5">
+            <div class="col-md-12 d-flex justify-content-end">
+                <div class="w-auto text-center">
+                    <button class="btn" (click)="toggleMenu(!isOpen)">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                            fill="black">
+                            <path d="M480-360 280-560h400L480-360Z" />
+                        </svg>
+                    </button>
+                    <div class="menu text-center overflow-hidden" [style.height]="isOpen?'100px':'0px'"
+                    [ngClass]="[isOpen ? 'border rounded shadow' : '' , mode=='light'?'bg-light':'bg-dark']">
+                        <p>
+                            <button class="btn" (click)="switchRoute('signup')"
+                            [ngClass]="mode=='light'?'text-dark':'text-white'">
+                                Signup
+                            </button>
+                        </p>
+                        <p>
+                            <button class="btn" (click)="switchRoute('forms')"
+                            [ngClass]="mode=='light'?'text-dark':'text-white'">
+                                Forms
+                            </button>
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-12">
-            <h1>Login here</h1>
-        </div>
-        <div class="col-lg-6">
-            <div class="row">
-                <div class="col-md-12 py-5">
-                    <h1>Lorem ipsum</h1>
-                </div>
-                <div class="col-md-12 text-center">
-                    <p class="fs-4">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip
-                        ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                        dolore eu
-                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                        deserunt mollit anim id est laborum.
-                    </p>
+            <div class="col-md-12">
+                <h1>Login here</h1>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-md-12 py-5">
+                        <h1>Lorem ipsum</h1>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <p class="fs-4">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et
+                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+                            ut
+                            aliquip
+                            ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                            cillum
+                            dolore eu
+                            fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                            officia
+                            deserunt mollit anim id est laborum.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6 py-5 my-5">
-            <form [formGroup]="loginForm" class="p-3 login-form m-auto py-5 border rounded shadow w-75">
-                <label for="email" class="py-3">Inserisci la tua email</label>
-                <input type="email" name="email" id="email" formControlName="email" class="form-control">
-                <label for="password" class="py-3">Inserisci la password</label>
-                <input type="password" name="password" id="password" formControlName="password" class="form-control">
-                <button class="btn my-3 btn-warning border" (click)="login()">Login</button>
-            </form>
+            <div class="col-lg-6 py-5 my-5">
+                <form [formGroup]="loginForm" class="p-3 login-form m-auto py-5 border rounded shadow w-75"
+                    [ngClass]="mode=='light'?'bg-light text-dark':'bg-dark text-light'">
+                    <label for="email" class="py-3">Inserisci la tua email</label>
+                    <input type="email" name="email" id="email" formControlName="email" class="form-control">
+                    <p class="text-danger" *ngIf="isLoginFormSubmitted&&loginForm.controls['email'].invalid">
+                        Inserisci un formato tipo : 'nome&#64;cognome.it'
+                    </p>
+                    <label for="password" class="py-3">Inserisci la password</label>
+                    <input type="password" name="password" id="password" formControlName="password"
+                        class="form-control">
+                    <p class="text-danger" *ngIf="isLoginFormSubmitted&&loginForm.controls['password'].invalid">
+                        Inserisci un valore di almeno 8 caratteri.
+                    </p>
+                    <button class="btn my-3 btn-warning border" (click)="login()">Login</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
