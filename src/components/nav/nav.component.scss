@@ -9,7 +9,6 @@
         font-weight: bold !important;
     }
 }
-
 .mode {
     .light {
         transition: .5s;
@@ -39,5 +38,8 @@ h2,
   font-style: normal;
 }
 .bg-personal{
-    background-color: antiquewhite;
+    background-image: linear-gradient(black, white);
+}
+.bg-personal-opposite{
+    background-image: linear-gradient(black, gray);
 }

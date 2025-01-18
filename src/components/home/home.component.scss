@@ -1,4 +1,4 @@
-.h1,
+h1,
 h2,
 * {
   font-family: "Just Me Again Down Here", cursive;
@@ -6,6 +6,9 @@ h2,
   font-style: normal;
 }
 
+h1{
+  font-size: 80px;
+}
 .border-success {
   border: 3px solid green !important;
 }
@@ -16,6 +19,74 @@ h2,
 
 .border-danger {
   border: 3px solid red !important;
+}
+.border-warning {
+  border: 3px solid rgb(255, 204, 0) !important;
+}
+.cards-container{
+  height: 300px;
+  :nth-child(1){
+    position:absolute;
+    top:-10%;
+    left: 38%;
+    height: 200px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    background-image: linear-gradient(green, lightgreen);
+    p{
+      background-image: linear-gradient(green, lightgreen);
+      text-shadow:1px 1px black;
+    }
+    color: white;
+    overflow: hidden;
+  }
+  :nth-child(2){
+    position:absolute;
+    top:62%;
+    left: 44%;
+    height: 200px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    background-image: linear-gradient(whitesmoke, white);
+    p{
+      background-image: linear-gradient(whitesmoke, white);
+      text-shadow:1px 1px black;
+      
+    }
+    overflow: hidden;
+  }
+  :nth-child(3){
+    position:absolute;
+    top:23%;
+    left: 54%;
+    height: 200px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    background-image: linear-gradient(red, rgb(239, 129, 129));
+    p{
+      background-image: linear-gradient(red, rgb(239, 129, 129));
+      text-shadow:1px 1px black;
+    }
+    overflow: hidden;
+  }
+  :nth-child(4){
+    position:absolute;
+    top: 27%;
+    left: 27%;
+    height: 200px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+      background-image: linear-gradient(rgb(255, 200, 0), rgb(255, 251, 0));
+    p{
+      background-image: linear-gradient(rgb(255, 200, 0), rgb(255, 251, 0));
+      text-shadow:1px 1px black;
+    }
+    overflow: hidden;
+  }
 }
 
 .cards {
@@ -293,4 +364,7 @@ h1 {
 }
 .bg-gradient-two{
   background-image: linear-gradient(to bottom right, red , white );
+}
+.bg-personal{
+  background-color: gray;
 }

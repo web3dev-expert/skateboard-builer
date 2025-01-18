@@ -1,4 +1,4 @@
-<div class="w-100" [ngClass]="mode=='light'?'bg-light':'bg-secondary'">
+<div class="w-100" [ngClass]="mode=='light'?'bg-light':'bg-personal'">
     <div class="container">
         <div class="row">
             <div class="col-md-12 py-5">
@@ -6,27 +6,32 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row py-5 my-5">
         <div class="col-md-12 bg-gradient-one py-3 my-5">
-            <div class="row">
-                <div class="col-md-6 text-center">
-                    <div class="p-2 border shadow border-success my-2 w-50 m-auto cards">
-                        <p class="fs-3 text-success">
+            <div class="row position-relative">
+                <div class="col-md-12 text-center cards-container">
+                    <div class="p-2 border shadow border-success my-2 m-auto cards">
+                        <p class="fs-3">
                             Quality
                         </p>
                     </div>
-                    <div class="p-2 border shadow border-white my-2 w-50 m-auto cards">
-                        <p class="fs-3 text-white">
+                    <div class="p-2 border shadow border-white my-2 m-auto cards">
+                        <p class="fs-3">
                             Immersion
                         </p>
                     </div>
-                    <div class="p-2 border shadow border-danger my-2 w-50 m-auto cards">
-                        <p class="fs-3 text-danger">
+                    <div class="p-2 border shadow border-danger my-2 m-auto cards">
+                        <p class="fs-3">
                             Improvement
                         </p>
                     </div>
+                    <div class="p-2 border shadow border-warning my-2 m-auto cards">
+                        <p class="fs-3">
+                            Resilience
+                        </p>
+                    </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12 position-absolute bottom-0">
                     <p class="text-white fs-2 w-50 m-auto">
                         Discover the new technologies we use, with sounds, effects, activities and other things that will
                         entertain you.
