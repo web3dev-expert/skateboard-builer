@@ -56,25 +56,31 @@ h1 {
 .cards-container {
   :nth-child(1) {
     z-index: 4;
-    position: relative;
-    top: 5%;
-    left: -8%;
-    height: 200px;
-    width: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 1s;
 
     p {
-
-      background-image: linear-gradient(green, lightgreen);
-      text-shadow: 1px 1px black;
+      position: relative;
+      top: 5%;
+      left: -8%;
+      height: 200px;
+      max-width: 200px;
+      margin: auto;
       transition: 1s;
+      background-image: linear-gradient(rgba(0, 217, 255, 1), rgba(140, 255, 109, 0.8));
+      text-shadow:
+        0 0 7px rgb(12, 99, 0),
+        0 0 10px rgb(12, 99, 0),
+        0 0 21px rgb(12, 99, 0),
+        0 0 42px rgb(12, 99, 0),
+        0 0 82px rgb(12, 99, 0),
+        0 0 92px rgb(12, 99, 0),
+        0 0 102px rgb(12, 99, 0),
+        0 0 151px rgb(12, 99, 0);
+      transition: 1s;
+      border: 3px solid green;
 
       &:hover {
         transition: 1s;
-        font-size: 32px !important;
+        font-size: 36px !important;
       }
     }
 
@@ -84,24 +90,32 @@ h1 {
 
   :nth-child(2) {
     z-index: 3;
+    transition: 1s;
     position: relative;
     top: -5%;
-    left: 10%;
-    height: 200px;
-    width: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 1s;
-
     p {
-      background-image: linear-gradient(whitesmoke, white);
-      text-shadow: 1px 1px black;
+      position: relative;
+      top: -5%;
+      left: 10%;
+      height: 200px;
+      max-width: 200px;
+      margin: auto;
+      background-image: linear-gradient(rgba(1, 51, 255, .9), rgba(135, 197, 255, .9));
+      text-shadow:
+        0 0 7px rgba(1, 51, 255, ),
+        0 0 10px rgba(1, 51, 255, ),
+        0 0 21px rgba(1, 51, 255, ),
+        0 0 42px rgba(1, 51, 255, ),
+        0 0 82px rgba(1, 51, 255, ),
+        0 0 92px rgba(1, 51, 255, ),
+        0 0 102px rgba(1, 51, 255, ),
+        0 0 151px rgba(1, 51, 255, );
       transition: 1s;
+      border: 3px solid rgba(1, 51, 255, );
 
       &:hover {
         transition: 1s;
-        font-size: 32px !important;
+        font-size: 36px !important;
       }
 
     }
@@ -111,24 +125,31 @@ h1 {
 
   :nth-child(3) {
     z-index: 2;
+    transition: 1s;
     position: relative;
     top: -10%;
-    left: -8%;
-    height: 200px;
-    width: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 1s;
-
     p {
-      background-image: linear-gradient(red, rgb(239, 129, 129));
-      text-shadow: 1px 1px black;
+      position: relative;
+      top: -10%;
+      left: -8%;
+      height: 200px;
+      max-width: 200px;
+      margin: auto;
+      background-image: linear-gradient(rgba(255, 1, 1, 0.9), rgba(248, 177, 177, 0.9));
+      text-shadow:
+        0 0 7px rgba(255, 1, 1),
+        0 0 10px rgba(255, 1, 1),
+        0 0 21px rgba(255, 1, 1),
+        0 0 42px rgba(255, 1, 1),
+        0 0 82px rgba(255, 1, 1),
+        0 0 92px rgba(255, 1, 1),
+        0 0 102px rgba(255, 1, 1),
+        0 0 151px rgba(255, 1, 1);
       transition: 1s;
-
+      border: 3px solid rgba(255, 1, 1);
       &:hover {
         transition: 1s;
-        font-size: 32px !important;
+        font-size: 36px !important;
       }
     }
 
@@ -137,24 +158,32 @@ h1 {
 
   :nth-child(4) {
     z-index: 1;
+    transition: 1s;
     position: relative;
     top: -15%;
-    left: 10%;
-    height: 200px;
-    width: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 1s;
-
     p {
-      background-image: linear-gradient(rgb(255, 200, 0), rgb(255, 251, 0));
-      text-shadow: 1px 1px black;
+      position: relative;
+      top: -15%;
+      left: 10%;
+      height: 200px;
+      max-width: 200px;
+      margin: auto;
+      background-image: linear-gradient(rgba(255, 200, 0, .9), rgba(255, 255, 234, 0.9));
+      text-shadow:
+        0 0 7px rgb(255, 200, 0),
+        0 0 10px rgb(255, 200, 0),
+        0 0 21px rgb(255, 200, 0),
+        0 0 42px rgb(255, 200, 0),
+        0 0 82px rgb(255, 200, 0),
+        0 0 92px rgb(255, 200, 0),
+        0 0 102px rgb(255, 200, 0),
+        0 0 151px rgb(255, 200, 0);
       transition: 1s;
+      border: 3px solid rgb(255, 200, 0);
 
       &:hover {
         transition: 1s;
-        font-size: 32px !important;
+        font-size: 36px !important;
       }
     }
 
@@ -201,6 +230,10 @@ h1 {
 .flip-card-back {
   transform: rotateY(180deg);
   transition: 1s;
+}
+
+.text-shadow {
+  text-shadow: 1px 1px black;
 }
 
 .six-to-hover {
