@@ -12,6 +12,8 @@ h1 {
 
 .first-background {
   background-image: url('../../../public/assets/home/retro.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
   height: 400px;
   border: 0.2rem solid #fff;
   padding: 0.4em;

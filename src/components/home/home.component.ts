@@ -1,5 +1,5 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ModeService } from '../../services/mode.service';
 
 @Component({
@@ -13,12 +13,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   starCount: number = 0;
   interval: any;
-  mode:string = 'light';
-  constructor(private modeService:ModeService) {
-    this.modeService.mode.subscribe((data:string)=>{
-      this.mode=data;
+  mode: string = 'light';
+  constructor(private modeService: ModeService) {
+    this.modeService.mode.subscribe((data: string) => {
+      this.mode = data;
     })
-   }
+  }
 
   rotate(id: string) {
     let div = document.querySelector(`#${id}`) as HTMLDivElement;
@@ -54,5 +54,18 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   ngOnDestroy(): void {
     clearInterval(this.interval);
+  }
+
+  @HostListener('window:resize', ['event'])
+  onResize(event: any) {
+    let father = document.querySelector('.cards-container')
+    Array.from(father?.children!).forEach((e:any,a:any)=>{
+     if (window.innerWidth <= 400) {
+      e.style="left:0;"
+    }else{
+      a==0||a==2?e.style="left:-8%;":e.style="left:10%;"
+    }
+     })
+    
   }
 }
