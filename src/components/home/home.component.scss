@@ -55,7 +55,7 @@ h1 {
 
 .cards-container {
   :nth-child(1) {
-    z-index:4;
+    z-index: 4;
     position: relative;
     top: 5%;
     left: -8%;
@@ -64,11 +64,18 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: linear-gradient(green, lightgreen);
+    transition: 1s;
 
     p {
+
       background-image: linear-gradient(green, lightgreen);
       text-shadow: 1px 1px black;
+      transition: 1s;
+
+      &:hover {
+        transition: 1s;
+        font-size: 32px !important;
+      }
     }
 
     color: white;
@@ -76,7 +83,7 @@ h1 {
   }
 
   :nth-child(2) {
-    z-index:3;
+    z-index: 3;
     position: relative;
     top: -5%;
     left: 10%;
@@ -85,11 +92,17 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: linear-gradient(whitesmoke, white);
+    transition: 1s;
 
     p {
       background-image: linear-gradient(whitesmoke, white);
       text-shadow: 1px 1px black;
+      transition: 1s;
+
+      &:hover {
+        transition: 1s;
+        font-size: 32px !important;
+      }
 
     }
 
@@ -97,7 +110,7 @@ h1 {
   }
 
   :nth-child(3) {
-    z-index:2;
+    z-index: 2;
     position: relative;
     top: -10%;
     left: -8%;
@@ -106,18 +119,24 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: linear-gradient(red, rgb(239, 129, 129));
+    transition: 1s;
 
     p {
       background-image: linear-gradient(red, rgb(239, 129, 129));
       text-shadow: 1px 1px black;
+      transition: 1s;
+
+      &:hover {
+        transition: 1s;
+        font-size: 32px !important;
+      }
     }
 
     overflow: hidden;
   }
 
   :nth-child(4) {
-    z-index:1;
+    z-index: 1;
     position: relative;
     top: -15%;
     left: 10%;
@@ -126,26 +145,20 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: linear-gradient(rgb(255, 200, 0), rgb(255, 251, 0));
+    transition: 1s;
 
     p {
       background-image: linear-gradient(rgb(255, 200, 0), rgb(255, 251, 0));
       text-shadow: 1px 1px black;
+      transition: 1s;
+
+      &:hover {
+        transition: 1s;
+        font-size: 32px !important;
+      }
     }
 
     overflow: hidden;
-  }
-}
-
-.cards {
-  transition: 1s;
-
-  &:hover {
-    scale: 1.1;
-    transition: 1s;
-    -webkit-box-shadow: 0 0 10px lightyellow !important;
-    box-shadow: 0 0 10px lightyellow !important;
-    text-shadow: 0 0 2px lightyellow !important;
   }
 }
 
