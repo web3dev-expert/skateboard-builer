@@ -61,9 +61,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     let father = document.querySelector('.cards-container')
     Array.from(father?.children!).forEach((e:any,a:any)=>{
      if (window.innerWidth <= 400) {
-      e.style="left:0;"
+      e.children[0].style="left:0;"
     }else{
-      a==0||a==2?e.style="left:-8%;":e.style="left:10%;"
+      a==0||a==2?e.children[0].style="left:-8%;":e.children[0].style="left:10%;"
     }
      })
     
