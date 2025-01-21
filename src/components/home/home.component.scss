@@ -201,11 +201,11 @@ h1 {
   backface-visibility: hidden;
   transition: 1s;
   box-shadow: 0 0 .2rem #fff,
-  0 0 .2rem #fff,
-  0 0 2rem #000000,
-  0 0 0.8rem #000000,
-  0 0 2.8rem #000000,
-  inset 0 0 1.3rem #000000
+    0 0 .2rem #fff,
+    0 0 2rem #000000,
+    0 0 0.8rem #000000,
+    0 0 2.8rem #000000,
+    inset 0 0 1.3rem #000000
 }
 
 .flip-card-back {
@@ -453,14 +453,14 @@ h1 {
 
 .bg-gradient-one {
   background-image: linear-gradient(to right, #03010112 3px, transparent 3px),
-  linear-gradient(to bottom, #03010112 3px, transparent 3px);
+    linear-gradient(to bottom, #03010112 3px, transparent 3px);
   background-size: 40px 40px;
   box-shadow: 0 0 .2rem #fff,
-  0 0 .2rem #fff,
-  0 0 2rem #7b00ff,
-  0 0 0.8rem #7b00ff,
-  0 0 2.8rem #7b00ff,
-  inset 0 0 1.3rem #7b00ff;
+    0 0 .2rem #fff,
+    0 0 2rem #7b00ff,
+    0 0 0.8rem #7b00ff,
+    0 0 2.8rem #7b00ff,
+    inset 0 0 1.3rem #7b00ff;
 }
 
 .dotted-background {
@@ -468,7 +468,7 @@ h1 {
   background-size: 40px 40px;
   background-position: -19px -19px;
   box-shadow: inset 0 0 250px 100px white;
-  padding:30px;
+  padding: 30px;
 }
 
 .bg-personal {
@@ -478,4 +478,98 @@ h1 {
 .icon {
   width: 60px;
   height: 60px;
+}
+
+.ant {
+  width: 50px;
+  height: 30px;
+  animation-name: walking-ant ;
+  animation-duration: 15s;
+  position: absolute;
+  animation-iteration-count: infinite;
+  top: 50%;
+  right: 50%;
+}
+
+@keyframes walking-ant {
+  1% {
+    top:51%;
+    right: 49%;
+  }
+  2% {
+    top:52%;
+    right: 48%;
+  }
+  3% {
+    top:53%;
+    right: 47%;
+  }
+  4% {
+    top:54%;
+    right: 46%;
+  }
+  5% {
+    top:55%;
+    right: 45%;
+  }
+  6% {
+    top:56%;
+    right: 44%;
+  }
+  7% {
+    top:58%;
+    right: 42%;
+  }
+  8% {
+    top:60%;
+    right: 40%;
+  }
+  9% {
+    top:58%;
+    right: 38%;
+  }
+  10% {
+    top:56%;
+    right: 36%;
+  }
+  11% {
+    top:54%;
+    right: 34%;
+  }
+  12% {
+    top:52%;
+    right: 32%;
+  }
+  13% {
+    top:50%;
+    right: 30%;
+  }
+  14% {
+    top:52%;
+    right: 32%;
+  }
+  15% {
+    top:54%;
+    right: 34%;
+  }
+  16% {
+    top:56%;
+    right: 36%;
+  }
+  17% {
+    top:58%;
+    right: 38%;
+  }
+  18% {
+    top:60%;
+    right: 40%;
+  }
+  19% {
+    top:60%;
+    right: 42%;
+  }
+  20% {
+    top:60%;
+    right:44%
+}
 }
