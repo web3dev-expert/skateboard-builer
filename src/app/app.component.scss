@@ -1,14 +1,44 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
-.sticky-container{
-    height: 1000px;
+
+.sticky-container {
+    height: 500px;
     position: absolute;
     width: 110%;
 }
 
-.to-hover-sticky{
+.to-hover-sticky {
     height: 200px;
-    pointer-events: none;
+}
+
+.btn {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+
+    .arrow_up_button {
+        max-width: 40px;
+        max-height: 40px;
+        box-shadow: 0 0 .2rem #fff,
+            0 0 .2rem #fff,
+            0 0 2rem #ff7300,
+            0 0 0.8rem #ff7300,
+            0 0 2.8rem #ff7300,
+            inset 0 0 1.3rem #ff7300;
+        border-radius: 50%;
+        transition: 1s;
+
+        &:hover {
+            max-width: 45px;
+            max-height: 45px;
+            transition: 1s;
+        }
+    }
+
+}
+
+.bg-personal {
+    background-color: gray;
 }

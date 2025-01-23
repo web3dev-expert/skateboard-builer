@@ -13,6 +13,7 @@ export class FormsComponent implements OnInit{
 login:FormGroup = new FormGroup({});
 signup:FormGroup = new FormGroup({});
 mode:string = 'light';
+balls:number[]=[1,2,3,4,5,6]
 constructor(private router:Router,private modeService:ModeService){
   this.modeService.mode.subscribe((data:string)=>{
     if(data){
