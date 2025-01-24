@@ -2,16 +2,18 @@
     <div class="position-absolute w-100 d-flex balls-container">
         <div *ngFor="let n of balls" class="p-3 m-1 rounded-circle position-absolute"></div>
     </div>
-    <app-forms-label></app-forms-label>
+    <div class="position-absolute w-100">
+         <app-forms-label ></app-forms-label>
     <div class="container py-5 text-center">
         <div class="row d-flex justify-content-around">
-            <button class="btn w-25" (click)="route('signup')">
+            <button class="btn w-25 fs-2" (click)="route('signup')">
                 Signup
             </button>
-            <button class="btn w-25" (click)="route('login')">
+            <button class="btn w-25 fs-2" (click)="route('login')">
                 Login
             </button>
         </div>
+    </div> 
     </div>
 </div>
 <router-outlet><router-outlet />

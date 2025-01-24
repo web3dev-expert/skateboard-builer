@@ -1,0 +1,338 @@
+@keyframes rotation-1 {
+
+    0% {
+      top: 0;
+      right: 50%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+  
+    }
+  
+    20% {
+      top: 25%;
+      right: 20%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: red;
+    }
+  
+    40% {
+      top: 75%;
+      right: 20%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: purple;
+    }
+  
+    60% {
+      top: 100%;
+      right: 50%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: yellow;
+    }
+  
+    80% {
+      top: 75%;
+      right: 80%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: blue;
+    }
+  
+    100% {
+      top: 25%;
+      right: 80%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: brown;
+    }
+  }
+  
+  @keyframes rotation-2 {
+    0% {
+      top: 25%;
+      right: 20%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+    }
+  
+    20% {
+      top: 75%;
+      right: 20%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: red;
+    }
+  
+    40% {
+      top: 100%;
+      right: 50%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: purple;
+    }
+  
+    60% {
+      top: 75%;
+      right: 80%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: yellow;
+    }
+  
+    80% {
+      top: 25%;
+      right: 80%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: blue;
+    }
+  
+    100% {
+      top: 0;
+      right: 50%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: brown;
+    }
+  
+  }
+  
+  @keyframes rotation-3 {
+    0% {
+      top: 75%;
+      right: 20%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+    }
+  
+    20% {
+      top: 100%;
+      right: 50%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: red;
+    }
+  
+    40% {
+      top: 75%;
+      right: 80%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: purple;
+    }
+  
+    60% {
+      top: 25%;
+      right: 80%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: yellow;
+  
+    }
+  
+    80% {
+      top: 0%;
+      right: 50%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: blue;
+    }
+  
+    100% {
+      top: 25%;
+      right: 20%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: brown;
+    }
+  }
+  
+  @keyframes rotation-4 {
+    0% {
+      top: 100%;
+      right: 50%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+    }
+  
+    20% {
+      top: 75%;
+      right: 80%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: red;
+    }
+  
+    40% {
+      top: 25%;
+      right: 80%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: purple;
+    }
+  
+    60% {
+      top: 0;
+      right: 50%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: yellow;
+    }
+  
+    80% {
+      top: 25%;
+      right: 20%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: blue;
+    }
+  
+    100% {
+      top: 75%;
+      right: 20%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: brown;
+  
+    }
+  }
+  
+  @keyframes rotation-5 {
+    0% {
+      top: 75%;
+      right: 80%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+    }
+  
+    20% {
+      top: 25%;
+      right: 80%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: red;
+    }
+  
+    40% {
+      top: 0;
+      right: 50%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: purple;
+    }
+  
+    60% {
+      top: 25%;
+      right: 20%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: yellow;
+    }
+  
+    80% {
+      top: 75%;
+      right: 20%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: blue;
+    }
+  
+    100% {
+      top: 100%;
+      right: 50%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: brown;
+    }
+  }
+  
+  @keyframes rotation-6 {
+    0% {
+      top: 25%;
+      right: 80%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+    }
+  
+    20% {
+      top: 0%;
+      right: 50%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: red;
+    }
+  
+    40% {
+      top: 25%;
+      right: 20%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: purple;
+    }
+  
+    60% {
+      top: 75%;
+      right: 20%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: yellow;
+  
+    }
+  
+    80% {
+      top: 100%;
+      right: 50%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: blue;
+  
+    }
+  
+    100% {
+      top: 75%;
+      right: 80%;
+      transition: 1s;
+      width: 40px;
+      height: 40px;
+      background-color: brown;
+  
+    }
+  }
+  

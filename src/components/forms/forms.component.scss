@@ -1,3 +1,5 @@
+@import url("forms-animations.scss");
+
 .h1,
 h2,
 * {
@@ -19,17 +21,17 @@ h2,
   height: 50vh;
   align-items: center;
   justify-content: center;
-  animation-duration: 20;
-  animation-name: rotation;
-  animation-iteration-count: infinite;
-
+  transition: 1s;
 
   :nth-child(1) {
     top: 0%;
+    right: 50%;
+    transition: 1s;
     background-color: rgba($color: #3dd323, $alpha: .3);
     animation-name: rotation-1;
-    animation-duration: 10s;
+    animation-duration: 7s;
     animation-iteration-count: infinite;
+
   }
 
   :nth-child(2) {
@@ -37,180 +39,59 @@ h2,
     right: 20%;
     background-color: rgba($color: #00fe5d, $alpha: .3);
     animation-name: rotation-2;
-    animation-duration: 10s;
+    animation-duration: 7s;
     animation-iteration-count: infinite;
+    transition: 1s;
+
   }
 
   :nth-child(3) {
-    top: 15%;
-    left: 20%;
+    top: 85%;
+    right: 20%;
     background-color: rgba($color: #00fe5d, $alpha: .3);
     animation-name: rotation-3;
-    animation-duration: 10s;
+    animation-duration: 7s;
     animation-iteration-count: infinite;
+    transition: 1s;
+
   }
 
   :nth-child(4) {
-    bottom: 0%;
+    top: 100%;
+    right: 50%;
     background-color: rgba($color: #00fe5d, $alpha: .3);
     animation-name: rotation-4;
-    animation-duration: 10s;
+    animation-duration: 7s;
     animation-iteration-count: infinite;
+    transition: 1s;
+
   }
 
   :nth-child(5) {
-    bottom: 15%;
-    right: 20%;
+    top: 85%;
+    right: 80%;
     background-color: rgba($color: #00fe5d, $alpha: .3);
     animation-name: rotation-5;
-    animation-duration: 10s;
+    animation-duration: 7s;
     animation-iteration-count: infinite;
+    transition: 1s;
+
   }
 
   :nth-child(6) {
-    bottom: 15%;
-    left: 20%;
+    top: 15%;
+    right: 80%;
     background-color: rgba($color: #00fe5d, $alpha: .3);
     animation-name: rotation-6;
-    animation-duration: 10s;
+    animation-duration: 7s;
     animation-iteration-count: infinite;
+    transition: 1s;
   }
 }
 
-@keyframes rotation-1 {
-  0% {
-
-    top: 15%;
-    right: 20%;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-  }
-
-  20% {
-    bottom: 15%;
-    right: 20%;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-  }
-
-  40% {
-    bottom: 0%;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-  }
-
-  60% {
-    bottom: 15%;
-    left: 20%;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-  }
-
-  80% {
-    top: 15%;
-    left: 20%;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-  }
-
-  100% {
-    top: 0;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-  }
-
+.bg-personal-trasparent {
+  background-color: rgba(rgb(234, 200, 67), .7);
 }
-
-@keyframes rotation-2 {
-  0% {
-    bottom: 15%;
-    right: 20%;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-  }
-
-  20% {
-    bottom: 0%;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-  }
-
-  40% {
-    bottom: 15%;
-    left: 20%;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-  }
-
-  60% {
-    top: 15%;
-    left: 20%;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-  }
-
-  80% {
-    top: 0%;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-  }
-
-  100% {
-    top: 15%;
-    right: 20%;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-  }
-}
-
-@keyframes rotation-3 {
-
-  0% {
-    top: 0;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-
-  }
-}
-
-@keyframes rotation-4 {
-  0% {
-    top: 15%;
-    left: 20%;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-
-  }
-}
-
-@keyframes rotation-5 {
-  0% {
-    bottom: 0;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-  }
-}
-
-@keyframes rotation-6 {
-  0% {
-    top: 0;
-    transition: 1s;
-    width: 40px;
-    height: 40px;
-  }
+.position-relative{
+  min-height: 730px;
 }
