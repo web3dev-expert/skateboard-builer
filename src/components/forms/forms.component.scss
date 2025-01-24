@@ -18,7 +18,8 @@ h2,
 
 .balls-container {
   top: 10%;
-  height: 50vh;
+  left: 5%;
+  height: 70vh;
   align-items: center;
   justify-content: center;
   transition: 1s;
@@ -93,5 +94,23 @@ h2,
   background-color: rgba(rgb(234, 200, 67), .7);
 }
 .position-relative{
-  min-height: 730px;
+  min-height: 930px;
+}
+.btn-1{
+    background-color: #ffb700;
+    box-shadow: 0 0 .2rem #fff,
+    0 0 .2rem #fff,
+    0 0 2rem #ffb700,
+    0 0 0.8rem #ffb700,
+    0 0 2.8rem #ffb700,
+    inset 0 0 1.3rem #ffb700;
+}
+.btn-2{
+  background-color: #00ff0d;
+  box-shadow: 0 0 .2rem #fff,
+  0 0 .2rem #fff,
+  0 0 2rem #00ff0d,
+  0 0 0.8rem #00ff0d,
+  0 0 2.8rem #00ff0d,
+  inset 0 0 1.3rem #00ff0d;
 }
