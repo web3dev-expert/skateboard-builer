@@ -93,24 +93,39 @@ h2,
 .bg-personal-trasparent {
   background-color: rgba(rgb(234, 200, 67), .7);
 }
-.position-relative{
+
+.position-relative {
   min-height: 930px;
 }
-.btn-1{
-    background-color: #ffb700;
+
+.btn-1 {
+  background-color: #ffb700;
+  scale: .8;
+  transition: 1s;
+  &:hover {
     box-shadow: 0 0 .2rem #fff,
-    0 0 .2rem #fff,
-    0 0 2rem #ffb700,
-    0 0 0.8rem #ffb700,
-    0 0 2.8rem #ffb700,
-    inset 0 0 1.3rem #ffb700;
+      0 0 .2rem #fff,
+      0 0 2rem #ffb700,
+      0 0 0.8rem #ffb700,
+      0 0 2.8rem #ffb700,
+      inset 0 0 1.3rem #ffb700;
+      transition: 1s;
+      scale: 1;
+  }
 }
-.btn-2{
+
+.btn-2 {
   background-color: #00ff0d;
-  box-shadow: 0 0 .2rem #fff,
-  0 0 .2rem #fff,
-  0 0 2rem #00ff0d,
-  0 0 0.8rem #00ff0d,
-  0 0 2.8rem #00ff0d,
-  inset 0 0 1.3rem #00ff0d;
+  scale: .8;
+  transition: 1s;
+  &:hover {
+    box-shadow: 0 0 .2rem #fff,
+      0 0 .2rem #fff,
+      0 0 2rem #00ff0d,
+      0 0 0.8rem #00ff0d,
+      0 0 2.8rem #00ff0d,
+      inset 0 0 1.3rem #00ff0d;
+      transition: 1s;
+      scale: 1;
+  }
 }
