@@ -8,6 +8,7 @@ h2,
   font-style: normal;
 }
 
+
 .bg-personal {
   background-color: gray;
 }
@@ -99,10 +100,11 @@ h2,
 }
 
 .btn-1 {
-  background-color: #ffb700;
+  background-color: rgba(254, 179, 3,.5);
   scale: .8;
   transition: 1s;
   &:hover {
+    background-color: rgba(254, 179, 3);
     box-shadow: 0 0 .2rem #fff,
       0 0 .2rem #fff,
       0 0 2rem #ffb700,
@@ -115,10 +117,11 @@ h2,
 }
 
 .btn-2 {
-  background-color: #00ff0d;
+  background-color: rgba(4, 255, 0,.5);
   scale: .8;
   transition: 1s;
   &:hover {
+    background-color: rgba(4, 255, 0);
     box-shadow: 0 0 .2rem #fff,
       0 0 .2rem #fff,
       0 0 2rem #00ff0d,

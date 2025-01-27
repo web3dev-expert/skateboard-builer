@@ -5,29 +5,37 @@ h2,
   font-weight: 400;
   font-style: normal;
 }
-.w-auto{
+
+h1 {
+  font-size: 80px;
+}
+
+.w-auto {
   max-width: 130px;
-  position:relative;
-  .menu{
-  width: 100px;
-  transition: 1s;
-  position: absolute;
-  right: 10px;
-  z-index: 40;
-  
-  div{.p{
-    &:hover{
-      background-color: red;
+  position: relative;
+
+  .menu {
+    width: 100px;
+    transition: 1s;
+    position: absolute;
+    right: 10px;
+    z-index: 40;
+
+    div {
+      .p {
+        &:hover {
+          background-color: red;
+        }
+      }
     }
   }
 }
-}
-}
-.login-form{
+
+.login-form {
   box-shadow: 0 0 .2rem #fff,
-      0 0 .2rem #fff,
-      0 0 2rem lightblue,
-      0 0 0.8rem lightblue,
-      0 0 2.8rem lightblue,
-      inset 0 0 1.3rem lightblue;
+    0 0 .2rem #fff,
+    0 0 2rem lightblue,
+    0 0 0.8rem lightblue,
+    0 0 2.8rem lightblue,
+    inset 0 0 1.3rem lightblue;
 }

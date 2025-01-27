@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.onResize()
   }
   ngAfterViewInit(): void {
 
@@ -58,7 +59,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   @HostListener('window:resize', ['event'])
-  onResize(event: any) {
+  onResize(event?: any) {
     let father = document.querySelector('.cards-container')
     Array.from(father?.children!).forEach((e:any,a:any)=>{
      if (window.innerWidth <= 400) {

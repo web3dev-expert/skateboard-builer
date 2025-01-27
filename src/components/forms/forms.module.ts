@@ -7,6 +7,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./components/signup/signup.component";
 import { FormsLabelComponent } from "./components/forms-label/forms-label.component";
 import { ToastrModule } from 'ngx-toastr';
+import { provideHttpClient } from "@angular/common/http";
 @NgModule({
       declarations: [
         FormsComponent,
@@ -26,6 +27,7 @@ import { ToastrModule } from 'ngx-toastr';
         FormsLabelComponent
       ],
       providers: [
+        provideHttpClient()
       ]
     })
 export class FormsModule {}
