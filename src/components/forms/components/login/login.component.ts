@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ModeService } from '../../../../services/mode.service';
+import { FormsService } from '../../../../services/forms.service';
 
 @Component({
   selector: 'app-login',
@@ -17,13 +18,13 @@ export class LoginComponent implements OnInit {
   canMoveMenu: boolean = false;
   mode: string = 'light';
 
-  constructor(private toastr: ToastrService, private router: Router,private modeService:ModeService) {
-      this.modeService.mode.subscribe((data:string)=>{
-       if(data){
+  constructor(private toastr: ToastrService, private router: Router, private modeService: ModeService, private formsService: FormsService) {
+    this.modeService.mode.subscribe((data: string) => {
+      if (data) {
         this.mode = data;
-       }
-      })
-    }
+      }
+    })
+  }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -36,7 +37,19 @@ export class LoginComponent implements OnInit {
   login() {
     this.isLoginFormSubmitted = true;
     if (this.loginForm.valid) {
-    
+      this.formsService.logIn(
+        {
+          email: this.loginForm.controls['email'].value,
+          password: this.loginForm.controls['password'].value
+        }
+      ).subscribe({
+        next: (data: any) => {
+          console.log(data)
+        },
+        error: (error: any) => {
+          this.toastr.error(error?.error?.message? error?.error?.message :error?.error?.messageList!=undefined? error?.error?.messageList[0] : 'Something wrong happened.')
+        }
+      })
     } else {
       this.toastr.error("Completa correttamente il form!")
     }

@@ -5,43 +5,50 @@ h2,
   font-weight: 400;
   font-style: normal;
 }
-h1{
+
+h1 {
   font-size: 80px;
 }
-.w-auto{
-    max-width: 130px;
-    position:relative;
-    .menu{
+
+.w-auto {
+  max-width: 130px;
+  position: relative;
+
+  .menu {
     width: 100px;
     transition: 1s;
     position: absolute;
     right: 10px;
     z-index: 40;
-    
-    div{.p{
-      &:hover{
-        background-color: red;
+
+    div {
+      .p {
+        &:hover {
+          background-color: red;
+        }
       }
     }
   }
-  }
-  }
-  
-  .profile-image{
-    width:100px;
-    height: 100px;
-  }
-  ul{
-    list-style-type: none;
-  }
-  span{
-    font-weight: bold;
-  }
-  .signup-form{
-    box-shadow: 0 0 .2rem #fff,
-        0 0 .2rem #fff,
-        0 0 2rem orange,
-        0 0 0.8rem orange,
-        0 0 2.8rem orange,
-        inset 0 0 1.3rem orange;
-  }
+}
+
+.profile-image {
+  width: 100px;
+  height: 100px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+span {
+  font-weight: bold;
+}
+
+.signup-form {
+  box-shadow: 0 0 .2rem #fff,
+    0 0 .2rem #fff,
+    0 0 2rem orange,
+    0 0 0.8rem orange,
+    0 0 2.8rem orange,
+    inset 0 0 1.3rem orange;
+}

@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ModeService } from '../../../../services/mode.service';
+import { SignupUser } from '../../../../interfaces/interfaces';
+import { FormsService } from '../../../../services/forms.service';
 
 @Component({
   selector: 'app-signup',
@@ -22,7 +24,7 @@ export class SignupComponent implements OnInit {
   maskedPassword: string = '';
   mode:string = 'light';
 
-  constructor(private router: Router, private toastr: ToastrService,private modeService:ModeService) {
+  constructor(private router: Router, private toastr: ToastrService,private modeService:ModeService,private formsService:FormsService) {
     this.modeService.mode.subscribe((data:string)=>{
      if(data){
       this.mode = data;
@@ -52,6 +54,23 @@ export class SignupComponent implements OnInit {
     if (
       this.signupForm.valid && this.selectedImage
     ) {
+      let signupUser:SignupUser = {
+        email:this.signupForm.get('email')?.value,
+        nome:this.signupForm.get('nome')?.value,
+        cognome:this.signupForm.get('cognome')?.value,
+        password:this.signupForm.get('password')?.value,
+        citta_id:this.signupForm.get('citta')?.value,
+        immagine_profilo:this.selectedImage
+      }
+
+     this.formsService.signUp(signupUser).subscribe({
+      next: (data: any) => {
+        console.log(data)
+      },
+      error: (error: any) => {
+        this.toastr.error(error?.error?.message? error?.error?.message :error?.error?.messageList!=undefined? error?.error?.messageList[0] : 'Something wrong happened.')
+      }
+     })
     } else {
       this.toastr.error("Assicurati di avere inserito tutti i dati mancanti.")
     }

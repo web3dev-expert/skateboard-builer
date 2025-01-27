@@ -5,21 +5,35 @@ import { environment } from "../core/environment";
 
 @Injectable({
     providedIn: 'root'
-  })
-export class FormsService{
+})
+export class FormsService {
 
+    private auth: string = '/auth';
+    private login: string = '/login';
+    private signup: string = '/signup';
 
-    private login:string ='/login';
-    private signup:string ='/signup';
-
-    constructor(private http:HttpClient){
+    constructor(private http: HttpClient) {
     }
 
-    logIn(body:LoginUser){
-    return this.http.post(environment.API_URL+this.login,body);
+    logIn(body: LoginUser) {
+        return this.http.post(environment.API_URL + this.auth + this.login, body);
     }
 
-    signUp(body:SignupUser){
-        return '';
-        }
+    signUp(body: SignupUser) {
+        let formData = new FormData();
+        formData.append(
+            'user_signup',
+            new Blob([JSON.stringify({
+                email:body.email,
+                cittaId:body.citta_id,
+                password:body.password,
+                nome:body.nome,
+                cognome:body.cognome
+            })], {
+                type: 'application/json',
+            })
+        );
+        formData.append('profile_image', body.immagine_profilo);
+        return this.http.post(environment.API_URL + this.auth + this.signup, formData);
+    }
 }
