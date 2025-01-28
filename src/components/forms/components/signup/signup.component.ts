@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ModeService } from '../../../../services/mode.service';
 import { SignupUser } from '../../../../interfaces/interfaces';
 import { FormsService } from '../../../../services/forms.service';
+import { ShowErrorService } from '../../../../services/show-error.service';
 
 @Component({
   selector: 'app-signup',
@@ -24,7 +25,9 @@ export class SignupComponent implements OnInit {
   maskedPassword: string = '';
   mode:string = 'light';
 
-  constructor(private router: Router, private toastr: ToastrService,private modeService:ModeService,private formsService:FormsService) {
+  constructor(private router: Router, private toastr: ToastrService,private modeService:ModeService,private formsService:FormsService,
+    private toastrError:ShowErrorService
+  ) {
     this.modeService.mode.subscribe((data:string)=>{
      if(data){
       this.mode = data;
@@ -70,7 +73,7 @@ export class SignupComponent implements OnInit {
         console.log(data)
       },
       error: (error: any) => {
-        this.handleError(error);
+        this.toastrError.handleError(error);
       }
      })
     } else {
@@ -132,11 +135,9 @@ export class SignupComponent implements OnInit {
         this.cities=data;
       },
       error: (error: any) => {
-        this.handleError(error);
+        this.toastrError.handleError(error);
       }
     })
   }
-  handleError(error:any){
-    this.toastr.error(error?.error?.message? error?.error?.message :error?.error?.messageList!=undefined? error?.error?.messageList[0] : 'Something wrong happened.');
-  }
+ 
 }
