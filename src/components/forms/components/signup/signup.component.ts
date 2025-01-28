@@ -15,7 +15,7 @@ export class SignupComponent implements OnInit {
   isOpen: boolean = false;
   signupForm: FormGroup = new FormGroup({});
   signupStep: number = 1;
-  cities: any[] = [{ id: 0, name: 'Bolzano' }, { id: 1, name: 'Cosenza' }, { id: 2, name: 'Catanzaro' }];
+  cities: any[] = [];
   selectedImage: any = null;
   url: string = '';
   selectedCity: any = '';
@@ -40,6 +40,8 @@ export class SignupComponent implements OnInit {
       password: new FormControl('', [Validators.required, Validators.minLength(8)]),
       citta: new FormControl('', [Validators.required])
     })
+    
+    this.getCities()
   }
 
   toggleMenu(open: boolean) {
@@ -68,7 +70,7 @@ export class SignupComponent implements OnInit {
         console.log(data)
       },
       error: (error: any) => {
-        this.toastr.error(error?.error?.message? error?.error?.message :error?.error?.messageList!=undefined? error?.error?.messageList[0] : 'Something wrong happened.')
+        this.handleError(error);
       }
      })
     } else {
@@ -122,5 +124,19 @@ export class SignupComponent implements OnInit {
     this.populateMissedDatasArray()
     
     this.signupStep=4;
+  }
+
+  getCities(){
+    this.formsService.getCities().subscribe({
+      next: (data: any) => {
+        this.cities=data;
+      },
+      error: (error: any) => {
+        this.handleError(error);
+      }
+    })
+  }
+  handleError(error:any){
+    this.toastr.error(error?.error?.message? error?.error?.message :error?.error?.messageList!=undefined? error?.error?.messageList[0] : 'Something wrong happened.');
   }
 }

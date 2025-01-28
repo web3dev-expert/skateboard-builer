@@ -76,9 +76,9 @@
                     <div *ngIf="signupStep==3">
                         <label for="citta" class="py-3">Inserisci la tua città</label>
                         <select type="text" name="citta" id="citta" formControlName="citta" class="form-select"
-                            (change)="updateSelectedCity()">
+                            (change)="updateSelectedCity()" onfocus="this.size=7" onblur="this.size=1" onchange="this.blur()">
                             <option value="">Seleziona una città.</option>
-                            <option *ngFor="let c of cities" [value]="c.id">{{c.name}}</option>
+                            <option *ngFor="let c of cities" [value]="c.id">{{c.nome}}</option>
                         </select>
                         <label for="immagineProfilo" class="py-3">Inserisci la tua immagine del profilo</label>
                         <input type="file" name="immagineProfilo" id="immagineProfilo" class="form-control" #file
@@ -148,7 +148,7 @@
                             </div>
                         </div>
                         <div class="py-1 d-block" *ngIf="missedDatas.length>0">
-                            <p class="text-danger">Dati mancanti : </p>
+                            <p class="text-danger">Dati mancanti o incompleti: </p>
                             <span *ngFor="let d of missedDatas, index as i">{{d}} {{i+1==missedDatas.length?".":',
                                 '}} </span>
                         </div>

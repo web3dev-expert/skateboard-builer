@@ -11,6 +11,8 @@ export class FormsService {
     private auth: string = '/auth';
     private login: string = '/login';
     private signup: string = '/signup';
+    private cities: string = '/cities';
+
 
     constructor(private http: HttpClient) {
     }
@@ -35,5 +37,9 @@ export class FormsService {
         );
         formData.append('profile_image', body.immagine_profilo);
         return this.http.post(environment.API_URL + this.auth + this.signup, formData);
+    }
+
+    getCities(){
+        return this.http.get(environment.API_URL+this.auth+this.cities)
     }
 }
