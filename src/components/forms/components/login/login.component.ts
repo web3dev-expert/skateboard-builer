@@ -35,7 +35,13 @@ export class LoginComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]),
       password: new FormControl('', [Validators.required, Validators.minLength(8)])
     })
-
+  let isUserAuthenticated = this.authService.isAuthenticatedUser;
+  if(isUserAuthenticated){
+    this.authService.setToken('');
+    this.authService.setUser(null)
+    this.authService.authenticateUser(false);
+    this.toastr.show("Logout avvenuto con successo.")
+  }
   }
 
   login() {
@@ -49,11 +55,12 @@ export class LoginComponent implements OnInit {
       ).subscribe({
         next: (data: any) => {
           if(data){
-            console.log(data)
-            this.toastr.show("Login effettuato.")
+            this.toastr.show("Login effettuato.");
             this.authService.setToken(data?.token?.accessToken);
-            localStorage.setItem('refresh' , JSON.stringify(data?.token?.refreshToken))
-            this.authService.setUser(data.user)
+            localStorage.setItem('refresh' , JSON.stringify(data?.token?.refreshToken));
+            this.authService.setUser(data.user);
+            this.authService.authenticateUser(true);
+            this.router.navigate(['lobby']);
           }
         },
         error: (error: any) => {

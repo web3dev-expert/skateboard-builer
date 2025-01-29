@@ -10,7 +10,7 @@ export class AuthService {
 
   public isAuthenticatedUser:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private token:string = '';
-  private user!:User;
+  private user!:User | null;
   constructor(private authGuard:AuthGuard) { }
 
   authenticateUser(bool:boolean){
@@ -26,7 +26,7 @@ export class AuthService {
   getUser(){
     return this.user;
   }
-  setUser(user:User){
+  setUser(user:| null){
     this.user=user;
   }
 }
