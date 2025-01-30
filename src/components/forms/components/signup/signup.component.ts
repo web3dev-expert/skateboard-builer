@@ -6,6 +6,7 @@ import { ModeService } from '../../../../services/mode.service';
 import { SignupUser } from '../../../../interfaces/interfaces';
 import { FormsService } from '../../../../services/forms.service';
 import { ShowErrorService } from '../../../../services/show-error.service';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -26,7 +27,7 @@ export class SignupComponent implements OnInit {
   mode: string = 'light';
 
   constructor(private router: Router, private toastr: ToastrService, private modeService: ModeService, private formsService: FormsService,
-    private toastrError: ShowErrorService
+    private toastrError: ShowErrorService,private authService:AuthService
   ) {
     this.modeService.mode.subscribe((data: string) => {
       if (data) {
@@ -72,6 +73,7 @@ export class SignupComponent implements OnInit {
         next: (data: any) => {
           if (data) {
             this.toastr.show("Registrazione avvenuta con successo.")
+            this.router.navigate(['forms/login'])
           }
         },
         error: (error: any) => {
