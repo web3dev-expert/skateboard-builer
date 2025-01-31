@@ -23,15 +23,15 @@ export class SignupComponent implements OnInit {
   missedDatas: string[] = []
   showPassword: boolean = false;
   maskedPassword: string = '';
-  mode:string = 'light';
+  mode: string = 'light';
 
-  constructor(private router: Router, private toastr: ToastrService,private modeService:ModeService,private formsService:FormsService,
-    private toastrError:ShowErrorService
+  constructor(private router: Router, private toastr: ToastrService, private modeService: ModeService, private formsService: FormsService,
+    private toastrError: ShowErrorService
   ) {
-    this.modeService.mode.subscribe((data:string)=>{
-     if(data){
-      this.mode = data;
-     }
+    this.modeService.mode.subscribe((data: string) => {
+      if (data) {
+        this.mode = data;
+      }
     })
   }
 
@@ -43,7 +43,7 @@ export class SignupComponent implements OnInit {
       password: new FormControl('', [Validators.required, Validators.minLength(8)]),
       citta: new FormControl('', [Validators.required])
     })
-    
+
     this.getCities()
   }
 
@@ -59,23 +59,25 @@ export class SignupComponent implements OnInit {
     if (
       this.signupForm.valid && this.selectedImage
     ) {
-      let signupUser:SignupUser = {
-        email:this.signupForm.get('email')?.value,
-        nome:this.signupForm.get('nome')?.value,
-        cognome:this.signupForm.get('cognome')?.value,
-        password:this.signupForm.get('password')?.value,
-        citta_id:this.signupForm.get('citta')?.value,
-        immagine_profilo:this.selectedImage
+      let signupUser: SignupUser = {
+        email: this.signupForm.get('email')?.value,
+        nome: this.signupForm.get('nome')?.value,
+        cognome: this.signupForm.get('cognome')?.value,
+        password: this.signupForm.get('password')?.value,
+        citta_id: this.signupForm.get('citta')?.value,
+        immagine_profilo: this.selectedImage
       }
 
-     this.formsService.signUp(signupUser).subscribe({
-      next: (data: any) => {
-        console.log(data)
-      },
-      error: (error: any) => {
-        this.toastrError.handleError(error);
-      }
-     })
+      this.formsService.signUp(signupUser).subscribe({
+        next: (data: any) => {
+          if (data) {
+            this.toastr.show("Registrazione avvenuta con successo.")
+          }
+        },
+        error: (error: any) => {
+          this.toastrError.handleError(error);
+        }
+      })
     } else {
       this.toastr.error("Assicurati di avere inserito tutti i dati mancanti.")
     }
@@ -100,8 +102,8 @@ export class SignupComponent implements OnInit {
     fileInput.value = '';
   }
   updateSelectedCity() {
-    if(this.signupForm.controls['citta'].value==''){
-      this.selectedCity='';
+    if (this.signupForm.controls['citta'].value == '') {
+      this.selectedCity = '';
       return;
     }
     this.selectedCity = this.cities.filter(c => c.id == this.signupForm.controls['citta'].value)[0];
@@ -112,32 +114,32 @@ export class SignupComponent implements OnInit {
   }
 
   populateMissedDatasArray() {
-    this.missedDatas=[];
+    this.missedDatas = [];
     Object.keys(this.signupForm.controls).forEach(key => {
       const control = this.signupForm.get(key);
-      if(control?.invalid){
+      if (control?.invalid) {
         this.missedDatas.push(key)
       }
     });
-    if(!this.selectedImage){
+    if (!this.selectedImage) {
       this.missedDatas.push('immagine del profilo')
     }
   }
-  updateFourthStep(){
+  updateFourthStep() {
     this.populateMissedDatasArray()
-    
-    this.signupStep=4;
+
+    this.signupStep = 4;
   }
 
-  getCities(){
+  getCities() {
     this.formsService.getCities().subscribe({
       next: (data: any) => {
-        this.cities=data;
+        this.cities = data;
       },
       error: (error: any) => {
         this.toastrError.handleError(error);
       }
     })
   }
- 
+
 }

@@ -1,6 +1,6 @@
 <div class="w-100" [ngClass]="mode=='light'?'bg-white':'bg-secondary'">
     <div class="container text-center py-5">
-        <div class="row py-5">
+        <div class="row py-5 position-relative">
             <div class="col-md-12 d-flex justify-content-end">
                 <div class="w-auto text-center">
                     <button class="btn" (click)="toggleMenu(!isOpen)">
@@ -10,16 +10,16 @@
                         </svg>
                     </button>
                     <div class="menu text-center overflow-hidden" [style.height]="isOpen?'100px':'0px'"
-                    [ngClass]="[isOpen ? 'border rounded shadow' : '' , mode=='light'?'bg-light':'bg-dark']">
+                        [ngClass]="[isOpen ? 'border rounded shadow' : '' , mode=='light'?'bg-light':'bg-dark']">
                         <p>
                             <button class="btn" (click)="switchRoute('signup')"
-                            [ngClass]="mode=='light'?'text-dark':'text-white'">
+                                [ngClass]="mode=='light'?'text-dark':'text-white'">
                                 Signup
                             </button>
                         </p>
                         <p>
                             <button class="btn" (click)="switchRoute('forms')"
-                            [ngClass]="mode=='light'?'text-dark':'text-white'">
+                                [ngClass]="mode=='light'?'text-dark':'text-white'">
                                 Forms
                             </button>
                         </p>

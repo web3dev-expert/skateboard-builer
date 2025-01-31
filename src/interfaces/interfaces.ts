@@ -11,3 +11,25 @@ export interface LoginUser {
     email:string,
     password:string
 }
+
+export interface User{
+accountNonExpired: boolean
+accountNonLocked: boolean
+active: boolean
+authorities: {authorities:string}[]
+changePasswordCode: string | null
+citta: {id: number, nome: string}
+cognome: string
+createdAt: string
+createdAtDate: string | null
+credentialsNonExpired: boolean
+deletedAt: string | null
+email: string
+enabled: boolean
+id: number
+immagineProfilo: string
+nome: string
+password: string
+role: string, 
+username: string
+}

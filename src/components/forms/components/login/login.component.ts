@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ModeService } from '../../../../services/mode.service';
 import { FormsService } from '../../../../services/forms.service';
+import { ShowErrorService } from '../../../../services/show-error.service';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +20,9 @@ export class LoginComponent implements OnInit {
   canMoveMenu: boolean = false;
   mode: string = 'light';
 
-  constructor(private toastr: ToastrService, private router: Router, private modeService: ModeService, private formsService: FormsService) {
+  constructor(private toastr: ToastrService, private router: Router, private modeService: ModeService, private formsService: FormsService,
+    private error:ShowErrorService,private authService:AuthService
+  ) {
     this.modeService.mode.subscribe((data: string) => {
       if (data) {
         this.mode = data;
@@ -44,10 +48,16 @@ export class LoginComponent implements OnInit {
         }
       ).subscribe({
         next: (data: any) => {
-          console.log(data)
+          if(data){
+            console.log(data)
+            this.toastr.show("Login effettuato.")
+            this.authService.setToken(data?.token?.accessToken);
+            localStorage.setItem('refresh' , JSON.stringify(data?.token?.refreshToken))
+            this.authService.setUser(data.user)
+          }
         },
         error: (error: any) => {
-          this.toastr.error(error?.error?.message? error?.error?.message :error?.error?.messageList!=undefined? error?.error?.messageList[0] : 'Something wrong happened.')
+          this.error.handleError(error)
         }
       })
     } else {
