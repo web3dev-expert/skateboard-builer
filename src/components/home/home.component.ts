@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.onResize()
+    localStorage.removeItem('location')
   }
   ngAfterViewInit(): void {
 

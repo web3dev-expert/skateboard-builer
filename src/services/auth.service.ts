@@ -14,8 +14,8 @@ export class AuthService {
   private token:string = '';
   private user!:User | null;
   private auth:string = '/auth'
-  private accessToken:string = '/accessToken'
-  private refreshToken:string = '/refreshToken'
+  private accessToken:string = '/verifyToken'
+  private refreshToken:string = '/verifyRefreshToken'
 
 
   constructor(private authGuard:AuthGuard,private http:HttpClient) { }
@@ -37,9 +37,9 @@ export class AuthService {
     this.user=user;
   }
   verifyAccessToken(token:string){
-return this.http.get(environment.API_URL+this.auth+this.accessToken+`/${token}`)
+return this.http.get(environment.API_URL+this.auth+this.accessToken+`?token=${token}`)
   }
   verifyRefreshToken(refreshToken:string){
-    return this.http.get(environment.API_URL+this.auth+this.refreshToken+`/${refreshToken}`)
+    return this.http.get(environment.API_URL+this.auth+this.refreshToken+`?refreshToken=${refreshToken}`)
   }
 }

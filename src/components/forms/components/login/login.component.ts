@@ -6,6 +6,7 @@ import { ModeService } from '../../../../services/mode.service';
 import { FormsService } from '../../../../services/forms.service';
 import { ShowErrorService } from '../../../../services/show-error.service';
 import { AuthService } from '../../../../services/auth.service';
+import { AuthGuard } from '../../../../core/auth.guard';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
   mode: string = 'light';
 
   constructor(private toastr: ToastrService, private router: Router, private modeService: ModeService, private formsService: FormsService,
-    private error:ShowErrorService,private authService:AuthService
+    private error:ShowErrorService,private authService:AuthService, private authGuard: AuthGuard
   ) {
     this.modeService.mode.subscribe((data: string) => {
       if (data) {
@@ -35,11 +36,12 @@ export class LoginComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]),
       password: new FormControl('', [Validators.required, Validators.minLength(8)])
     })
-  let isUserAuthenticated = this.authService.isAuthenticatedUser;
+  let isUserAuthenticated = this.authGuard.isAuthenticated;
   if(isUserAuthenticated){
     this.authService.setToken('');
     this.authService.setUser(null)
     this.authService.authenticateUser(false);
+    localStorage.clear()
     this.toastr.show("Logout avvenuto con successo.")
   }
   }
@@ -57,8 +59,8 @@ export class LoginComponent implements OnInit {
           if(data){
             this.toastr.show("Login effettuato.");
             this.authService.setToken(data?.token?.accessToken);
-            localStorage.setItem('refreshToken' , JSON.stringify(data?.token?.refreshToken));
-            localStorage.setItem('accessToken' , JSON.stringify(data?.token?.accessToken));
+            localStorage.setItem('refreshToken' , data?.token?.refreshToken);
+            localStorage.setItem('accessToken' , data?.token?.accessToken);
             this.authService.setUser(data.user);
             this.authService.authenticateUser(true);
             this.router.navigate(['lobby']);

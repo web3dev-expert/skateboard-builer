@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, Observable } from 'rxjs';
-import { authService } from '../services/forms.service';
 import { AuthService } from '../services/auth.service';
 
 @Injectable()
@@ -12,7 +11,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     private toastr: ToastrService,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
@@ -24,16 +23,15 @@ export class ErrorInterceptor implements HttpInterceptor {
             (err.error &&
               err.error.message &&
               err.error.message ==
-                'Il token non è valido! Per favore effettua nuovamente il login o refresha la pagina!') ||
+              'Il token non è valido! Per favore effettua nuovamente il login o refresha la pagina!') ||
             (err.error &&
               err.error.message &&
               err.error.message ==
-                'Il token non è valido.')
+              'Il token non è valido.')
           ) {
-            let accessToken = localStorage.getItem('accessToken');
             let refreshToken = localStorage.getItem('refreshToken');
             let location = localStorage.getItem('location');
-            if (accessToken) {
+            if (refreshToken) {
               this.authService
                 .verifyRefreshToken(refreshToken!)
                 .subscribe({
@@ -54,20 +52,28 @@ export class ErrorInterceptor implements HttpInterceptor {
                           this.router.navigate([`${location || '/home'}`]);
                         },
                       });
-                  },
-                  error: () => {
-                    this.toastr.show("Non è stato possibile verificare la tua identità. Accedi di nuovo.")
-                    localStorage.clear()
-                  },
-                  complete: () => {},
+                  }
                 });
-            } 
+            } else {
+              localStorage.clear();
+              this.authService.authenticateUser(false);
+              this.authService.setUser(null);
+              this.authService.setToken('');
+              this.router.navigate(['home']);
+            }
           } else {
+            if (
+              err.error &&
+              err.error.message &&
+              err.error.message ==
+              'Il refresh token non è valido. Accedi nuovamente.') {
+              localStorage.clear()
+            }
             this.toastr.show(
               err?.error?.message ||
-                err?.error?.messageList[0] ||
-                err?.message ||
-                "E' successo qualcosa nell'elaborazione della richiesta"
+              err?.error?.messageList[0] ||
+              err?.message ||
+              "E' successo qualcosa nell'elaborazione della richiesta"
             );
           }
         }
