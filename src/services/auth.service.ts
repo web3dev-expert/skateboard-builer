@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AuthGuard } from '../core/auth.guard';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../interfaces/interfaces';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../core/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,12 @@ export class AuthService {
   public isAuthenticatedUser:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private token:string = '';
   private user!:User | null;
-  constructor(private authGuard:AuthGuard) { }
+  private auth:string = '/auth'
+  private accessToken:string = '/accessToken'
+  private refreshToken:string = '/refreshToken'
+
+
+  constructor(private authGuard:AuthGuard,private http:HttpClient) { }
 
   authenticateUser(bool:boolean){
     this.authGuard.isAuthenticated = bool;
@@ -28,5 +35,11 @@ export class AuthService {
   }
   setUser(user:| null){
     this.user=user;
+  }
+  verifyAccessToken(token:string){
+return this.http.get(environment.API_URL+this.auth+this.accessToken+`/${token}`)
+  }
+  verifyRefreshToken(refreshToken:string){
+    return this.http.get(environment.API_URL+this.auth+this.refreshToken+`/${refreshToken}`)
   }
 }

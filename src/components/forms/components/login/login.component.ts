@@ -57,7 +57,8 @@ export class LoginComponent implements OnInit {
           if(data){
             this.toastr.show("Login effettuato.");
             this.authService.setToken(data?.token?.accessToken);
-            localStorage.setItem('refresh' , JSON.stringify(data?.token?.refreshToken));
+            localStorage.setItem('refreshToken' , JSON.stringify(data?.token?.refreshToken));
+            localStorage.setItem('accessToken' , JSON.stringify(data?.token?.accessToken));
             this.authService.setUser(data.user);
             this.authService.authenticateUser(true);
             this.router.navigate(['lobby']);
