@@ -1,6 +1,6 @@
 <div class="w-100" [ngClass]="mode=='light'?'bg-white':'bg-secondary'">
     <div class="container text-center py-5">
-        <div class="row py-5 position-relative">
+        <div class="row py-5">
             <div class="col-md-12 d-flex justify-content-end">
                 <div class="w-auto text-center">
                     <button class="btn" (click)="toggleMenu(!isOpen)">
@@ -51,7 +51,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 py-5 my-5">
+            <div class="col-lg-6 py-5 my-5 position-relative">
                 <form [formGroup]="loginForm" class="p-3 login-form m-auto py-5 border rounded w-75"
                     [ngClass]="mode=='light'?'bg-light text-dark':'bg-dark text-light'">
                     <label for="email" class="py-3">Inserisci la tua email</label>
@@ -67,6 +67,14 @@
                     </p>
                     <button class="btn my-3 btn-warning border" (click)="login()">Login</button>
                 </form>
+                <div class="position-absolute box-1">
+                </div>
+                <div class="position-absolute box-2">
+                </div>
+                <div class="position-absolute box-3">
+                </div>
+                <div class="position-absolute box-4">
+                </div>
             </div>
         </div>
     </div>

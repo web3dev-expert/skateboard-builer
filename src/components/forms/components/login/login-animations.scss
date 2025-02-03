@@ -1,0 +1,152 @@
+@keyframes red-box {
+    15%{
+        top: 30%;
+        left: 55%;
+    }
+    25%{
+        top: 2%;
+        left: 74%;
+        transform: rotate(90deg);
+    }
+    35%{
+        top: 55%;
+        left: 55%;
+    }
+    50%{
+        top : 75%;
+        left: 74%;
+        transform: rotate(180deg);
+    }
+    55%{
+        top: 55%;
+        left: 30%;
+    }
+     75%{
+        top : 75%;
+        left: 10%;
+        transform: rotate(270deg);
+    }
+    85%{
+        top: 30%;
+        left: 30%;
+    }
+     100%{
+        top: 2%;
+        left: 10%;
+        transform: rotate(360deg);
+    }
+}
+@keyframes green-box {
+    15%{
+        top:55%;
+        left: 55%;
+    }
+    25%{
+        top : 75%;
+        left: 74%;
+        transform: rotate(90deg);
+    }
+    35%{
+        top:55%;
+        left: 30%;
+    }
+    50%{
+        top : 75%;
+        left: 10%;
+        transform: rotate(180deg);
+    }
+    55%{
+        top:30%;
+        left: 30%;
+    }
+     75%{
+        top: 2%;
+        left: 10%;
+        transform: rotate(270deg);
+    }
+    85%{
+        top:30%;
+        left: 55%;
+    }
+     100%{
+        top: 2%;
+        left: 74%;
+        transform: rotate(360deg);
+    }
+}
+@keyframes orange-box {
+    15%{
+        top: 30%;
+        left: 30%;
+    }
+    25%{
+        top: 2%;
+        left: 10%;
+        transform: rotate(90deg);
+    }
+    35%{
+        top: 30%;
+        left: 55%;
+    }
+    50%{
+        top: 2%;
+        left: 74%;
+        transform: rotate(180deg);
+    }
+    55%{
+        top: 55%;
+        left: 55%;
+    }
+     75%{
+        top : 75%;
+        left: 74%;
+        transform: rotate(270deg);
+    }
+    85%{
+        top: 55%;
+        left: 30%;
+    }
+     100%{
+        top : 75%;
+        left: 10%;
+        transform: rotate(360deg);
+    }
+}
+@keyframes blue-box {
+    15%{
+        top: 55%;
+        left: 30%;
+    }
+    25%{
+        top : 75%;
+        left: 10%;
+        transform: rotate(90deg);
+    }
+    35%{
+        top: 30%;
+        left: 30%;
+    }
+    50%{
+        top: 2%;
+        left: 10%;
+        transform: rotate(180deg);
+    }
+    55%{
+        top: 30%;
+        left: 55%;
+    }
+     75%{
+        top: 2%;
+        left: 74%;
+        transform: rotate(270deg);
+    }
+    85%{
+        top: 55%;
+        left: 55%;
+    }
+     100%{
+        top : 75%;
+        left: 74%;
+        transform: rotate(360deg);
+    }
+}
