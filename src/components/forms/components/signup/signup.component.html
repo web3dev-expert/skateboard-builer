@@ -12,13 +12,13 @@
                         [ngClass]="[isOpen ? 'border rounded shadow' : '' , mode=='light'?'bg-light':'bg-dark']">
                         <p>
                             <button class="btn" (click)="switchRoute('login')"
-                            [ngClass]="mode=='light'?'text-dark':'text-white'">
+                                [ngClass]="mode=='light'?'text-dark':'text-white'">
                                 Login
                             </button>
                         </p>
-                        <p> 
+                        <p>
                             <button class="btn" (click)="switchRoute('forms')"
-                            [ngClass]="mode=='light'?'text-dark':'text-white'">
+                                [ngClass]="mode=='light'?'text-dark':'text-white'">
                                 Forms
                             </button>
                         </p>
@@ -76,7 +76,8 @@
                     <div *ngIf="signupStep==3">
                         <label for="citta" class="py-3">Inserisci la tua città</label>
                         <select type="text" name="citta" id="citta" formControlName="citta" class="form-select"
-                            (change)="updateSelectedCity()" onfocus="this.size=7" onblur="this.size=1" onchange="this.blur()">
+                            (change)="updateSelectedCity()" onfocus="this.size=7" onblur="this.size=1"
+                            onchange="this.blur()">
                             <option value="">Seleziona una città.</option>
                             <option *ngFor="let c of cities" [value]="c.id">{{c.nome}}</option>
                         </select>
@@ -162,4 +163,5 @@
             </div>
         </div>
     </div>
+    <app-spinner></app-spinner>
 </div>

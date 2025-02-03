@@ -8,12 +8,14 @@ import { SignupComponent } from "./components/signup/signup.component";
 import { FormsLabelComponent } from "./components/forms-label/forms-label.component";
 import { ToastrModule } from 'ngx-toastr';
 import { provideHttpClient } from "@angular/common/http";
+import { SpinnerComponent } from "../../shared/components/spinner/spinner.component";
 @NgModule({
       declarations: [
         FormsComponent,
         LoginComponent,
         SignupComponent,
-        FormsLabelComponent
+        FormsLabelComponent,
+        SpinnerComponent
       ],
       imports: [
         CommonModule,
@@ -24,7 +26,8 @@ import { provideHttpClient } from "@angular/common/http";
       exports: [
         LoginComponent,
         SignupComponent,
-        FormsLabelComponent
+        FormsLabelComponent,
+        SpinnerComponent
       ],
       providers: [
         provideHttpClient()
