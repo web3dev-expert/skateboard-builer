@@ -18,7 +18,27 @@ export class SpinnerComponent implements OnInit {
   }
 
   initializateSpinner() {
-    
+    switch (this.baseColor) {
+      case ('red'): {
+        this.baseColor = this.baseColor;
+      }
+        break;
+      case ('green'): {
+        this.baseColor = this.baseColor;
+      }
+        break;
+      case ('blue'): {
+        this.baseColor = this.baseColor;
+      }
+        break;
+      case ('black'): {
+        this.baseColor = this.baseColor;
+      }
+        break;
+      default: {
+        this.baseColor = 'red';
+      }
+    }
     this.div = document.getElementsByClassName('spinner')[0] as HTMLDivElement;
     this.div.style.width = this.width < 150 ? '150px' : this.width > 250 ? '250px' : `${this.width}px`;
     this.div.style.height = this.height < 150 ? '150px' : this.height > 250 ? '250px' : `${this.height}px`;
