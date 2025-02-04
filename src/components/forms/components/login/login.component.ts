@@ -93,12 +93,16 @@ export class LoginComponent implements OnInit {
     if (window.innerWidth < 630) {
       for (let i = 1; i <= 4; i++) {
         let div = document.getElementsByClassName(`box-${i}`)[0] as HTMLDivElement;
-        div.style.visibility = 'hidden'
+        if(div){
+          div.style.visibility = 'hidden'
+        }
       }
     } else {
       for (let i = 1; i <= 4; i++) {
         let div = document.getElementsByClassName(`box-${i}`)[0] as HTMLDivElement;
-        div.style.visibility = 'visible'
+        if(div){
+          div.style.visibility = 'visible'
+        }
       }
     }
   }
