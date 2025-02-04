@@ -20,14 +20,17 @@ export class LoginComponent implements OnInit {
   isOpen: boolean = false;
   canMoveMenu: boolean = false;
   mode: string = 'light';
-
+  showSpinner: boolean = false;
   constructor(private toastr: ToastrService, private router: Router, private modeService: ModeService, private formsService: FormsService,
-    private error: ShowErrorService, private authService: AuthService, private authGuard: AuthGuard
+     private authService: AuthService, private authGuard: AuthGuard, private errorService: ShowErrorService
   ) {
     this.modeService.mode.subscribe((data: string) => {
       if (data) {
         this.mode = data;
       }
+    })
+    this.errorService.showSpinner.subscribe((data:boolean)=>{
+      this.showSpinner = data;
     })
   }
 
@@ -50,6 +53,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.isLoginFormSubmitted = true;
     if (this.loginForm.valid) {
+      this.showSpinner = true;
       this.formsService.logIn(
         {
           email: this.loginForm.controls['email'].value,
@@ -58,17 +62,17 @@ export class LoginComponent implements OnInit {
       ).subscribe({
         next: (data: any) => {
           if (data) {
-            this.toastr.show("Login effettuato.");
-            this.authService.setToken(data?.token?.accessToken);
-            localStorage.setItem('refreshToken', data?.token?.refreshToken);
-            localStorage.setItem('accessToken', data?.token?.accessToken);
-            this.authService.setUser(data.user);
-            this.authService.authenticateUser(true);
-            this.router.navigate(['lobby']);
+            setTimeout(() => {
+              this.showSpinner = false;
+              this.toastr.show("Login effettuato.");
+              this.authService.setToken(data?.token?.accessToken);
+              localStorage.setItem('refreshToken', data?.token?.refreshToken);
+              localStorage.setItem('accessToken', data?.token?.accessToken);
+              this.authService.setUser(data.user);
+              this.authService.authenticateUser(true);
+              this.router.navigate(['lobby']);
+            }, 1000)
           }
-        },
-        error: (error: any) => {
-          this.error.handleError(error)
         }
       })
     } else {
@@ -87,12 +91,12 @@ export class LoginComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize() {
     if (window.innerWidth < 630) {
-      for (let i = 1; i <= 4; i++){
+      for (let i = 1; i <= 4; i++) {
         let div = document.getElementsByClassName(`box-${i}`)[0] as HTMLDivElement;
         div.style.visibility = 'hidden'
       }
-    }else{
-      for (let i = 1; i <= 4; i++){
+    } else {
+      for (let i = 1; i <= 4; i++) {
         let div = document.getElementsByClassName(`box-${i}`)[0] as HTMLDivElement;
         div.style.visibility = 'visible'
       }

@@ -1,14 +1,17 @@
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ShowErrorService {
 
-    constructor(private toastr: ToastrService) { }
+     showSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean> (false); 
 
-    handleError(error: any) {
-        this.toastr.error(error?.error?.message? error?.error?.message :error?.error?.messageList!=undefined? error?.error?.messageList[0] : 'Something wrong happened.');
+    constructor() { }
+
+    emitShowSpinner(value:boolean){
+        this.showSpinner.next(value);
     }
 }

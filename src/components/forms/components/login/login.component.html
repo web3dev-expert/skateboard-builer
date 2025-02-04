@@ -51,9 +51,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 py-5 my-5 position-relative">
+            <div class="col-lg-6 py-5 my-5 position-relative d-flex justify-content-center align-items-center">
                 <form [formGroup]="loginForm" class="p-3 login-form m-auto py-5 border rounded w-75"
-                    [ngClass]="mode=='light'?'bg-light text-dark':'bg-dark text-light'">
+                    [ngClass]="mode=='light'?'bg-light text-dark':'bg-dark text-light'" *ngIf="!showSpinner">
                     <label for="email" class="py-3">Inserisci la tua email</label>
                     <input type="email" name="email" id="email" formControlName="email" class="form-control">
                     <p class="text-danger" *ngIf="isLoginFormSubmitted&&loginForm.controls['email'].invalid">
@@ -67,16 +67,16 @@
                     </p>
                     <button class="btn my-3 btn-warning border" (click)="login()">Login</button>
                 </form>
-                <div class="position-absolute box-1">
+                <app-spinner [width]="150" [height]="150" [baseColor]="'red'" *ngIf="showSpinner"></app-spinner>
+                <div class="position-absolute box-1" *ngIf="!showSpinner">
                 </div>
-                <div class="position-absolute box-2">
+                <div class="position-absolute box-2" *ngIf="!showSpinner">
                 </div>
-                <div class="position-absolute box-3">
+                <div class="position-absolute box-3" *ngIf="!showSpinner">
                 </div>
-                <div class="position-absolute box-4">
+                <div class="position-absolute box-4" *ngIf="!showSpinner">
                 </div>
             </div>
         </div>
     </div>
-    <app-spinner [width]="'150px'" [height]="'150px'" [baseColor]="'red'"></app-spinner>
 </div>

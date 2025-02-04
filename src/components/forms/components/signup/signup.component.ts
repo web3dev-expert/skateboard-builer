@@ -75,9 +75,6 @@ export class SignupComponent implements OnInit {
             this.toastr.show("Registrazione avvenuta con successo.")
             this.router.navigate(['forms/login'])
           }
-        },
-        error: (error: any) => {
-          this.toastrError.handleError(error);
         }
       })
     } else {
@@ -137,9 +134,6 @@ export class SignupComponent implements OnInit {
     this.formsService.getCities().subscribe({
       next: (data: any) => {
         this.cities = data;
-      },
-      error: (error: any) => {
-        this.toastrError.handleError(error);
       }
     })
   }
