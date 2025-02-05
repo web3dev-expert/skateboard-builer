@@ -64,16 +64,14 @@ export class ErrorInterceptor implements HttpInterceptor {
                 this.authService.setToken('');
                 this.router.navigate(['home']);
               }
-            } else {
-              if (
-                err.error &&
-                err.error.message &&
-                err.error.message ==
-                'Il refresh token non è valido. Accedi nuovamente.') {
-                localStorage.clear()
-              }
+            } else if (
+              err.error &&
+              err.error.message &&
+              err.error.message ==
+              'Il refresh token non è valido. Accedi nuovamente.') {
+              localStorage.clear()
               let error = null;
-              if (null != err?.error?.messageList&&err?.error?.messageList.length>0) {
+              if (null != err?.error?.messageList && err?.error?.messageList.length > 0) {
                 error = err?.error?.messageList[0];
               }
               this.toastr.show(
@@ -82,6 +80,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                 err?.message ||
                 "E' successo qualcosa nell'elaborazione della richiesta"
               );
+            } else {
+              localStorage.clear()
             }
 
           }
