@@ -161,7 +161,7 @@
                     </div>
                 </form>
                 <div class="w-75 position-relative d-flex m-auto">
-                    <div class="p-1 border-bottom" *ngFor="let l of lines"></div>
+                    <div class="p-1 border-bottom" *ngFor="let l of lines, index as i" id="l-{{i}}"></div>
                 </div>
             </div>
         </div>
