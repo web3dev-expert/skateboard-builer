@@ -25,7 +25,8 @@ export class SignupComponent implements OnInit {
   showPassword: boolean = false;
   maskedPassword: string = '';
   mode: string = 'light';
-
+  lines: number[] = [1,2,3,4]
+  
   constructor(private router: Router, private toastr: ToastrService, private modeService: ModeService, private formsService: FormsService,
     private toastrError: ShowErrorService,private authService:AuthService
   ) {
