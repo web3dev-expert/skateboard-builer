@@ -52,7 +52,7 @@
             </div>
             <div class="col-lg-6 py-5 my-5">
                 <form [formGroup]="signupForm" class="p-3 login-form m-auto py-5 border rounded shadow w-75"
-                    [ngClass]="mode=='light'?'bg-light text-dark':'bg-dark text-light'">
+                    [ngClass]="mode=='light'?'bg-light text-dark':'bg-dark text-light'" *ngIf="!isLoading">
                     <div *ngIf="signupStep==1">
                         <label for="nome" class="py-3">Inserisci il tuo nome</label>
                         <input type="text" name="nome" id="nome" formControlName="nome" class="form-control">
@@ -160,14 +160,16 @@
                         </div>
                     </div>
                 </form>
+                <div class="m-auto w-75 d-flex justify-content-center" *ngIf="isLoading">
+                    <app-spinner></app-spinner>
+                </div>
                 <div class="w-75 m-auto d-flex">
                     <div class="p-1 position-relative" *ngFor="let l of lines, index as i" id="l-{{i+1}}">
-                        <div class="p-1">
+                        <div class="p-1" id="l-child-{{i+1}}">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <app-spinner></app-spinner>
 </div>

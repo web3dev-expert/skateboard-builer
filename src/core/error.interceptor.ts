@@ -70,6 +70,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               err.error.message ==
               'Il refresh token non è valido. Accedi nuovamente.') {
               localStorage.clear()
+            } else {
               let error = null;
               if (null != err?.error?.messageList && err?.error?.messageList.length > 0) {
                 error = err?.error?.messageList[0];
@@ -80,10 +81,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 err?.message ||
                 "E' successo qualcosa nell'elaborazione della richiesta"
               );
-            } else {
-              localStorage.clear()
             }
-
           }
 
           this.showError.emitShowSpinner(false);

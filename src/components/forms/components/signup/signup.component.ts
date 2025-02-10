@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -25,15 +25,19 @@ export class SignupComponent implements OnInit {
   showPassword: boolean = false;
   maskedPassword: string = '';
   mode: string = 'light';
-  lines: number[] = [1,2,3,4]
-  
+  lines: number[] = [1, 2, 3, 4]
+  isLoading: boolean = false;
+
   constructor(private router: Router, private toastr: ToastrService, private modeService: ModeService, private formsService: FormsService,
-    private toastrError: ShowErrorService,private authService:AuthService
+    private errorService: ShowErrorService
   ) {
     this.modeService.mode.subscribe((data: string) => {
       if (data) {
         this.mode = data;
       }
+    })
+    this.errorService.showSpinner.subscribe((data: boolean) => {
+      this.isLoading = data;
     })
   }
 
@@ -69,12 +73,15 @@ export class SignupComponent implements OnInit {
         citta_id: this.signupForm.get('citta')?.value,
         immagine_profilo: this.selectedImage
       }
-
+      this.errorService.emitShowSpinner(true);
       this.formsService.signUp(signupUser).subscribe({
         next: (data: any) => {
           if (data) {
-            this.toastr.show("Registrazione avvenuta con successo.")
-            this.router.navigate(['forms/login'])
+            setTimeout(() => {
+              this.errorService.emitShowSpinner(false);
+              this.toastr.show("Registrazione avvenuta con successo.")
+              this.router.navigate(['forms/login'])
+            }, 1500)
           }
         }
       })
@@ -138,5 +145,26 @@ export class SignupComponent implements OnInit {
       }
     })
   }
+
+  @HostListener('window:resize', ['$event'])
+  onresize() {
+    let div;
+    if (window.innerWidth < 545) {
+      for (let i = 1; i <= 4; i++) {
+        div = document.getElementById(`l-${i}`)
+        if (div) {
+          div.style.visibility = 'hidden';
+        }
+      }
+    } else {
+      for (let i = 1; i <= 4; i++) {
+        div = document.getElementById(`l-${i}`)
+        if (div) {
+          div.style.visibility = 'visible';
+        }
+      }
+    }
+  }
+
 
 }
