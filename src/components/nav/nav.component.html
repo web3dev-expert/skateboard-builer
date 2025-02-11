@@ -3,24 +3,24 @@
         <div class="row">
             <div class="col-md-12 text-end mode">
                 <button class="btn text-light light fs-4" (click)="updateMode('light')" *ngIf="mode=='dark'">
-                    Light mode ☀️
+                    LIGHT MODE ☀️
                 </button>
                 <button class="btn text-dark dark fs-4" (click)="updateMode('dark')" *ngIf="mode=='light'">
-                    Dark mode 🌙
+                 DARK MODE 🌙
                 </button>
             </div>
             <div class="col-md-4">
-                <button class="btn fs-4" [ngClass]="mode!='light'?'text-light':'text-dark'"  [routerLink]="'/home'">Home</button>
+                <button class="btn fs-4" [ngClass]="mode!='light'?'text-light':'text-dark'"  [routerLink]="'/home'">HOME</button>
             </div>
             <div class="col-md-4">
-                <button class="btn fs-4" *ngIf="isAuthenticatedUser" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/lobby'">Lobby</button>
+                <button class="btn fs-4" *ngIf="isAuthenticatedUser" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/lobby'">LOBBY</button>
             </div>
             <div class="col-md-4" *ngIf="!isAuthenticatedUser;else logOut">
-                <button class="btn fs-4" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/forms'">Login</button>
+                <button class="btn fs-4" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/forms'">LOGIN</button>
             </div>
             <ng-template #logOut>
                 <div class="col-md-4" *ngIf="isAuthenticatedUser">
-                    <button class="btn fs-4" (click)="logout()" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/home'">Logout</button>
+                    <button class="btn fs-4" (click)="logout()" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/home'">LOGOUT</button>
                 </div>
             </ng-template>
         </div>

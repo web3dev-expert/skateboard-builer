@@ -36,56 +36,56 @@
                 <div class="row">
                     <div class="col-md-12 overflow-scroll d-flex bg-light">
                         <div class="p-2 lobby-nav-button text-center">
-                            <button class="btn">
+                            <button class="btn" (click)="location='giochi'">
                                 Giochi disponibili
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
                         <div class="p-2 lobby-nav-button text-center">
-                            <button class="btn">
+                            <button class="btn" (click)="location='classifiche'">
                                 Classifiche
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
                         <div class="p-2 lobby-nav-button text-center">
-                            <button class="btn">
+                            <button class="btn" (click)="location='trofei'">
                                 I tuoi trofei
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
                         <div class="p-2 lobby-nav-button text-center">
-                            <button class="btn">
+                            <button class="btn" (click)="location='punteggi'">
                                 Punteggi
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
                         <div class="p-2 lobby-nav-button text-center">
-                            <button class="btn">
+                            <button class="btn" (click)="location='statistiche'">
                                 Statistiche
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
                         <div class="p-2 lobby-nav-button text-center">
-                            <button class="btn">
+                            <button class="btn" (click)="location='about-us'">
                                 About us
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
                         <div class="p-2 lobby-nav-button text-center">
-                            <button class="btn">
+                            <button class="btn" (click)="location='assistenza'">
                                 Assistenza
                             </button>
                         </div>
                     </div>
                     <div class="col-md-12 p-2">
                         <div class="w-100 border shadow-sm p-1 bg-light">
-                            <app-giochi></app-giochi>
-                            <app-classifiche></app-classifiche>
-                            <app-trofei></app-trofei>
-                            <app-punteggi></app-punteggi>
-                            <app-statistiche></app-statistiche>
-                            <app-about-us></app-about-us>
-                            <app-assistenza></app-assistenza>
+                            <app-giochi *ngIf="location=='giochi'"></app-giochi>
+                            <app-classifiche *ngIf="location=='classifiche'"></app-classifiche>
+                            <app-trofei *ngIf="location=='trofei'"></app-trofei>
+                            <app-punteggi *ngIf="location=='punteggi'"></app-punteggi>
+                            <app-statistiche *ngIf="location=='statistiche'"></app-statistiche>
+                            <app-about-us *ngIf="location=='about-us'"></app-about-us>
+                            <app-assistenza *ngIf="location=='assistenza'"></app-assistenza>
                         </div>
                     </div>
                 </div>

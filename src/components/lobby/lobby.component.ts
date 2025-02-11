@@ -23,6 +23,7 @@ export class LobbyComponent implements OnInit {
   user: User | null;
   toggle: boolean = false;
   mode: string = 'light';
+  location: string = 'giochi';
   constructor(private authService: AuthService, private modeService: ModeService) {
     this.user = this.authService.getUser()
     console.log(this.user)
