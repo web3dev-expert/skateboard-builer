@@ -18,6 +18,7 @@ export class LobbyComponent implements OnInit {
   mode: string = 'light';
   constructor(private authService: AuthService, private modeService: ModeService) {
     this.user = this.authService.getUser()
+    console.log(this.user)
     this.modeService.mode.subscribe((data: string) => {
       this.mode = data;
     })

@@ -1,18 +1,86 @@
 <div class="py-5 w-100" [ngClass]="mode=='light'?'bg-light':'bg-personal'">
-    <div class="container py-5 my-5 text-center" >
+    <div class="container py-5 my-5 text-center">
         <div class="row py-5 my-5">
             <div class="col-md-12 mt-5">
                 <h1 class="mt-5">Welmcome {{user?.nome}}</h1>
             </div>
-            <div class="col-md-12 pt-5 mt-5 text-start">
-                <button class="btn rounded-circle btn-secondary border"
-                    (click)="toggle=!toggle">{{toggle?'Close':'Open'}}</button>
+            <div class="col-md-3 pt-5 mt-5">
+                <div class="row text-start p-3 bg-light shadow overflow-auto profile-card">
+                    <div class="col-md-12 text-center">
+                        <img src="{{user?.immagineProfilo}}" class="w-75 m-auto rounded-circle shadow-sm"
+                            alt="immagine_profilo">
+                    </div>
+                    <div class="col-md-6 fs-2 p-2">
+                        <p class="fs-4 text-danger">Nome</p>
+                        {{user?.nome}}
+                    </div>
+                    <div class="col-md-6 fs-2 p-2">
+                        <p class="fs-4 text-danger">Cognome</p>
+                        {{user?.cognome}}
+                    </div>
+                    <div class="col-md-12 fs-2 p-2">
+                        <p class="fs-4 text-danger">Email</p>
+                        {{user?.email}}
+                    </div>
+                    <div class="col-md-12 fs-2 p-2">
+                        <p class="fs-4 text-danger">Città</p>
+                        {{user?.citta?.nome}}
+                    </div>
+                    <div class="col-md-12 fs-2 p-2">
+                        <p class="fs-4 text-danger">Profilo creato in data</p>
+                        {{user?.createdAt}}
+                    </div>
+                </div>
             </div>
-            <div class="col-md-3 p-3" *ngIf="toggle">
-                <div class="w-100 border shadow-sm p-1 bg-light"></div>
-            </div>
-            <div [ngClass]="toggle?'col-md-9':'col-md-12'" class=" p-3">
-                <div class="w-100 border shadow-sm p-1 bg-light"></div>
+            <div class="col-md-9 pt-5 mt-5 text-start">
+                <div class="row">
+                    <div class="col-md-12 overflow-scroll d-flex">
+                        <div class="p-2 lobby-nav-button text-center">
+                            <button class="btn">
+                                Giochi disponibili
+                            </button>
+                        </div>
+                        <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
+                        <div class="p-2 lobby-nav-button text-center">
+                            <button class="btn">
+                                Classifiche
+                            </button>
+                        </div>
+                        <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
+                        <div class="p-2 lobby-nav-button text-center">
+                            <button class="btn">
+                                I tuoi trofei
+                            </button>
+                        </div>
+                        <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
+                        <div class="p-2 lobby-nav-button text-center">
+                            <button class="btn">
+                                Punteggi
+                            </button>
+                        </div>
+                        <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
+                        <div class="p-2 lobby-nav-button text-center">
+                            <button class="btn">
+                                Statistiche
+                            </button>
+                        </div>
+                        <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
+                        <div class="p-2 lobby-nav-button text-center">
+                            <button class="btn">
+                                About us
+                            </button>
+                        </div>
+                        <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
+                        <div class="p-2 lobby-nav-button text-center">
+                            <button class="btn">
+                                Assistenza
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-12 p-2">
+                        <div class="w-100 border shadow-sm p-1 bg-light"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
