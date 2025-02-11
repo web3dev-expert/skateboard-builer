@@ -181,7 +181,7 @@ h1 {
 
 .flip-card-inner {
   position: relative;
-  width: 100%;
+  width: 80%;
   height: 450px;
   text-align: center;
   transform-style: preserve-3d;
@@ -579,4 +579,15 @@ h1 {
     bottom: 75%;
   }
 }
+}
+.rotate-left{
+  transform: rotate(-10deg);
+}
+.rotate-right{
+  transform: rotate(10deg);
+}
+
+.pr-1, .pr-2, .pr-3{
+  min-height:300px;
+  padding:3%;
 }
