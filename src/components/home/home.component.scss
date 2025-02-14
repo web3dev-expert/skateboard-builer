@@ -602,25 +602,37 @@ h1 {
 
 .personal-pr-height {
   height: 300px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   width: 90%;
   margin: auto;
   position: absolute;
+  .ball {
+    bottom: 0%;
+    right: -10%;
+    min-width: 200px;
+    min-height: 200px;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+  }
+  .bg-pink {
+    background-color: pink;
+  }
 }
 
 .ab-1 {
   top: 0;
-  left: -550px;
-  width: 92%;
+  left: -750px;
+  width: 94%;
   transition: 1.5s;
   background-color: red;
   height: 320px;
 }
 
 .ab-2 {
-  bottom: -550px;
+  bottom: -750px;
   left: 0;
-  width: 92%;
+  width: 94%;
   transition: 1.5s;
   background-color: blue;
   height: 320px;
@@ -628,8 +640,8 @@ h1 {
 
 .ab-3 {
   top: 0;
-  right: -550px;
-  width: 92%;
+  right: -750px;
+  width: 94%;
   transition: 1.5s;
   background-color: violet;
   height: 320px;
@@ -640,23 +652,25 @@ h1 {
 .pr-3 {
   overflow: hidden;
   height: 330px;
-
   &:hover {
 
-    .ab-1{
+    .ab-1 {
       top: 2%;
-      left: 2%;
+      left: .9%;
       transition: 1.5s;
     }
-    .ab-2{
-      bottom: 2%;
-      left: 2%;
+
+    .ab-2 {
+      bottom: 1.5%;
+      left: .9%;
       transition: 1.5s;
     }
-    .ab-3{
+
+    .ab-3 {
       top: 2%;
-      right: 6%;
+      right: 5%;
       transition: 1.5s;
     }
   }
 }
+
