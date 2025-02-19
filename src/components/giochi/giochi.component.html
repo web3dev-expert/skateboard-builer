@@ -1,1 +1,6 @@
-<p>giochi works!</p>
+<div class="row">
+    <div class="col-md-4" *ngFor="let g of giochi">
+        <form [formGroup]="giocoForm"></form>
+        <button>Upload image</button>
+    </div>
+</div>

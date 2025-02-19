@@ -22,7 +22,8 @@ export const routes: Routes = [
     },
     {
         path:'lobby',
-        component:LobbyComponent, canActivate:[AuthGuard]
+        loadChildren: () => import('../components/lobby/lobby.module').then(m => m.LobbyModule),
+         canActivate:[AuthGuard]
     },
     {
         path:'game-field',

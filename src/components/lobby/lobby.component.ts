@@ -13,8 +13,6 @@ import { AssistenzaComponent } from '../assistenza/assistenza.component';
 
 @Component({
   selector: 'app-lobby',
-  standalone: true,
-  imports: [NgClass, NgIf, GiochiComponent,ClassificheComponent,TrofeiComponent,PunteggiComponent,StatisticheComponent,AboutUsComponent,AssistenzaComponent],
   templateUrl: './lobby.component.html',
   styleUrl: './lobby.component.scss'
 })

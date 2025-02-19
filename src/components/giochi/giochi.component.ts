@@ -1,12 +1,17 @@
-import { Component } from '@angular/core';
+import { NgFor } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-giochi',
-  standalone: true,
-  imports: [],
   templateUrl: './giochi.component.html',
   styleUrl: './giochi.component.scss'
 })
-export class GiochiComponent {
+export class GiochiComponent implements OnInit{
+giochi:any [] = [];
+giocoForm!: FormGroup;
+ngOnInit(): void {
+  
+}
 
 }
