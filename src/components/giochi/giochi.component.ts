@@ -17,16 +17,7 @@ export class GiochiComponent implements OnInit {
     this.giocoForm = new FormGroup({
       image:new FormControl('',Validators.required)
     })
-    fetch('http://localhost:3031/auth/gioco').then((response: any) => {
-      if (response.ok) return response.json();
-      else throw new Error("Promis aborted.")
-    }).then((res: any) => {
-      if (res) {
-       this.giochi=res;
-      }
-    }).catch((error: any) => {
-      console.error(error.Error)
-    })
+    this.getGames()
   }
 
   onHandleImage(event: any) {
@@ -62,11 +53,28 @@ export class GiochiComponent implements OnInit {
       }).then((res: any) => {
         if (res) {
          console.log(res);
-         (document.getElementsByClassName('message')[0] as HTMLElement).textContent = "Selezione il gioco da modificare."
+         (document.getElementsByClassName('message')[0] as HTMLElement).textContent = ""
+         this.giocoForm.reset()
+         this.url='';
+         this.selectedGame=null;
+         this.selectedImage=null;
+         this.getGames()
         }
       }).catch((error: any) => {
         console.error(error.Error)
       })
     }
+  }
+  getGames(){
+    fetch('http://localhost:3031/auth/gioco').then((response: any) => {
+      if (response.ok) return response.json();
+      else throw new Error("Promis aborted.")
+    }).then((res: any) => {
+      if (res) {
+       this.giochi=res;
+      }
+    }).catch((error: any) => {
+      console.error(error.Error)
+    })
   }
 }
