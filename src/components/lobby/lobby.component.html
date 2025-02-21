@@ -35,43 +35,43 @@
             <div class="col-md-9 pt-5 mt-5 px-3 text-start">
                 <div class="row">
                     <div class="col-md-12 scrollable-container d-flex bg-light">
-                        <div class="p-2 lobby-nav-button text-center">
+                        <div class="p-2 lobby-nav-button text-center" [ngClass]="location=='giochi'? 'bg-warning':''">
                             <button class="btn" (click)="location='giochi'">
                                 Giochi disponibili
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
-                        <div class="p-2 lobby-nav-button text-center">
+                        <div class="p-2 lobby-nav-button text-center" [ngClass]="location=='classifiche'? 'bg-warning':''">
                             <button class="btn" (click)="location='classifiche'">
                                 Classifiche
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
-                        <div class="p-2 lobby-nav-button text-center">
+                        <div class="p-2 lobby-nav-button text-center" [ngClass]="location=='trofei'? 'bg-warning':''">
                             <button class="btn" (click)="location='trofei'">
                                 I tuoi trofei
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
-                        <div class="p-2 lobby-nav-button text-center">
+                        <div class="p-2 lobby-nav-button text-center" [ngClass]="location=='punteggi'? 'bg-warning':''">
                             <button class="btn" (click)="location='punteggi'">
                                 Punteggi
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
-                        <div class="p-2 lobby-nav-button text-center">
+                        <div class="p-2 lobby-nav-button text-center" [ngClass]="location=='statistiche'? 'bg-warning':''">
                             <button class="btn" (click)="location='statistiche'">
                                 Statistiche
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
-                        <div class="p-2 lobby-nav-button text-center">
+                        <div class="p-2 lobby-nav-button text-center" [ngClass]="location=='about-us'? 'bg-warning':''">
                             <button class="btn" (click)="location='about-us'">
                                 About us
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
-                        <div class="p-2 lobby-nav-button text-center">
+                        <div class="p-2 lobby-nav-button text-center" [ngClass]="location=='assistenza'? 'bg-warning':''">
                             <button class="btn" (click)="location='assistenza'">
                                 Assistenza
                             </button>
