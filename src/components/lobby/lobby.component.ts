@@ -24,7 +24,6 @@ export class LobbyComponent implements OnInit {
   location: string = 'giochi';
   constructor(private authService: AuthService, private modeService: ModeService) {
     this.user = this.authService.getUser()
-    console.log(this.user)
     this.modeService.mode.subscribe((data: string) => {
       this.mode = data;
     })
