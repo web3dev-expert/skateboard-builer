@@ -58,7 +58,7 @@ export class GiochiComponent implements OnInit {
          this.url='';
          this.selectedGame=null;
          this.selectedImage=null;
-         this.getGames()
+         this.getGames();
         }
       }).catch((error: any) => {
         console.error(error.Error)
