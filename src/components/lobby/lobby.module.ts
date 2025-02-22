@@ -43,16 +43,6 @@ import { AuthInterceptor } from "../../core/auth.interceptor";
               ],
       providers: [
         provideHttpClient(),
-        {
-          provide: HTTP_INTERCEPTORS,
-          useClass: AuthInterceptor,
-          multi: true,
-        },
-        {
-          provide: HTTP_INTERCEPTORS,
-          useClass: ErrorInterceptor,
-          multi: true,
-        }
       ]
     })
 export class LobbyModule {}

@@ -10,7 +10,7 @@ export class GiochiService{
     private gioco:string = '/gioco'
 constructor(private http:HttpClient){}
 
-getGiochi(){
-    return this.http.get(environment.API_URL+this.gioco);
+getGiochi(isActive?:boolean){
+    return this.http.get(environment.API_URL+this.gioco+`?${isActive||true}`);
 }
 };
