@@ -42,7 +42,8 @@ export class AppComponent implements OnInit {
           if (user) {
             this.authService.setUser(user);
             this.authService.authenticateUser(true);
-            this.router.navigate([`/${location || 'home'}`])
+            this.authService.setToken(accessToken);
+            this.router.navigate([`/${location || 'home'}`]);
           }
         }
       })
