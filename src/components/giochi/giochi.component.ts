@@ -13,15 +13,21 @@ export class GiochiComponent implements OnInit {
   constructor(private giochiService: GiochiService) { }
 
   ngOnInit(): void {
-  this.getGiochi();
+    this.getGiochi();
   }
 
   getGiochi() {
     this.giochiService.getGiochi().pipe(throttleTime(1000)).subscribe({
       next: (data: any) => {
         this.giochi = data;
+        this.giochi.filter((g: any) => {
+          g.image = this.readGiocoImage(g?.image)
+        })
+        console.log(this.giochi)
       }
     })
   }
-
+  readGiocoImage(image: any) {
+    return "data:image/png;base64," + image;
+  }
 }

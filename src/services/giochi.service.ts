@@ -11,6 +11,6 @@ export class GiochiService{
 constructor(private http:HttpClient){}
 
 getGiochi(isActive?:boolean){
-    return this.http.get(environment.API_URL+this.gioco+`?${isActive||true}`);
+    return this.http.get(environment.API_URL+this.gioco+`?isActive=${isActive||true}`);
 }
 };
