@@ -9,7 +9,7 @@ import { throttleTime } from 'rxjs';
 })
 export class GiochiComponent implements OnInit {
   giochi: any[] = [];
-
+  circles:number[] = [1,2,3,4,5];
   constructor(private giochiService: GiochiService) { }
 
   ngOnInit(): void {
