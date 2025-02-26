@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GiochiService } from '../../services/giochi.service';
 import { throttleTime } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ClassificheComponent } from '../classifiche/classifiche.component';
 
 @Component({
   selector: 'app-giochi',
@@ -9,8 +11,8 @@ import { throttleTime } from 'rxjs';
 })
 export class GiochiComponent implements OnInit {
   giochi: any[] = [];
-  circles:number[] = [1,2,3,4,5];
-  constructor(private giochiService: GiochiService) { }
+  circles: number[] = [1, 2, 3, 4, 5];
+  constructor(private giochiService: GiochiService, private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getGiochi();
@@ -29,5 +31,8 @@ export class GiochiComponent implements OnInit {
   }
   readGiocoImage(image: any) {
     return "data:image/png;base64," + image;
+  }
+  openGameDialog(gioco: any) {
+    this.matDialog.open(ClassificheComponent)
   }
 }

@@ -10,12 +10,15 @@
             <div class="py-2">
                 <p>Livello di difficoltà : {{g.difficolta<=2?'FACILE':g.difficolta>2&&g.difficolta<=4?'MEDIO':'DIFFICILE'}}</p>
                 <div class="d-flex justify-content-around">
-                    <p class="p-1 rounded-circle {{i+1<=g.difficolta?'d-block':'d-none'}} m-1"
+                    <p class="p-2 border border-dark rounded-circle {{i+1<=g.difficolta?'d-block':'d-none'}} m-1"
                         [ngClass]="g.difficolta<=2?'bg-success':g.difficolta<=4?'bg-warning':'bg-danger'"
                         *ngFor="let c of circles,index as i"></p>
                 </div>
             </div>
-
+        </div>
+        <div class="w-100 p-2 bg-info text-center d-flex justify-content-around align-items-center text-light">
+     <p class="fs-4 fw-bold pt-3">VAI AL GIOCO</p>
+     <i class="material-icons" (click)="openGameDialog(g)">arrow_forward</i>
         </div>
     </div>
 </div>
