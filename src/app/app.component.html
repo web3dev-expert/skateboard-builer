@@ -15,8 +15,8 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<div class="sticky-container p-0 m-0" [ngClass]="mode=='light'?'bg-transparent':'bg-personal'">
-    <app-nav class="sticky-top"></app-nav>
+<div class="sticky-container p-0 m-0 w-100" [ngClass]="mode=='light'?'bg-transparent':'bg-personal'">
+    <app-nav class="sticky-top w-100"></app-nav>
 </div>
 <button class="btn rounded-circle p-3" *ngIf="showGoTop" (click)="goUp()">
     <img src="assets/home/icons/up-arrow.png" alt="arrow_up"
