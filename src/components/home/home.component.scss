@@ -12,7 +12,9 @@ h2,
 h1 {
   font-size: 80px;
 }
-
+.personal-height-p{
+height: 200px;
+}
 .first-background {
   background-image: url('../../../public/assets/home/retro.jpeg');
   background-size: cover;
@@ -210,6 +212,24 @@ h1 {
     0 0 2.8rem #000000,
     inset 0 0 1.3rem #000000
 }
+.flip-1{box-shadow: 0 0 .2rem #fff,
+  0 0 .2rem #fff,
+  0 0 2rem #0d62ff,
+  0 0 0.8rem #0d62ff,
+  0 0 2.8rem #0d62ff,
+  inset 0 0 1.3rem #0d62ff,}
+.flip-2{box-shadow: 0 0 .2rem #fff,
+  0 0 .2rem #fff,
+  0 0 2rem #ffee01,
+  0 0 0.8rem #ffee01,
+  0 0 2.8rem #ffee01,
+  inset 0 0 1.3rem #ffee01,}
+.flip-3{box-shadow: 0 0 .2rem #fff,
+  0 0 .2rem #fff,
+  0 0 2rem #fa0000,
+  0 0 0.8rem #fa0000,
+  0 0 2.8rem #fa0000,
+  inset 0 0 1.3rem #fa0000,}
 
 .flip-card-back {
   transform: rotateY(180deg);
