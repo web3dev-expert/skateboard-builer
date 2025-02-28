@@ -61,7 +61,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @HostListener('window:resize', ['event'])
   onResize(event?: any) {
-    let father = document.querySelector('.cards-container')
+    let father = document.querySelector('.cards-container');
+    let father1 = document.getElementsByClassName('rotate-ts')!;
     Array.from(father?.children!).forEach((e:any,a:any)=>{
      if (window.innerWidth <= 400) {
       e.children[0].style="left:0;"
@@ -69,6 +70,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       a==0||a==2?e.children[0].style="left:-8%;":e.children[0].style="left:10%;"
     }
      })
-    
+     Array.from(father1).forEach((e:Element)=>{
+      let div = e as HTMLDivElement;
+      console.log(div)
+      if (window.innerWidth <= 400) {
+       div.classList.add("rotate-ts-important")
+     }else{
+      div.classList.remove("rotate-ts-important")
+    }
+      })
   }
 }

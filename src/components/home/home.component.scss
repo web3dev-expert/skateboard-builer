@@ -764,7 +764,7 @@ h1 {
     left: -10%;
     border-bottom-right-radius: 50%;
     border-top-right-radius: 50%;
-
+    transform: rotate(5deg);
     p {
       padding-left: 13%;
     }
@@ -772,21 +772,23 @@ h1 {
 
   .bg-info {
     margin: auto;
-    width: 350px;
-    height: 350px;
+    width: 276px;
+    height: 276px;
+    bottom: -10%;
     img{
-      height: 330px;
-      width: 330px;
+      height: 95%;
+      width: 95%;
     }
   }
 
   .bg-success {
     margin: auto;
-    width: 350px;
-    height: 350px;
+    width: 276px;
+    height: 276px;
+    top:10%;
     img{
-      height: 330px;
-      width: 330px;
+      height: 95%;
+      width: 95%;
     }
   }
 
@@ -794,9 +796,13 @@ h1 {
     right: -10%;
     border-bottom-left-radius: 50%;
     border-top-left-radius: 50%;
+    transform: rotate(-5deg);
 
     p {
       padding-right: 10%;
     }
   }
+}
+.rotate-ts-important{
+transform: rotate(0)!important;
 }
