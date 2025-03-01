@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { catchError, Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { ShowErrorService } from '../services/show-error.service';
+import { FormsService } from '../services/forms.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -12,7 +13,8 @@ export class ErrorInterceptor implements HttpInterceptor {
     private toastr: ToastrService,
     private authService: AuthService,
     private router: Router,
-    private showError: ShowErrorService
+    private showError: ShowErrorService,
+    private formsService: FormsService
   ) { }
   intercept(
     request: HttpRequest<any>,
@@ -32,6 +34,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 err.error.message ==
                 'Il token non è valido.')
             ) {
+              this.formsService.requestLoginCode.next("");
               let refreshToken = localStorage.getItem('refreshToken');
               let location = localStorage.getItem('location');
               if (refreshToken) {
@@ -69,8 +72,16 @@ export class ErrorInterceptor implements HttpInterceptor {
               err.error.message &&
               err.error.message ==
               'Il refresh token non è valido. Accedi nuovamente.') {
+                this.formsService.requestLoginCode.next("");
               localStorage.clear()
-            } else {
+            }else if(err.error &&
+              err.error.message &&
+              err.error.message ==
+              "Abbiamo inviato un codice alla mail da te indicata. Inseriscilo qui sotto.") {
+                this.formsService.requestLoginCode.next(err.error.message);
+                this.toastr.show("Abbiamo inviato un codice alla mail da te indicata. Inseriscilo qui sotto.");
+              }else {
+                this.formsService.requestLoginCode.next("");
               let error = null;
               if (null != err?.error?.messageList && err?.error?.messageList.length > 0) {
                 error = err?.error?.messageList[0];

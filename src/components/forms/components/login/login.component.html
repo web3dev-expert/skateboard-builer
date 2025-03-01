@@ -66,16 +66,19 @@
                         Inserisci un valore di almeno 8 caratteri.
                     </p>
                     <button class="btn my-3 btn-warning border" (click)="login()">Login</button>
+                    <p class="fs-4 text-success py-3" *ngIf="showInsertCode">Inserisci qui sotto il codice inviato per mail</p>
                 </form>
-                <app-spinner [width]="150" [height]="150" [baseColor]="'green'" *ngIf="showSpinner"></app-spinner>
-                <div *ngIf="!showSpinner" class="position-absolute box-1">
-                </div>
-                <div *ngIf="!showSpinner" class="position-absolute box-2">
-                </div>
-                <div *ngIf="!showSpinner" class="position-absolute box-3">
-                </div>
-                <div *ngIf="!showSpinner" class="position-absolute box-4" >
-                </div>
+                <app-spinner [width]="150" [height]="150" [baseColor]="'green'" *ngIf="showSpinner else boxes"></app-spinner>
+                <ng-template #boxes>
+                    <div class="position-absolute box-1">
+                    </div>
+                    <div class="position-absolute box-2">
+                    </div>
+                    <div class="position-absolute box-3">
+                    </div>
+                    <div class="position-absolute box-4" >
+                    </div>
+                </ng-template>
             </div>
         </div>
     </div>
