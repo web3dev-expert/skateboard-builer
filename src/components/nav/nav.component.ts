@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
 import { ModeService } from '../../services/mode.service';
+import { User } from '../../interfaces/interfaces';
 
 @Component({
   selector: 'app-nav',
@@ -14,15 +15,19 @@ import { ModeService } from '../../services/mode.service';
 export class NavComponent {
   isAuthenticatedUser: boolean = false;
   mode: string = 'light';
+  user : User | null = null;
   constructor(private authService: AuthService, private router: Router, private modeService: ModeService) {
     this.authService.isAuthenticatedUser.subscribe((bool: boolean) => {
       this.isAuthenticatedUser = bool;
+      this.user = this.authService.getUser()
+      console.log(this.user)
     })
     this.modeService.mode.subscribe((mood: string) => {
       this.mode = mood;
     })
   }
   logout() {
+    this.authService.setUser(null);
     this.authService.authenticateUser(false);
     localStorage.clear();
   }

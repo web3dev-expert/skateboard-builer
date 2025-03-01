@@ -72,7 +72,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
      })
      Array.from(father1).forEach((e:Element)=>{
       let div = e as HTMLDivElement;
-      console.log(div)
       if (window.innerWidth <= 400) {
        div.classList.add("rotate-ts-important")
      }else{

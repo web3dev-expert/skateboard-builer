@@ -806,3 +806,12 @@ h1 {
 .rotate-ts-important{
 transform: rotate(0)!important;
 }
+.cube{
+  transform: rotate(45deg);
+  transition: 1s;
+  &:hover{
+    transform: scale(1.1);
+    transition: 1s;
+    transform: rotate(-45deg);
+  }
+}
