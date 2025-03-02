@@ -6,24 +6,33 @@
                     LIGHT MODE ☀️
                 </button>
                 <button class="btn text-dark dark fs-4" (click)="updateMode('dark')" *ngIf="mode=='light'">
-                 DARK MODE 🌙
+                    DARK MODE 🌙
                 </button>
             </div>
             <div class="col-md-4">
-                <button class="btn fs-4" [ngClass]="mode!='light'?'text-light':'text-dark'"  [routerLink]="'/home'">HOME</button>
+                <button class="btn fs-4" [ngClass]="mode!='light'?'text-light':'text-dark'"
+                    [routerLink]="'/home'">HOME</button>
             </div>
             <div class="col-md-4">
-                <button class="btn fs-4" *ngIf="isAuthenticatedUser" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/lobby'">LOBBY</button>
+                <button class="btn fs-4" *ngIf="isAuthenticatedUser" [ngClass]="mode!='light'?'text-light':'text-dark'"
+                    [routerLink]="'/lobby'">LOBBY</button>
             </div>
             <div class="col-md-4" *ngIf="!isAuthenticatedUser;else logOut">
-                <button class="btn fs-4" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/forms'">LOGIN</button>
+                <button class="btn fs-4" [ngClass]="mode!='light'?'text-light':'text-dark'"
+                    [routerLink]="'/forms'">LOGIN</button>
             </div>
             <ng-template #logOut>
                 <div class="col-md-4" *ngIf="isAuthenticatedUser">
-                    <button class="btn fs-4" (click)="logout()" [ngClass]="mode!='light'?'text-light':'text-dark'" [routerLink]="'/home'">LOGOUT</button>
+                    <div class="d-flex flex-column justify-content-center align-items-center" *ngIf="(null&&undefined)!=user">
+                    <img src="{{user.immagineProfilo}}" alt="immagine_profilo"
+                        class="border rounded-circle immagine-profilo">
+                    <p>{{user.nome + " " + user.cognome}}</p>
+                </div>
+                    <button class="btn fs-4" (click)="logout()" [ngClass]="mode!='light'?'text-light':'text-dark'"
+                        [routerLink]="'/home'">LOGOUT</button>
                 </div>
             </ng-template>
+            
         </div>
     </div>
-    <div *ngIf="(null&&undefined)!=user">Raffaele</div>
 </nav>
