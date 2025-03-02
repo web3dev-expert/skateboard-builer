@@ -4,11 +4,13 @@ import { Router, RouterLink } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
 import { ModeService } from '../../services/mode.service';
 import { User } from '../../interfaces/interfaces';
+import {MatMenuModule} from '@angular/material/menu';
+
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [NgIf, NgClass, RouterLink],
+  imports: [NgIf, NgClass, RouterLink,MatMenuModule],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.scss'
 })

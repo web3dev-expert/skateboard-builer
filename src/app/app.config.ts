@@ -16,5 +16,5 @@ export const appConfig: ApplicationConfig = {
             withInterceptorsFromDi()
           ),
           { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-          { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }, provideAnimationsAsync()]
+          { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }, provideAnimationsAsync()],
 };

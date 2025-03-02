@@ -1,4 +1,4 @@
-<nav class="py-3 text-center" [ngClass]="mode=='light'?'bg-personal':'bg-personal-opposite'">
+<nav class="pt-3 text-center" [ngClass]="mode=='light'?'bg-personal':'bg-personal-opposite'">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-end mode">
@@ -23,16 +23,25 @@
             </div>
             <ng-template #logOut>
                 <div class="col-md-4" *ngIf="isAuthenticatedUser">
-                    <div class="d-flex flex-column justify-content-center align-items-center" *ngIf="(null&&undefined)!=user">
-                    <img src="{{user.immagineProfilo}}" alt="immagine_profilo"
-                        class="border rounded-circle immagine-profilo">
-                    <p>{{user.nome + " " + user.cognome}}</p>
+                    <div class="d-flex flex-column justify-content-center align-items-center"
+                        *ngIf="(null&&undefined)!=user">
+                        <div class="w-auto mt-4" >
+                            <img src="{{user.immagineProfilo}}" alt="immagine_profilo"
+                                class="border rounded-circle immagine-profilo mat-trigger" (click)="p.click()">
+                            <p class="mat-trigger" [matMenuTriggerFor]="appMenu" #p>{{user.nome + " " + user.cognome}}</p>
+                        </div>
+                    </div>    
                 </div>
-                    <button class="btn fs-4" (click)="logout()" [ngClass]="mode!='light'?'text-light':'text-dark'"
-                        [routerLink]="'/home'">LOGOUT</button>
-                </div>
+                <mat-menu #appMenu="matMenu" class="overflow-hidden">
+                    <ng-template matMenuContent>
+                        <button mat-menu-item [ngClass]="mode!='light'?'text-light':'text-dark'">PROFILE</button>
+                        <button mat-menu-item class="btn fs-4" (click)="logout()"
+                            [ngClass]="mode!='light'?'text-light':'text-dark'"
+                            [routerLink]="'/home'">LOGOUT</button>
+                    </ng-template>
+                </mat-menu>       
             </ng-template>
-            
+
         </div>
     </div>
 </nav>
