@@ -1,10 +1,13 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { NavComponent } from '../components/nav/nav.component';
 import { FootComponent } from '../components/foot/foot.component';
 import { NgClass, NgIf } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { ModeService } from '../services/mode.service';
+import { Subscription } from 'rxjs';
+
+export let browserRefresh = false;
 
 @Component({
   selector: 'app-root',
@@ -17,8 +20,13 @@ export class AppComponent implements OnInit {
   title = 'game-front';
   showGoTop: boolean = false;
   mode: string = 'light';
-
+  subscription: Subscription;
   constructor(private modeService: ModeService, private authService: AuthService, private router: Router) {
+    this.subscription = router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        browserRefresh = !router.navigated;
+      }
+  });
     this.modeService.mode.subscribe((data: string) => {
       this.mode = data;
     })

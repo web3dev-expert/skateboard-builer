@@ -1,6 +1,7 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ModeService } from '../../services/mode.service';
+import { browserRefresh } from '../../app/app.component';
 
 @Component({
   selector: 'app-home',
@@ -28,8 +29,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.onResize()
-    localStorage.removeItem('location')
+    this.onResize();
+    if(!browserRefresh){
+      localStorage.setItem('location','')   
+    }
   }
   ngAfterViewInit(): void {
 
