@@ -48,14 +48,16 @@ export class ErrorInterceptor implements HttpInterceptor {
                       this.authService
                         .verifyAccessToken(tokens.accessToken)
                         .subscribe({
-                          next: (u: any) => {
-                            localStorage.setItem(
-                              'user',
-                              JSON.stringify(u)
-                            );
-                            this.authService.authenticateUser(true);
-                            this.authService.setUser(u);
-                            this.router.navigate([`${location || '/home'}`]);
+                          next: (user: any) => {
+                            if (user) {
+                              localStorage.setItem(
+                                'user',
+                                JSON.stringify(user)
+                              );
+                              this.authService.setUser(user);
+                              this.authService.authenticateUser(true);
+                              this.router.navigate([`/${location || 'home'}`]);
+                            }
                           },
                         });
                     }

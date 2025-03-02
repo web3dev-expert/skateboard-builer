@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
@@ -24,6 +24,7 @@ export class NavComponent {
     this.authService.isAuthenticatedUser.subscribe((bool: boolean) => {
       this.isAuthenticatedUser = bool;
       this.user = this.authService.getUser()
+      console.log(this.user)
     })
     this.modeService.mode.subscribe((mood: string) => {
       this.mode = mood;
