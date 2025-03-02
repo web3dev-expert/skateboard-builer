@@ -9,28 +9,26 @@ import { FormsLabelComponent } from "./components/forms-label/forms-label.compon
 import { ToastrModule } from 'ngx-toastr';
 import { provideHttpClient } from "@angular/common/http";
 import { SpinnerComponent } from "../../shared/components/spinner/spinner.component";
+import { SharedModule } from "../../shared/modules/shared.module";
 @NgModule({
       declarations: [
         FormsComponent,
         LoginComponent,
         SignupComponent,
         FormsLabelComponent,
-        SpinnerComponent
       ],
       imports: [
         CommonModule,
         ReactiveFormsModule,
         FormsRoutingModule,
-        ToastrModule.forRoot(),
+        SharedModule
       ],
       exports: [
         LoginComponent,
         SignupComponent,
         FormsLabelComponent,
-        SpinnerComponent
       ],
       providers: [
-        provideHttpClient()
       ]
     })
 export class FormsModule {}

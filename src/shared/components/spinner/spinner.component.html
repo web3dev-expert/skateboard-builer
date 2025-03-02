@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="spinner p-3 position-relative overflow-hidden">
             <div class="p-4 inside-spinner rounded-circle position-relative">
-                <div class="p-1 rounded-circle position-absolute" [ngStyle]="{'background-color': baseColor}" *ngFor="let n of points, index as i"
+                <div class="p-1 rounded-circle position-absolute" [style]="{'background-color': baseColor}" *ngFor="let n of points, index as i"
                 id="p-{{i+1}}">
                 </div>
             </div>

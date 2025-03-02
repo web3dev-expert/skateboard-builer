@@ -7,7 +7,6 @@ import { FormsService } from '../../../../services/forms.service';
 import { ShowErrorService } from '../../../../services/show-error.service';
 import { AuthService } from '../../../../services/auth.service';
 import { AuthGuard } from '../../../../core/auth.guard';
-import { Observer } from 'rxjs';
 
 @Component({
   selector: 'app-login',
