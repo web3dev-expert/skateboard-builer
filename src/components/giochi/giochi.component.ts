@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { GiochiService } from '../../services/giochi.service';
 import { throttleTime } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { ClassificheComponent } from '../classifiche/classifiche.component';
 import { GiocoPreviewComponent } from '../../shared/components/gioco-preview/gioco-preview.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-giochi',
@@ -13,10 +13,12 @@ import { GiocoPreviewComponent } from '../../shared/components/gioco-preview/gio
 export class GiochiComponent implements OnInit {
   giochi: any[] = [];
   circles: number[] = [1, 2, 3, 4, 5];
+  searchGiocoForm: FormGroup = new FormGroup({});
   constructor(private giochiService: GiochiService, private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getGiochi();
+    this.initializeGiocoForm()
   }
 
   getGiochi() {
@@ -39,5 +41,12 @@ export class GiochiComponent implements OnInit {
       width: '50%',
       height: '70%'})
     dialogRef.afterClosed().subscribe((data:any)=>{})
+  }
+
+  initializeGiocoForm(){
+    this.searchGiocoForm = new FormGroup({
+      nomeGioco: new FormControl(''),
+      difficolta: new FormControl('', [Validators.min(1),Validators.max(5)])
+    })
   }
 }

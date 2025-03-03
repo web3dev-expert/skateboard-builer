@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   mode: string = 'light';
   showSpinner: boolean = false;
   showInsertCode: boolean = false;
+  previousEmail:string = '';
   constructor(private toastr: ToastrService, private router: Router, private modeService: ModeService, private formsService: FormsService,
      private authService: AuthService, private authGuard: AuthGuard, private errorService: ShowErrorService
   ) {
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
     })
     this.formsService.requestLoginCode.subscribe((data:any)=>{
       if(data=="Abbiamo inviato un codice alla mail da te indicata. Inseriscilo qui sotto."){
+        this.previousEmail = this.loginForm.get('email')?.value;
         this.showInsertCode = true;
       }else{
         this.showInsertCode = false;
@@ -60,9 +62,10 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.isLoginFormSubmitted = true;
-    if(this.showInsertCode) this.toastr.show("Ti abbiamo già mandato un codice per mail, inseriscilo qui. E' valido per 2 minuti.")
+    if(this.showInsertCode&&this.previousEmail == this.loginForm.get('email')?.value) this.toastr.show("Ti abbiamo già mandato un codice per mail, inseriscilo qui. E' valido per 2 minuti.")
     else
     if (this.loginForm.get('email')!.valid&&this.loginForm.get('password')!.valid) {
+      this.showInsertCode = false;
       this.showSpinner = true;
       this.formsService.logIn(
         {

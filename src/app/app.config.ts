@@ -1,4 +1,4 @@
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection, ɵresetCompiledComponents } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -16,6 +16,6 @@ export const appConfig: ApplicationConfig = {
             withInterceptorsFromDi()
           ),
           { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-          { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }, provideAnimationsAsync()
+          { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }, provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync()
           ],
 };

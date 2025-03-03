@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from '../components/home/home.component';
-import { LobbyComponent } from '../components/lobby/lobby.component';
 import { GameFieldComponent } from '../components/game-field/game-field.component';
 import { NotFoundComponent } from '../components/not-found/not-found.component';
 import { AuthGuard } from '../core/auth.guard';

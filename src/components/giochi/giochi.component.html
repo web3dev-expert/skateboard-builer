@@ -1,24 +1,32 @@
 <div class="row">
-    <div class="col-lg-4 col-sm-6 p-2" *ngFor="let g of giochi, index as i">
-        <div class="p-2 game-card" (click)="openGameDialog(g)">
-            <div class="w-100">
-                <img src="{{g.image}}" class="w-100" alt="gioco_image">
-            </div>
-            <div class="text-center py-2 mb-2">
-                <h2>{{g.nomeGioco}}</h2>
-            </div>
-            <div class="py-2">
-                <p>Livello di difficoltà : {{g.difficolta<=2?'FACILE':g.difficolta>2&&g.difficolta<=4?'MEDIO':'DIFFICILE'}}</p>
-                <div class="d-flex justify-content-around">
-                    <p class="p-2 border border-dark rounded-circle {{i+1<=g.difficolta?'d-block':'d-none'}} m-1"
-                        [ngClass]="g.difficolta<=2?'bg-success':g.difficolta<=4?'bg-warning':'bg-danger'"
-                        *ngFor="let c of circles,index as i"></p>
+    <div class="col-md-4 text-center">
+        <h2>Ricerca fra i giochi</h2>
+     <form [formGroup]="searchGiocoForm"></form>
+    </div>
+    <div class="col-md-8 p-3">
+        <div class="w-100 m-auto p-4" *ngFor="let g of giochi, index as i">
+            <div class="p-2 game-card bg-light" (click)="openGameDialog(g)">
+                <div class="w-100 text-center">
+                    <img src="{{g.image}}" class="w-75 m-auto" alt="gioco_image">
+                </div>
+                <div class="text-center py-2 mb-2">
+                    <h2>{{g.nomeGioco}}</h2>
+                </div>
+                <div class="py-2">
+                    <p>Livello di difficoltà : {{g.difficolta<=2?'FACILE':g.difficolta>2&&g.difficolta<=4?'MEDIO':'DIFFICILE'}}</p>
+                    <div class="d-flex justify-content-around">
+                        <p class="p-2 border border-dark rounded-circle {{i+1<=g.difficolta?'d-block':'d-none'}} m-1"
+                            [ngClass]="g.difficolta<=2?'bg-success':g.difficolta<=4?'bg-warning':'bg-danger'"
+                            *ngFor="let c of circles,index as i"></p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="w-100 p-2 bg-info text-center d-flex justify-content-around align-items-center text-light button" (click)="openGameDialog(g)">
-     <p class="fs-4 fw-bold pt-3" [ngClass]="g.difficolta<=2?'text-success':g.difficolta<=4?'text-warning':'text-danger'">VAI AL GIOCO</p>
-     <i class="material-icons">arrow_forward</i>
+            <div class="w-100 p-2 bg-info text-center d-flex justify-content-around align-items-center text-light button" (click)="openGameDialog(g)">
+         <p class="fs-4 fw-bold pt-3" [ngClass]="g.difficolta<=2?'text-success':g.difficolta<=4?'text-warning':'text-danger'">VAI AL GIOCO</p>
+         <mat-icon fontIcon="menu"></mat-icon>
+         <span class="material-symbols-outlined">
+            menu
+            </span>            </div>
         </div>
     </div>
 </div>
