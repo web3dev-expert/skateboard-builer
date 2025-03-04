@@ -1,20 +1,25 @@
-<div class="container p-3">
     <div class="row">
+        <div mat-dialog-title class="col-md-12 text-center w-100 bg-info border border-bottom">
+            <h2 class="text-white">{{gioco?.nomeGioco}}</h2>
+        </div>
+        <mat-dialog-content class="col-md-12 p-3 text-center bg" style="background:url('{{gioco.image}}')">
+        <p class="fs-5 py-4">
+            {{gioco?.descrizione}}
+        </p>
+        <div class="py-3">
+            <p>Livello di difficoltà : {{gioco?.difficolta<=2?'FACILE':gioco?.difficolta>2&&gioco?.difficolta<=4?'MEDIO':'DIFFICILE'}}</p>
+            <div class="d-flex justify-content-around">
+                <p class="p-2 border border-dark rounded-circle {{i+1<=gioco.difficolta?'d-block':'d-none'}} m-1"
+                    [ngClass]="gioco.difficolta<=2?'bg-success':gioco.difficolta<=4?'bg-warning':'bg-danger'"
+                    *ngFor="let c of circles,index as i"></p>
+            </div>
+        </div>
+        </mat-dialog-content>
         <div class="col-md-12 text-end">
-            <mat-dialog-actions>
+            <mat-dialog-actions class="text-end">
                 <button class="btn text-danger" mat-dialog-close>Chiudi</button>
             </mat-dialog-actions>
         </div>
-        <div class="col-md-6 d-flex justify-content-between align-items-end" mat-dialog-title>
-            <img [src]="user?.immagineProfilo" alt="profile_image" class="profile-image border rounded-circle">
-            <p class="px-2 fw-bold">
-                {{user?.fullName}}
-            </p>
-        </div>
-        <div class="col-md-12" mat-dialog-content>
-
-        </div>
-        <div class="col-md-12" mat-dialog-actions>
+        <div class="col-md-12">
         </div>
     </div>
-</div>

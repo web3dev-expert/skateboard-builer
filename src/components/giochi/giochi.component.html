@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-4 col-sm-6 p-2" *ngFor="let g of giochi, index as i">
-        <div class="border p-2">
+        <div class="p-2 game-card" (click)="openGameDialog(g)">
             <div class="w-100">
                 <img src="{{g.image}}" class="w-100" alt="gioco_image">
             </div>

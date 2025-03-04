@@ -37,7 +37,7 @@ export class GiochiComponent implements OnInit {
     const dialogRef = this.matDialog.open(GiocoPreviewComponent,{
       data:gioco,
       width: '50%',
-      height: '50%'})
+      height: '70%'})
     dialogRef.afterClosed().subscribe((data:any)=>{})
   }
 }
