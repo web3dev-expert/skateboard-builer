@@ -3,6 +3,7 @@ import { GiochiService } from '../../services/giochi.service';
 import { throttleTime } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ClassificheComponent } from '../classifiche/classifiche.component';
+import { GiocoPreviewComponent } from '../../shared/components/gioco-preview/gioco-preview.component';
 
 @Component({
   selector: 'app-giochi',
@@ -33,6 +34,10 @@ export class GiochiComponent implements OnInit {
     return "data:image/png;base64," + image;
   }
   openGameDialog(gioco: any) {
-    this.matDialog.open(ClassificheComponent)
+    const dialogRef = this.matDialog.open(GiocoPreviewComponent,{
+      data:gioco,
+      width: '50%',
+      height: '50%'})
+    dialogRef.afterClosed().subscribe((data:any)=>{})
   }
 }

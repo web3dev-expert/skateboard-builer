@@ -24,7 +24,7 @@ import {MatIconModule} from '@angular/material/icon';
         StatisticheComponent,
         AssistenzaComponent,
         AboutUsComponent,
-        PunteggiComponent
+        PunteggiComponent,
       ],
       imports: [
         CommonModule,

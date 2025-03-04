@@ -29,11 +29,10 @@
                             *ngIf="!isLoadingLogoutOrRoute else isLoading">
                             <img src="{{user.immagineProfilo}}" alt="immagine_profilo"
                                 class="border rounded-circle immagine-profilo mat-trigger" (click)="p.click()">
-                            <button class="btn text-dark" [matMenuTriggerFor]="appMenu" #p>{{user.nome + " " +
-                                user.cognome}}</button>
+                            <button class="btn text-dark" [matMenuTriggerFor]="appMenu" #p>{{user.fullName}}</button>
                         </div>
                         <ng-template #isLoading>
-                            <app-spinner [width]="150" [height]="150" [baseColor]="'blue'"></app-spinner>
+                            <app-spinner [width]="100" [height]="100" [baseColor]="'blue'"></app-spinner>
                         </ng-template>
                     </div>
                 </div>

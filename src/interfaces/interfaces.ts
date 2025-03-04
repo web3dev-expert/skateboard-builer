@@ -32,4 +32,5 @@ nome: string
 password: string
 role: string, 
 username: string
+fullName: string
 }

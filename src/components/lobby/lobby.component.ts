@@ -22,6 +22,7 @@ export class LobbyComponent implements OnInit {
   toggle: boolean = false;
   mode: string = 'light';
   location: string = 'giochi';
+  showMenu: boolean = false;
   constructor(private authService: AuthService, private modeService: ModeService) {
     this.user = this.authService.getUser()
     this.modeService.mode.subscribe((data: string) => {

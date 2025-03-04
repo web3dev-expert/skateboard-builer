@@ -46,8 +46,8 @@ export class SpinnerComponent implements OnInit {
     this.div.style.height = this.height < 140 ? '140px' : this.height > 350 ? '350px' : `${this.height}px`;
 
     this.insideSpinner = document.getElementsByClassName('inside-spinner')[0] as HTMLDivElement;
-    this.insideSpinner.style.width = this.width < 50 ? '40px' : this.width > 350 ? '250px' : `${this.width - 50}px`;
-    this.insideSpinner.style.height = this.height < 50 ? '40px' : this.height > 350 ? '250px' : `${this.height - 50}px`;
+    this.insideSpinner.style.width = this.width < 50 ? '40px' : this.width > 350 ? '250px' : `${this.width - 10}px`;
+    this.insideSpinner.style.height = this.height < 50 ? '40px' : this.height > 350 ? '250px' : `${this.height - 10}px`;
 
   }
 

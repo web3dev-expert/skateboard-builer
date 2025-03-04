@@ -24,7 +24,6 @@ export class NavComponent {
     this.authService.isAuthenticatedUser.subscribe((bool: boolean) => {
       this.isAuthenticatedUser = bool;
       this.user = this.authService.getUser()
-      console.log(this.user)
     })
     this.modeService.mode.subscribe((mood: string) => {
       this.mode = mood;

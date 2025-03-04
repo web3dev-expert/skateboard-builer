@@ -16,9 +16,9 @@
                 </div>
             </div>
         </div>
-        <div class="w-100 p-2 bg-info text-center d-flex justify-content-around align-items-center text-light">
-     <p class="fs-4 fw-bold pt-3">VAI AL GIOCO</p>
-     <i class="material-icons" (click)="openGameDialog(g)">arrow_forward</i>
+        <div class="w-100 p-2 bg-info text-center d-flex justify-content-around align-items-center text-light button" (click)="openGameDialog(g)">
+     <p class="fs-4 fw-bold pt-3" [ngClass]="g.difficolta<=2?'text-success':g.difficolta<=4?'text-warning':'text-danger'">VAI AL GIOCO</p>
+     <i class="material-icons">arrow_forward</i>
         </div>
     </div>
 </div>
