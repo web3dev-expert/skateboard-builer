@@ -9,16 +9,6 @@ h2,
 h1 {
   font-size: 80px;
 }
-.col-lg-4,.col-md-6 {
-    div{
-       cursor: pointer;
-
-    img {
-        height: auto;
-    } 
-    }
-    
-}
 
 .btn {
     :focus {
@@ -32,4 +22,9 @@ h1 {
 }
 .game-card{
     border: 2px solid gray;
+}
+.row{
+    .col-md-4,.col-md-8{
+        max-height: 600px;
+    }
 }

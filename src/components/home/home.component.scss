@@ -747,6 +747,8 @@ h1 {
 
 .upper-div {
   top: -50px;
+  border-left: 3px solid red;
+  border-right: 3px solid red;
 }
 
 .trasversal-row-reverse {
@@ -815,5 +817,12 @@ transform: rotate(0)!important;
     transform: rotate(-45deg);
     border:3px solid purple!important;
     background-color: rgb(230, 230, 230)!important;
+  }
+}
+.home-container{
+  .row{
+    width: 95%;
+    margin: auto;
+    text-align: center;
   }
 }
