@@ -742,6 +742,8 @@ h1 {
 .trasversal-row {
   border-top-left-radius: 20%;
   border-top-right-radius: 20%;
+  min-width:103%;
+  left: -1%;
   transform: rotate(2deg);
 }
 
@@ -749,6 +751,8 @@ h1 {
   top: -50px;
   border-left: 3px solid red;
   border-right: 3px solid red;
+  min-width:103%;
+  left: -1%;
 }
 
 .trasversal-row-reverse {
@@ -756,6 +760,8 @@ h1 {
   border-bottom-left-radius: 20%;
   border-bottom-right-radius: 20%;
   transform: rotate(2deg);
+  min-width:103%;
+  left: -1%;
 }
 
 .home-bottom {
@@ -820,9 +826,13 @@ transform: rotate(0)!important;
   }
 }
 .home-container{
-  .row{
+  .row,.row-hidden{
     width: 95%;
     margin: auto;
     text-align: center;
+  }
+  .row-hidden{
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 }
