@@ -46,7 +46,9 @@ export class GiochiComponent implements OnInit {
   initializeGiocoForm(){
     this.searchGiocoForm = new FormGroup({
       nomeGioco: new FormControl(''),
-      difficolta: new FormControl('', [Validators.min(1),Validators.max(5)])
+      difficolta: new FormControl('', [Validators.min(1),Validators.max(5)]),
+      punteggioRecensioniDa: new FormControl('',[Validators.min(1),Validators.max(4)]),
+      punteggioRecensioniA: new FormControl('',[Validators.min(2),Validators.max(5)])
     })
   }
 }
