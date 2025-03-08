@@ -4,6 +4,7 @@ import { throttleTime } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { GiocoPreviewComponent } from '../../shared/components/gioco-preview/gioco-preview.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-giochi',
@@ -14,7 +15,9 @@ export class GiochiComponent implements OnInit {
   giochi: any[] = [];
   circles: number[] = [1, 2, 3, 4, 5];
   searchGiocoForm: FormGroup = new FormGroup({});
-  constructor(private giochiService: GiochiService, private matDialog: MatDialog) { }
+  points:number[] = [1,2,3,4];
+  difficulties:number[] = [1,2,3,4,5];
+  constructor(private giochiService: GiochiService, private matDialog: MatDialog, private toastr:ToastrService) { }
 
   ngOnInit(): void {
     this.getGiochi();
@@ -28,7 +31,6 @@ export class GiochiComponent implements OnInit {
         this.giochi.filter((g: any) => {
           g.image = this.readGiocoImage(g?.image)
         })
-        console.log(this.giochi)
       }
     })
   }
@@ -46,9 +48,21 @@ export class GiochiComponent implements OnInit {
   initializeGiocoForm(){
     this.searchGiocoForm = new FormGroup({
       nomeGioco: new FormControl(''),
-      difficolta: new FormControl('', [Validators.min(1),Validators.max(5)]),
-      punteggioRecensioniDa: new FormControl('',[Validators.min(1),Validators.max(4)]),
-      punteggioRecensioniA: new FormControl('',[Validators.min(2),Validators.max(5)])
+      difficolta: new FormControl(''),
+      punteggioRecensioniDa: new FormControl('')
     })
+  }
+
+  searchGiochi(){
+    let body:{nome:string,difficolta:number,punteggio:number} = {
+      nome: this.searchGiocoForm.get('nomeGioco')?.value,
+      difficolta: this.searchGiocoForm.get('difficolta')?.value,
+      punteggio: this.searchGiocoForm.get('punteggioRecensioniDa')?.value
+    }
+      this.giochiService.searchGiochi(body).subscribe({
+        next:(data:any)=>{
+          console.log(data)
+        }
+      })
   }
 }
