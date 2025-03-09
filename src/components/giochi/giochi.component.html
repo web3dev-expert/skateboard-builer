@@ -19,9 +19,9 @@
     </div>
     <div class="col-md-8 p-3 overflow-auto" id="scroller-pagination" (scroll)="onScroll($event)">
         <div class="w-100 m-auto p-4" *ngFor="let g of giochi, index as i">
-            <div class="p-2 game-card bg-white" (click)="openGameDialog(g)">
+            <div class="p-2 game-card bg-white" (click)="openGameDialog(g)" *ngIf="!isLoading">
                 <div class="w-100 text-center">
-                    <img src="{{g?.image}}" class="w-75 m-auto" alt="gioco_image">
+                    <img src="{{g?.image}}" class="w-50 m-auto" alt="gioco_image">
                 </div>
                 <div class="text-center py-2 mb-2">
                     <h2>{{g.nomeGioco}}</h2>
@@ -32,7 +32,7 @@
                         <div *ngIf="i<=1" [ngClass]="i==1||g?.recensione?.length==1?'':'border-bottom'">
                             <div class="d-flex">
                                 <i class="bi bi-star-fill" *ngFor="let vp of validationPoints, index as i"
-                                [ngClass]="i+1<=r?.punteggio?'textg-warning':'d-none'"></i>
+                                    [ngClass]="i+1<=r?.punteggio?'textg-warning':'d-none'"></i>
                             </div>
                             <div>
                                 <p>
@@ -46,8 +46,9 @@
                     </div>
                 </div>
                 <div class="border my-2">
-                    <p class="bg-light border-bottom p-2 fs-4">Livello di difficoltà : {{g.difficolta<=2?'FACILE':g.difficolta>2&&g.difficolta
-                            <=4?'MEDIO':'DIFFICILE'}}</p>
+                    <p class="bg-light border-bottom p-2 fs-4">Livello di difficoltà : {{g.difficolta
+                        <=2?'FACILE':g.difficolta>2&&g.difficolta
+                            <=4?'MEDIO':'DIFFICILE'}} </p>
                                 <div class="d-flex justify-content-around">
                                     <p class="p-2 border border-dark rounded-circle {{i+1<=g.difficolta?'d-block':'d-none'}} m-1"
                                         [ngClass]="g.difficolta<=2?'bg-success':g.difficolta<=4?'bg-warning':'bg-danger'"
@@ -56,12 +57,13 @@
                 </div>
             </div>
             <div class="w-100 p-2 bg-info text-center d-flex justify-content-around align-items-center text-light button"
-                (click)="openGameDialog(g)">
+                (click)="openGameDialog(g)" *ngIf="!isLoading">
                 <p class="fs-4 fw-bold pt-3"
                     [ngClass]="g.difficolta<=2?'text-success':g.difficolta<=4?'text-warning':'text-danger'">VAI AL GIOCO
                 </p>
                 <i class="bi bi-arrow-up-right h3 p-3 " title="Vai al gioco"></i>
             </div>
+            <app-skeleton *ngIf="isLoading"></app-skeleton>
         </div>
         <div class="w-100 d-flex justify-content-center align-items-center">
             <app-spinner *ngIf="isLoading" class="m-auto"></app-spinner>
