@@ -28,6 +28,7 @@ export class GiochiComponent implements OnInit {
     punteggio: this.searchGiocoForm.get('punteggioRecensioniDa')?.value
   };
   isLoading:boolean = false;
+  maxPages:number = 1;
   constructor(private giochiService: GiochiService, private matDialog: MatDialog, private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
@@ -38,12 +39,11 @@ export class GiochiComponent implements OnInit {
   getGiochi(body: { nome: string, difficolta: number, punteggio: number }, isActive?: boolean) {
     this.giochiService.searchGiochi(body, this.page, this.size, this.orderBy, this.sortOrder, isActive).pipe(throttleTime(1000)).subscribe({
       next: (data: any) => {
-        console.log(data.content)
         data?.content?.map((g: any) => { this.giochi.push(g) })
-        console.log(this.giochi)
         this.giochi.filter((g: any) => {
           g.image = this.readGiocoImage(g?.image)
         })
+        this.maxPages = data.totalPages;
         this.isLoading = false;
       }
     })
@@ -75,7 +75,7 @@ export class GiochiComponent implements OnInit {
       difficolta: this.searchGiocoForm.get('difficolta')?.value,
       punteggio: this.searchGiocoForm.get('punteggioRecensioniDa')?.value
     };
-    this.getGiochi(this.body);
+    if(this.page<this.maxPages) this.getGiochi(this.body);
   }
   onScroll(event: any) {
     if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight-5 && !this.isLoading) {
