@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-not-found',
@@ -7,6 +7,9 @@ import { Component } from '@angular/core';
   templateUrl: './not-found.component.html',
   styleUrl: './not-found.component.scss'
 })
-export class NotFoundComponent {
+export class NotFoundComponent implements OnInit{
+  ngOnInit(): void {
+    localStorage.setItem('location', 'not-found')
+  }
 
 }

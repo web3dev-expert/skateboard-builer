@@ -18,6 +18,7 @@ export class GiochiComponent implements OnInit {
   searchGiocoForm: FormGroup = new FormGroup({});
   points: number[] = [1, 2, 3, 4];
   difficulties: number[] = [1, 2, 3, 4];
+  validationPoints:number[] = [1, 2, 3, 4,5];
   page: number = 0;
   size: number = 1;
   orderBy: string = "id";

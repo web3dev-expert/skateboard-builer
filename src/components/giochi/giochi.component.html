@@ -1,44 +1,67 @@
 <div class="row">
     <div class="col-md-4 text-center overflow-hidden">
         <h2>Ricerca fra i giochi</h2>
-     <form [formGroup]="searchGiocoForm" class="text-center">
-        <label for="nomeGioco" class="py-1">Nome completo o in parte</label>
-        <input type="text" class="form-control" name="nomeGioco" formControlName="nomeGioco">
-        <label for="difficolta" class="py-1">Difficoltà maggiore di</label>
-        <select class="form-select" name="difficolta" formControlName="difficolta">
-            <option value=""></option>
-            <option value="{{d}}" *ngFor="let d of difficulties">{{d}}</option>
-        </select>
-        <label for="punteggio" class="py-1">Punteggio recensioni a partire da</label>
-        <select class="form-select" name="punteggio" formControlName="punteggioRecensioniDa">
-            <option [value]=""></option>
-            <option value="{{p}}" *ngFor="let p of points">{{p}}</option>
-        </select>
-        <button type="button" class="btn btn-success mt-3" (click)="searchGiochi()">Ricerca</button>
-     </form>
+        <form [formGroup]="searchGiocoForm" class="text-center">
+            <label for="nomeGioco" class="py-1">Nome completo o in parte</label>
+            <input type="text" class="form-control" name="nomeGioco" formControlName="nomeGioco">
+            <label for="difficolta" class="py-1">Difficoltà maggiore di</label>
+            <select class="form-select" name="difficolta" formControlName="difficolta">
+                <option value=""></option>
+                <option value="{{d}}" *ngFor="let d of difficulties">{{d}}</option>
+            </select>
+            <label for="punteggio" class="py-1">Punteggio recensioni a partire da</label>
+            <select class="form-select" name="punteggio" formControlName="punteggioRecensioniDa">
+                <option [value]=""></option>
+                <option value="{{p}}" *ngFor="let p of points">{{p}}</option>
+            </select>
+            <button type="button" class="btn btn-success mt-3" (click)="searchGiochi()">Ricerca</button>
+        </form>
     </div>
     <div class="col-md-8 p-3 overflow-auto" id="scroller-pagination" (scroll)="onScroll($event)">
         <div class="w-100 m-auto p-4" *ngFor="let g of giochi, index as i">
-            <div class="p-2 game-card bg-light" (click)="openGameDialog(g)">
+            <div class="p-2 game-card bg-white" (click)="openGameDialog(g)">
                 <div class="w-100 text-center">
                     <img src="{{g?.image}}" class="w-75 m-auto" alt="gioco_image">
                 </div>
                 <div class="text-center py-2 mb-2">
                     <h2>{{g.nomeGioco}}</h2>
                 </div>
-                <div class="py-2">
-                    <p>Livello di difficoltà : {{g.difficolta<=2?'FACILE':g.difficolta>2&&g.difficolta<=4?'MEDIO':'DIFFICILE'}}</p>
-                    <div class="d-flex justify-content-around">
-                        <p class="p-2 border border-dark rounded-circle {{i+1<=g.difficolta?'d-block':'d-none'}} m-1"
-                            [ngClass]="g.difficolta<=2?'bg-success':g.difficolta<=4?'bg-warning':'bg-danger'"
-                            *ngFor="let c of circles,index as i"></p>
+                <div class="border">
+                    <p class="bg-light border-bottom p-1 fs-4">Recensioni ({{g?.recensione?.length}}) : </p>
+                    <div *ngFor="let r of g?.recensione, index as i" class="p-2">
+                        <div *ngIf="i<=1" [ngClass]="i==1||g?.recensione?.length==1?'':'border-bottom'">
+                            <div class="d-flex">
+                                <i class="bi bi-star-fill" *ngFor="let vp of validationPoints, index as i"
+                                [ngClass]="i+1<=r?.punteggio?'text-warning':'d-none'"></i>
+                            </div>
+                            <div>
+                                <p>
+                                    {{r?.user?.fullName}} - {{r?.createdAt}}
+                                </p>
+                                <p>
+                                    {{r?.commento}}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="border my-2">
+                    <p class="bg-light border-bottom p-2 fs-4">Livello di difficoltà : {{g.difficolta<=2?'FACILE':g.difficolta>2&&g.difficolta
+                            <=4?'MEDIO':'DIFFICILE'}}</p>
+                                <div class="d-flex justify-content-around">
+                                    <p class="p-2 border border-dark rounded-circle {{i+1<=g.difficolta?'d-block':'d-none'}} m-1"
+                                        [ngClass]="g.difficolta<=2?'bg-success':g.difficolta<=4?'bg-warning':'bg-danger'"
+                                        *ngFor="let c of circles,index as i"></p>
+                                </div>
+                </div>
             </div>
-            <div class="w-100 p-2 bg-info text-center d-flex justify-content-around align-items-center text-light button" (click)="openGameDialog(g)">
-         <p class="fs-4 fw-bold pt-3" [ngClass]="g.difficolta<=2?'text-success':g.difficolta<=4?'text-warning':'text-danger'">VAI AL GIOCO</p>
-         <mat-icon>grade</mat-icon>
-        </div>
+            <div class="w-100 p-2 bg-info text-center d-flex justify-content-around align-items-center text-light button"
+                (click)="openGameDialog(g)">
+                <p class="fs-4 fw-bold pt-3"
+                    [ngClass]="g.difficolta<=2?'text-success':g.difficolta<=4?'text-warning':'text-danger'">VAI AL GIOCO
+                </p>
+                <i class="bi bi-arrow-up-right h3 p-3 " title="Vai al gioco"></i>
+            </div>
         </div>
     </div>
 </div>

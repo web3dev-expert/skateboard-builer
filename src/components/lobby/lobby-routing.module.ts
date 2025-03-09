@@ -1,11 +1,21 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { LobbyComponent } from "./lobby.component";
+import { ProfileComponent } from "../profile/profile.component";
+import { AuthGuard } from "../../core/auth.guard";
 
 export const routes: Routes = [
     {
         path: '',
-        component: LobbyComponent
+        component: LobbyComponent,
+        children: [
+            { path: 'lobby/profile', component: ProfileComponent}
+        ]
+    },
+    {
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate:[AuthGuard]
     }
 ];
 @NgModule({

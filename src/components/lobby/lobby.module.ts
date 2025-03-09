@@ -14,6 +14,7 @@ import { PunteggiComponent } from "../punteggi/punteggi.component";
 import { LobbyRoutingModule } from "./lobby-routing.module";
 import { MatDialogModule } from "@angular/material/dialog"
 import {MatIconModule} from '@angular/material/icon';
+import { RouterModule } from "@angular/router";
 
 @NgModule({
       declarations: [
@@ -27,12 +28,13 @@ import {MatIconModule} from '@angular/material/icon';
         PunteggiComponent,
       ],
       imports: [
+        LobbyRoutingModule,
         CommonModule,
         ReactiveFormsModule,
         ToastrModule.forRoot(),
-        LobbyRoutingModule,
         MatDialogModule,
-        MatIconModule
+        MatIconModule,
+        RouterModule
             ],
       exports: [
         GiochiComponent,

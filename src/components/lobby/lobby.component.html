@@ -6,10 +6,7 @@
             </div>
             <div class="col-md-12 text-start position-relative px-3">
                 <button class="btn" (click)="showMenu=!showMenu">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px"
-                        fill="#1f1f1f">
-                        <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
-                    </svg>
+                    <i class="bi bi-list h2" title="Espandi il profilo"></i>
                 </button>
                 <div class="profile-card-container position-absolute top-25" *ngIf="showMenu">
                     <div class="row text-start p-3 bg-light shadow overflow-auto profile-card">
@@ -41,7 +38,9 @@
                             {{user?.createdAt}}
                         </div>
                         <div class="col-md-12 text-end">
-                            <button class="btn brn-light text-success">Vai al profilo</button>
+                            <button class="btn brn-light text-success" title="Vai al gioco" (click)="navigateToProfile()">
+                                <i class="bi bi-arrow-up-right h3 p-3 text-success"></i>
+                            </button>
                         </div>
                     </div>
                 </div>

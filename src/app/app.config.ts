@@ -18,6 +18,6 @@ export const appConfig: ApplicationConfig = {
           ), provideNativeDateAdapter(),
           
           { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-          { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }, provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync()
+          { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }, provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync()
           ],
 };
