@@ -32,7 +32,7 @@
                         <div *ngIf="i<=1" [ngClass]="i==1||g?.recensione?.length==1?'':'border-bottom'">
                             <div class="d-flex">
                                 <i class="bi bi-star-fill" *ngFor="let vp of validationPoints, index as i"
-                                [ngClass]="i+1<=r?.punteggio?'text-warning':'d-none'"></i>
+                                [ngClass]="i+1<=r?.punteggio?'textg-warning':'d-none'"></i>
                             </div>
                             <div>
                                 <p>
@@ -62,6 +62,9 @@
                 </p>
                 <i class="bi bi-arrow-up-right h3 p-3 " title="Vai al gioco"></i>
             </div>
+        </div>
+        <div class="w-100 d-flex justify-content-center align-items-center">
+            <app-spinner *ngIf="isLoading" class="m-auto"></app-spinner>
         </div>
     </div>
 </div>

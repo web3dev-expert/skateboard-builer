@@ -18,7 +18,7 @@ export class GiochiComponent implements OnInit {
   searchGiocoForm: FormGroup = new FormGroup({});
   points: number[] = [1, 2, 3, 4];
   difficulties: number[] = [1, 2, 3, 4];
-  validationPoints:number[] = [1, 2, 3, 4,5];
+  validationPoints: number[] = [1, 2, 3, 4, 5];
   page: number = 0;
   size: number = 1;
   orderBy: string = "id";
@@ -28,9 +28,9 @@ export class GiochiComponent implements OnInit {
     difficolta: this.searchGiocoForm.get('difficolta')?.value,
     punteggio: this.searchGiocoForm.get('punteggioRecensioniDa')?.value
   };
-  isLoading:boolean = false;
-  maxPages:number = 1;
-  constructor(private giochiService: GiochiService, private matDialog: MatDialog, private changeDetectorRef: ChangeDetectorRef) { }
+  isLoading: boolean = false;
+  maxPages: number = 1;
+  constructor(private giochiService: GiochiService, private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     this.initializeGiocoForm();
@@ -76,13 +76,17 @@ export class GiochiComponent implements OnInit {
       difficolta: this.searchGiocoForm.get('difficolta')?.value,
       punteggio: this.searchGiocoForm.get('punteggioRecensioniDa')?.value
     };
-    if(this.page<this.maxPages) this.getGiochi(this.body);
+    this.getGiochi(this.body);
   }
   onScroll(event: any) {
-    if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight-5 && !this.isLoading) {
+    if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 5 && !this.isLoading) {
       this.page += 1;
-      this.isLoading = true;
-      this.searchGiochi();
+      if (this.page < this.maxPages) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.searchGiochi();
+        }, 1000)
+      }
     }
   }
 }

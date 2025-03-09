@@ -15,6 +15,7 @@ import { LobbyRoutingModule } from "./lobby-routing.module";
 import { MatDialogModule } from "@angular/material/dialog"
 import {MatIconModule} from '@angular/material/icon';
 import { RouterModule } from "@angular/router";
+import { SharedModule } from "../../shared/modules/shared.module";
 
 @NgModule({
       declarations: [
@@ -34,7 +35,8 @@ import { RouterModule } from "@angular/router";
         ToastrModule.forRoot(),
         MatDialogModule,
         MatIconModule,
-        RouterModule
+        RouterModule,
+        SharedModule
             ],
       exports: [
         GiochiComponent,

@@ -6,7 +6,6 @@ import { ModeService } from '../../../../services/mode.service';
 import { SignupUser } from '../../../../interfaces/interfaces';
 import { FormsService } from '../../../../services/forms.service';
 import { ShowErrorService } from '../../../../services/show-error.service';
-import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-signup',
