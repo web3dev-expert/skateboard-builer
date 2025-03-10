@@ -20,7 +20,7 @@ export class GiochiComponent implements OnInit {
   difficulties: number[] = [1, 2, 3, 4];
   validationPoints: number[] = [1, 2, 3, 4, 5];
   page: number = 0;
-  size: number = 1;
+  size: number = 2;
   orderBy: string = "id";
   sortOrder: string = "ASC";
   body: { nome: string, difficolta: number, punteggio: number } = {
@@ -30,18 +30,34 @@ export class GiochiComponent implements OnInit {
   };
   isLoading: boolean = false;
   maxPages: number = 1;
+  sizes:number[]=[2,5,10]
   constructor(private giochiService: GiochiService, private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     this.initializeGiocoForm();
-    this.getGiochi(this.body);
+    this.getGiochi(false,this.body);
   }
 
-  getGiochi(body: { nome: string, difficolta: number, punteggio: number }, isActive?: boolean) {
-    this.giochiService.searchGiochi(body, this.page, this.size, this.orderBy, this.sortOrder, isActive).pipe(throttleTime(1000)).subscribe({
+  getGiochi(origin:boolean,body: { nome: string, difficolta: number, punteggio: number }, isActive?: boolean) {
+    this.searchGiocoForm.get('size')?.value!=''&&
+    this.searchGiocoForm.get('size')?.value!=undefined&&
+    this.searchGiocoForm.get('size')?.value!=null?
+    this.size = this.searchGiocoForm.get('size')?.value:'';
+    this.searchGiocoForm.get('orderBy')?.value!=''&&
+    this.searchGiocoForm.get('orderBy')?.value!=undefined&&
+    this.searchGiocoForm.get('orderBy')?.value!=null?
+    this.orderBy = this.searchGiocoForm.get('orderBy')?.value:'';
+    this.searchGiocoForm.get('sortOrder')?.value!=''&&
+    this.searchGiocoForm.get('sortOrder')?.value!=undefined&&
+    this.searchGiocoForm.get('sortOrder')?.value!=null?
+    this.sortOrder = this.searchGiocoForm.get('sortOrder')?.value:''
+
+    this.giochiService.searchGiochi(body, this.page, this.size, this.orderBy, this.sortOrder, true).pipe(throttleTime(1000)).subscribe({
       next: (data: any) => {
-        data?.content?.map((g: any) => { this.giochi.push(g) })
-        this.giochi.filter((g: any) => {
+        if(!origin) data?.content?.map((g: any) => { this.giochi.push(g) })
+        else this.giochi=data?.content
+        
+          this.giochi.filter((g: any) => {
           g.image = this.readGiocoImage(g?.image)
         })
         this.maxPages = data.totalPages;
@@ -66,17 +82,22 @@ export class GiochiComponent implements OnInit {
     this.searchGiocoForm = new FormGroup({
       nomeGioco: new FormControl(''),
       difficolta: new FormControl(),
-      punteggioRecensioniDa: new FormControl('')
+      punteggioRecensioniDa: new FormControl(''),
+      size: new FormControl(''),
+      orderBy: new FormControl('id'),
+      sortOrder: new FormControl('ASC')
     })
   }
 
-  searchGiochi() {
+  searchGiochi(from?:string) {
     this.body = {
       nome: this.searchGiocoForm.get('nomeGioco')?.value,
       difficolta: this.searchGiocoForm.get('difficolta')?.value,
       punteggio: this.searchGiocoForm.get('punteggioRecensioniDa')?.value
     };
-    this.getGiochi(this.body);
+    let origin :boolean = false;
+    if(from) {origin = true;this.page!=0?this.page=0:'';};
+    this.getGiochi(origin,this.body);
   }
   onScroll(event: any) {
     if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 5 && !this.isLoading) {
