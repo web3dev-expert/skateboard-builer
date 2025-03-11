@@ -81,7 +81,7 @@
     </div>
     <div class="col-md-8 p-3 overflow-auto" id="scroller-pagination" (scroll)="onScroll($event)">
         <div class="w-100 m-auto p-4" *ngFor="let g of giochi, index as i">
-            <div class="p-2 game-card bg-white" (click)="openGameDialog(g)" *ngIf="!isLoading">
+            <div class="p-2 game-card bg-white" *ngIf="!isLoading">
                 <div class="w-100 text-center">
                     <img src="{{g?.image}}" class="w-50 m-auto" alt="gioco_image">
                 </div>
@@ -109,6 +109,9 @@
                     <div *ngIf="g?.recensione==null || g?.recensione?.length==0" class="p-4">
                         Non ci sono recensioni
                     </div>
+                    <div class="p-2">
+                      <button class="btn btn-success" type="button" (click)="rateGame(g)">Lascia una recensione</button>
+                    </div>
                 </div>
                 <div class="border my-2">
                     <p class="bg-light border-bottom p-2 fs-4">Livello di difficoltà : {{g.difficolta
@@ -122,7 +125,7 @@
                 </div>
             </div>
             <div class="w-100 p-2 bg-info text-center d-flex justify-content-around align-items-center text-light button"
-                (click)="openGameDialog(g)" *ngIf="!isLoading">
+                (click)="openGameDialog(g)" *ngIf="!isLoading" (click)="openGameDialog(g)" >
                 <p class="fs-4 fw-bold pt-3"
                     [ngClass]="g.difficolta<=2?'text-success':g.difficolta<=4?'text-warning':'text-danger'">VAI AL GIOCO
                 </p>

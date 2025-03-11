@@ -6,6 +6,7 @@ import { GiocoPreviewComponent } from '../../shared/components/gioco-preview/gio
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DomSanitizer } from '@angular/platform-browser';
+import { RecensioniComponent } from '../../shared/components/recensioni/recensioni.component';
 
 @Component({
   selector: 'app-giochi',
@@ -109,5 +110,9 @@ export class GiochiComponent implements OnInit {
         }, 1000)
       }
     }
+  }
+  rateGame(gioco:any){
+    const dialogRef = this.matDialog.open(RecensioniComponent,{data:gioco,width:'50%',height:'70%'})
+    dialogRef.afterClosed().subscribe((data:any)=>{})
   }
 }
