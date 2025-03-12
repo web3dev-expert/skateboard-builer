@@ -31,43 +31,51 @@
             <div class="text-center">
                 <p class="fs-4">Lascia una recensione su {{gioco?.nomeGioco}}</p>
                 <form [formGroup]="recensioneForm">
-                    <label for="punteggio" class="p-2">Scegli il punteggio</label>
+                    <label for="punteggio" class="p-2">Scegli il punteggio</label><span></span>
                     <select name="punteggio" formControlName="punteggio" id="punteggio" class="form-select">
                         <option value=""></option>
                         <option value="{{p}}" *ngFor="let p of validationPoints">{{p}}</option>
                     </select>
-                    <p class="text-danger" *ngIf="isRecensioneFormSubmitted&&recensioneForm.get('punteggio')!.invalid">Inserisci un punteggio tra 1 e 5.</p>
+                    <p class="text-danger" *ngIf="isRecensioneFormSubmitted&&recensioneForm.get('punteggio')!.invalid">
+                        Inserisci un punteggio tra 1 e 5.</p>
                     <label for="commento" class="p-2">Scrivi un commento</label>
                     <textarea name="commento" formControlName="commento" id="commento" class="form-control">
                     </textarea>
-                    <p class="text-danger" *ngIf="isRecensioneFormSubmitted&&checkCommento()">Inserisci un commento valido.</p>
+                    <p class="text-danger" *ngIf="isRecensioneFormSubmitted&&checkCommento()">Inserisci un commento
+                        valido.</p>
                 </form>
                 <button class="btn my-2" type="button" (click)="recensisciGioco()">Recensisci</button>
             </div>
         </ng-template>
-        <div class="recensioni-container py-5 my-2">
-            <div class="bg-light border rounded shadow-sm" *ngFor="let r of recensioni?.content">
-                <div class="w-100 text-center bg-warning d-flex justify-content-center pt-2 rounded-top">
-                    <img src="{{gioco?.image}}" class="gioco-image" alt="immagine gioco">
-                    <p class="p-2 fs-4">
-                        {{gioco?.nomeGioco}}
-                    </p>
-                </div>
-                <div class="py-4">
-                    <div class="d-flex justify-content-center">
-                        <i class="bi bi-star-fill text-warning h3" *ngFor="let vp of validationPoints, index as i"
-                            [ngClass]="i+1<=recensione?.punteggio?'textg-warning':'d-none'"></i>
-                    </div>
-                    <div>
-                        <p class="d-flex justify-content-center align-items-end">
-                            <img src="{{r?.user?.immagineProfilo}}" alt="profile image" class="rounded-circle border">
-                            <span class="px-3 fs-5">{{r?.user?.fullName}} - {{r?.createdAt}}</span>
-                        </p>
-                        <p class="fs-3 py-3">
-                            {{r?.commento}}
+        <div class="recensioni-container row py-5 my-2">
+            <div class="col-md-6 p-2" *ngFor="let r of recensioni?.content">
+                <div class="bg-light border rounded shadow-sm">
+                    <div class="w-100 text-center bg-warning d-flex justify-content-center pt-2 rounded-top">
+                        <img src="{{gioco?.image}}" class="gioco-image" alt="immagine gioco">
+                        <p class="p-2 fs-4">
+                            {{gioco?.nomeGioco}}
                         </p>
                     </div>
+                    <div class="py-4">
+                        <div class="d-flex justify-content-center">
+                            <i class="bi bi-star-fill text-warning h3" *ngFor="let vp of validationPoints, index as i"
+                                [ngClass]="i+1<=recensione?.punteggio?'textg-warning':'d-none'"></i>
+                        </div>
+                        <div>
+                            <p class="d-flex justify-content-center align-items-end">
+                                <img src="{{r?.user?.immagineProfilo}}" alt="profile image"
+                                    class="rounded-circle border">
+                                <span class="px-3 fs-5">{{r?.user?.fullName}} - {{r?.createdAt}}</span>
+                            </p>
+                            <p class="fs-3 py-3">
+                                {{r?.commento}}
+                            </p>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div *ngIf="recensioni">
+                Carica altre recensioni
             </div>
             <div *ngIf="gioco?.recensione==null || gioco?.recensione?.length==0">
                 <p class="fs-4">Non ci sono ancora recensioni.</p>

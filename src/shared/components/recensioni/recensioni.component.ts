@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-recensioni',
   standalone: true,
-  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, NgClass, NgFor, MatDialogClose, NgIf,ReactiveFormsModule],
+  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, NgClass, NgFor, MatDialogClose, NgIf, ReactiveFormsModule],
   templateUrl: './recensioni.component.html',
   styleUrl: './recensioni.component.scss'
 })
@@ -22,7 +22,7 @@ export class RecensioniComponent implements OnInit {
   recensioni: any;
   recensioneForm: FormGroup = new FormGroup({});
   isRecensioneFormSubmitted: boolean = false;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService, private recensioneService: RecensioneService,private toastr: ToastrService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService, private recensioneService: RecensioneService, private toastr: ToastrService) {
     this.gioco = data;
     this.user = this.authService.getUser();
   }
@@ -36,23 +36,32 @@ export class RecensioniComponent implements OnInit {
     this.recensioneService.getRecensioneByGiocoIdPaginated(this.gioco?.id).subscribe((data: any) => { this.recensioni = data; });
   }
 
-  generateRecensioneForm(){
-    this.recensioneForm = new FormGroup ({
-      punteggio : new FormControl('', Validators.required),
+  generateRecensioneForm() {
+    this.recensioneForm = new FormGroup({
+      punteggio: new FormControl('', Validators.required),
       commento: new FormControl('', Validators.required)
     })
   }
 
-  recensisciGioco(){
+  recensisciGioco() {
     this.isRecensioneFormSubmitted = true;
-    if(this.recensioneForm.valid){
-
-    }else{
-      console.log(this.recensioneForm)
+    if (this.recensioneForm.valid) {
+      let recensione = {
+        giocoId: this.gioco?.id,
+        commento: this.recensioneForm.get('commento')?.value,
+        punteggio: this.recensioneForm.get('punteggio')?.value
+      }
+      this.recensioneService.saveRecensione(recensione).subscribe({
+        next: () => {
+          this.getRecensioni();
+        }
+      })
+    } else {
+      this.toastr.error("Completa correttamente il form.")
     }
   }
 
-  checkCommento(){
+  checkCommento() {
     return (this.recensioneForm.get('commento')!.invalid || this.recensioneForm.get('commento')!.value.trim() === "")
   }
 }
