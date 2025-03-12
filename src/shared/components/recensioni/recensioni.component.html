@@ -1,14 +1,14 @@
-<div class="w-100 bg-warning text-center">
+<div class="w-100 bg-success text-center">
     <h2 class="">{{recensione != null ? 'La tua recensione per questo gioco' : 'Recensisci questo gioco'}}</h2>
 </div>
 <div class="p-3 text-center position-relative">
     <mat-dialog-content class="py-2">
-        <div class="bg-light border rounded shadow-sm" *ngIf="recensione!=null">
-            <div class="w-100 text-center bg-danger d-flex justify-content-center pt-2 rounded-top">
+        <div class="bg-light border rounded shadow-sm" *ngIf="recensione!=null else recensisci">
+            <div class="w-100 text-center bg-warning d-flex justify-content-center pt-2 rounded-top">
                 <img src="{{gioco?.image}}" class="gioco-image" alt="immagine gioco">
-              <p class="p-2 fs-4">
-                {{gioco?.nomeGioco}}
-              </p>
+                <p class="p-2 fs-4">
+                    {{gioco?.nomeGioco}}
+                </p>
             </div>
             <div class="py-4">
                 <div class="d-flex justify-content-center">
@@ -17,7 +17,8 @@
                 </div>
                 <div>
                     <p class="d-flex justify-content-center align-items-end">
-                        <img src="{{recensione?.user?.immagineProfilo}}" alt="profile image" class="rounded-circle border">
+                        <img src="{{recensione?.user?.immagineProfilo}}" alt="profile image"
+                            class="rounded-circle border">
                         <span class="px-3 fs-5">{{recensione?.user?.fullName}} - {{recensione?.createdAt}}</span>
                     </p>
                     <p class="fs-3 py-3">
@@ -26,6 +27,38 @@
                 </div>
             </div>
         </div>
+        <ng-template #recensisci>
+
+        </ng-template>
+            <div class="recensioni-container">
+                <div class="bg-light border rounded shadow-sm" *ngFor="let r of recensioni">
+                    <div class="w-100 text-center bg-warning d-flex justify-content-center pt-2 rounded-top">
+                        <img src="{{gioco?.image}}" class="gioco-image" alt="immagine gioco">
+                        <p class="p-2 fs-4">
+                            {{gioco?.nomeGioco}}
+                        </p>
+                    </div>
+                    <div class="py-4">
+                        <div class="d-flex justify-content-center">
+                            <i class="bi bi-star-fill text-warning h3" *ngFor="let vp of validationPoints, index as i"
+                                [ngClass]="i+1<=recensione?.punteggio?'textg-warning':'d-none'"></i>
+                        </div>
+                        <div>
+                            <p class="d-flex justify-content-center align-items-end">
+                                <img src="{{r?.user?.immagineProfilo}}" alt="profile image"
+                                    class="rounded-circle border">
+                                <span class="px-3 fs-5">{{r?.user?.fullName}} - {{r?.createdAt}}</span>
+                            </p>
+                            <p class="fs-3 py-3">
+                                {{r?.commento}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="gioco?.recensione==null || gioco?.recensione?.length==0">
+                    <p>Non ci sono ancora recensioni.</p>
+                </div>
+            </div>
     </mat-dialog-content>
     <mat-dialog-actions class="text-end position-absolute bottom-0 end-0">
         <button class="btn" [mat-dialog-close]>Chiudi</button>

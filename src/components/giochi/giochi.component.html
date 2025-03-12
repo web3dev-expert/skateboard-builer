@@ -89,7 +89,7 @@
                     <h2>{{g.nomeGioco}}</h2>
                 </div>
                 <div class="border">
-                    <p class="bg-light border-bottom p-1 fs-4">Recensioni ({{g?.recensione?.length}}) : </p>
+                    <p class="bg-light border-bottom p-1 fs-4">Recensioni ({{g?.totalRecensioniNumber}}) : </p>
                     <div *ngFor="let r of g?.recensione, index as i" class="p-2">
                         <div *ngIf="i<=1" [ngClass]="i==1||g?.recensione?.length==1?'':'border-bottom'">
                             <div class="d-flex">
@@ -110,7 +110,7 @@
                         Non ci sono recensioni
                     </div>
                     <div class="p-2">
-                      <button class="btn btn-success" type="button" (click)="rateGame(g)">Lascia una recensione</button>
+                      <button class="btn btn-success m-1" type="button" (click)="rateGame(g)" title="O vedi tutte le altre">Lascia una recensione</button>
                     </div>
                 </div>
                 <div class="border my-2">

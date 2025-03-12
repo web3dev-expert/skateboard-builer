@@ -17,6 +17,7 @@ export class RecensioniComponent implements OnInit {
   gioco: any = null;
   recensione: any = null;
   validationPoints: number[] = [1, 2, 3, 4, 5];
+  recensioni: any[] = [];
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService, private recensioneService: RecensioneService) {
     this.gioco = data;
     this.user = this.authService.getUser();
