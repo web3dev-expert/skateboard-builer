@@ -1,11 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { User } from '../../../interfaces/interfaces';
-import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { AuthService } from '../../../services/auth.service';
 import { RecensioneService } from '../../../services/recensione.service';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { AskConfirmComponent } from '../ask-confirm/ask-confirm.component';
 
 @Component({
   selector: 'app-recensioni',
@@ -22,7 +23,8 @@ export class RecensioniComponent implements OnInit {
   recensioni: any;
   recensioneForm: FormGroup = new FormGroup({});
   isRecensioneFormSubmitted: boolean = false;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService, private recensioneService: RecensioneService, private toastr: ToastrService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService, private recensioneService: RecensioneService, private toastr: ToastrService,
+    private dialog: MatDialog) {
     this.gioco = data;
     this.user = this.authService.getUser();
   }
@@ -51,9 +53,18 @@ export class RecensioniComponent implements OnInit {
         commento: this.recensioneForm.get('commento')?.value,
         punteggio: this.recensioneForm.get('punteggio')?.value
       }
-      this.recensioneService.saveRecensione(recensione).subscribe({
-        next: () => {
-          this.getRecensioni();
+
+      const dialogRef = this.dialog.open(AskConfirmComponent, { data: [this.gioco?.nomeGioco, recensione], width: '60%', height: '70%' })
+
+      dialogRef.afterClosed().subscribe((data: boolean) => {
+        if (data) {
+          this.recensioneService.saveRecensione(recensione).subscribe({
+            next: () => {
+              this.getRecensioni();
+            }
+          })
+        } else {
+          this.toastr.show("Non è stata aggiunta nessuna recensione.")
         }
       })
     } else {
