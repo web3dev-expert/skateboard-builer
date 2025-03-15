@@ -31,7 +31,8 @@
             <div class="text-center">
                 <p class="fs-4">Lascia una recensione su {{gioco?.nomeGioco}}</p>
                 <form [formGroup]="recensioneForm">
-                    <label for="punteggio" class="p-2">Scegli il punteggio</label><span></span>
+                    <label for="punteggio" class="p-2">Scegli il punteggio</label><span><i class="bi bi-star-fill text-warning h3" *ngFor="let vp of validationPoints, index as i"
+                        [ngClass]="i+1<=recensioneForm.get('punteggio')?.value?'textg-warning':'d-none'"></i></span>
                     <select name="punteggio" formControlName="punteggio" id="punteggio" class="form-select">
                         <option value=""></option>
                         <option value="{{p}}" *ngFor="let p of validationPoints">{{p}}</option>
