@@ -17,8 +17,8 @@ getRecensioneByUserIdAndGiocoId(giocoId:number){
     return this.http.get(environment.API_URL + this.recensione + this.userAndGioco + `?giocoId=${giocoId}`);
 }
 
-getRecensioneByGiocoIdPaginated(giocoId:number, page?:number, size?:number){
-    return this.http.get(environment.API_URL + this.recensione + this.byGiocoId + `/${giocoId}?page=${page||''}&size=${size||''}`);
+getRecensioneByGiocoIdPaginated(giocoId:number, page?:number, size?:number, orderBy?: string, sortOrder?: string){
+    return this.http.get(environment.API_URL + this.recensione + this.byGiocoId + `/${giocoId}?page=${page||''}&size=${size||''}&orderBy=${orderBy||''}&sortOrder=${sortOrder||''}`);
 }
 
 saveRecensione(recensione:any){

@@ -112,7 +112,7 @@ export class GiochiComponent implements OnInit {
     }
   }
   rateGame(gioco:any){
-    const dialogRef = this.matDialog.open(RecensioniComponent,{data:gioco,width:'60%',height:'70%'})
+    const dialogRef = this.matDialog.open(RecensioniComponent,{data:gioco,width:'90%',height:'90%'})
     dialogRef.afterClosed().subscribe((data:any)=>{})
   }
 }
