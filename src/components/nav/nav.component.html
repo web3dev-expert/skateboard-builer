@@ -40,10 +40,10 @@
                     <ng-template matMenuContent>
                         <div>
                             <button mat-menu-item [ngClass]="mode!='light'?'text-light':'text-dark'" class="btn fs-4"
-                                (click)="goToRoute('profile')">PROFILE</button>
+                                (click)="goToRoute('profile')">Profile</button>
                             <button mat-menu-item class="btn fs-4" (click)="logout()"
                                 [ngClass]="mode!='light'?'text-light':'text-dark'"
-                                [routerLink]="'/home'">LOGOUT</button>
+                                [routerLink]="'/home'">Logout</button>
                         </div>
                     </ng-template>
                 </mat-menu>
