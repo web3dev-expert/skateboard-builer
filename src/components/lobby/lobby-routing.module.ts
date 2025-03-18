@@ -7,10 +7,7 @@ import { AuthGuard } from "../../core/auth.guard";
 export const routes: Routes = [
     {
         path: '',
-        component: LobbyComponent,
-        children: [
-            { path: 'lobby/profile', component: ProfileComponent}
-        ]
+        component: LobbyComponent
     },
     {
         path: 'profile',

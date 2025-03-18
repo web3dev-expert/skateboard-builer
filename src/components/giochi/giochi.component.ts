@@ -7,6 +7,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RecensioniComponent } from '../../shared/components/recensioni/recensioni.component';
+import { User } from '../../interfaces/interfaces';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-giochi',
@@ -31,34 +33,34 @@ export class GiochiComponent implements OnInit {
   };
   isLoading: boolean = false;
   maxPages: number = 1;
-  sizes:number[]=[2,5,10]
-  constructor(private giochiService: GiochiService, private matDialog: MatDialog) { }
+  sizes: number[] = [2, 5, 10]
+  constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {
     this.initializeGiocoForm();
-    this.getGiochi(false,this.body);
+    this.getGiochi(false, this.body);
   }
 
-  getGiochi(origin:boolean,body: { nome: string, difficolta: number, punteggio: number }, isActive?: boolean) {
-    this.searchGiocoForm.get('size')?.value!=''&&
-    this.searchGiocoForm.get('size')?.value!=undefined&&
-    this.searchGiocoForm.get('size')?.value!=null?
-    this.size = this.searchGiocoForm.get('size')?.value:'';
-    this.searchGiocoForm.get('orderBy')?.value!=''&&
-    this.searchGiocoForm.get('orderBy')?.value!=undefined&&
-    this.searchGiocoForm.get('orderBy')?.value!=null?
-    this.orderBy = this.searchGiocoForm.get('orderBy')?.value:'';
-    this.searchGiocoForm.get('sortOrder')?.value!=''&&
-    this.searchGiocoForm.get('sortOrder')?.value!=undefined&&
-    this.searchGiocoForm.get('sortOrder')?.value!=null?
-    this.sortOrder = this.searchGiocoForm.get('sortOrder')?.value:''
+  getGiochi(origin: boolean, body: { nome: string, difficolta: number, punteggio: number }, isActive?: boolean) {
+    this.searchGiocoForm.get('size')?.value != '' &&
+      this.searchGiocoForm.get('size')?.value != undefined &&
+      this.searchGiocoForm.get('size')?.value != null ?
+      this.size = this.searchGiocoForm.get('size')?.value : '';
+    this.searchGiocoForm.get('orderBy')?.value != '' &&
+      this.searchGiocoForm.get('orderBy')?.value != undefined &&
+      this.searchGiocoForm.get('orderBy')?.value != null ?
+      this.orderBy = this.searchGiocoForm.get('orderBy')?.value : '';
+    this.searchGiocoForm.get('sortOrder')?.value != '' &&
+      this.searchGiocoForm.get('sortOrder')?.value != undefined &&
+      this.searchGiocoForm.get('sortOrder')?.value != null ?
+      this.sortOrder = this.searchGiocoForm.get('sortOrder')?.value : ''
 
     this.giochiService.searchGiochi(body, this.page, this.size, this.orderBy, this.sortOrder, true).pipe(throttleTime(1000)).subscribe({
       next: (data: any) => {
-        if(!origin) data?.content?.map((g: any) => { this.giochi.push(g) })
-        else this.giochi=data?.content
-        
-          this.giochi.filter((g: any) => {
+        if (!origin) data?.content?.map((g: any) => { this.giochi.push(g) })
+        else this.giochi = data?.content
+
+        this.giochi.filter((g: any) => {
           g.image = this.readGiocoImage(g?.image)
         })
         this.maxPages = data.totalPages;
@@ -90,15 +92,15 @@ export class GiochiComponent implements OnInit {
     })
   }
 
-  searchGiochi(from?:string) {
+  searchGiochi(from?: string) {
     this.body = {
       nome: this.searchGiocoForm.get('nomeGioco')?.value,
       difficolta: this.searchGiocoForm.get('difficolta')?.value,
       punteggio: this.searchGiocoForm.get('punteggioRecensioniDa')?.value
     };
-    let origin :boolean = false;
-    if(from) {origin = true;this.page!=0?this.page=0:'';};
-    this.getGiochi(origin,this.body);
+    let origin: boolean = false;
+    if (from) { origin = true; this.page != 0 ? this.page = 0 : ''; };
+    this.getGiochi(origin, this.body);
   }
   onScroll(event: any) {
     if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 5 && !this.isLoading) {
@@ -111,8 +113,12 @@ export class GiochiComponent implements OnInit {
       }
     }
   }
-  rateGame(gioco:any){
-    const dialogRef = this.matDialog.open(RecensioniComponent,{data:gioco,width:'90%',height:'90%'})
-    dialogRef.afterClosed().subscribe((data:any)=>{})
+  rateGame(gioco: any) {
+    const dialogRef = this.matDialog.open(RecensioniComponent, { data: gioco, width: '90%', height: '90%' })
+    dialogRef.afterClosed().subscribe((data: any) => { })
+  }
+
+  goToProfile(user: User) {
+    this.router.navigate(['/lobby/profile'], { queryParams: { user: JSON.stringify(user) } })
   }
 }

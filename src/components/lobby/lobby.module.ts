@@ -16,6 +16,7 @@ import { MatDialogModule } from "@angular/material/dialog"
 import {MatIconModule} from '@angular/material/icon';
 import { RouterModule } from "@angular/router";
 import { SharedModule } from "../../shared/modules/shared.module";
+import { ProfileComponent } from "../profile/profile.component";
 
 @NgModule({
       declarations: [
@@ -27,6 +28,7 @@ import { SharedModule } from "../../shared/modules/shared.module";
         AssistenzaComponent,
         AboutUsComponent,
         PunteggiComponent,
+        ProfileComponent
       ],
       imports: [
         LobbyRoutingModule,
@@ -45,7 +47,8 @@ import { SharedModule } from "../../shared/modules/shared.module";
         StatisticheComponent,
         AssistenzaComponent,
         AboutUsComponent,
-        PunteggiComponent
+        PunteggiComponent,
+        ProfileComponent
               ],
       providers: [
         provideHttpClient(),
