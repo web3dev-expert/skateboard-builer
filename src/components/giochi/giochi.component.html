@@ -81,7 +81,7 @@
     </div>
     <div class="col-md-8 p-3 overflow-auto" id="scroller-pagination" (scroll)="onScroll($event)">
         <div class="w-100 m-auto p-4" *ngFor="let g of giochi, index as i">
-            <div class="p-2 game-card bg-white" *ngIf="!isLoading">
+            <div class="p-5 game-card bg-white" *ngIf="!isLoading">
                 <div class="w-100 text-center">
                     <img src="{{g?.image}}" class="w-50 m-auto" alt="gioco_image">
                 </div>
@@ -98,7 +98,9 @@
                             </div>
                             <div>
                                 <p>
-                                    {{r?.user?.fullName}} - {{r?.createdAt}}
+                                    <button class="btn" (click)="goToProfile(r?.user)">
+                                        {{r?.user?.fullName}} - {{r?.createdAt}}
+                                    </button>
                                 </p>
                                 <p>
                                     {{r?.commento}}
