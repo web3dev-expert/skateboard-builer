@@ -12,11 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 @Component({
   selector: 'app-recensioni',
   standalone: true,
-<<<<<<< HEAD
   imports: [MatDialogTitle, MatDialogContent, MatDialogActions,MatMenuModule, NgClass, NgFor, MatDialogClose, NgIf, ReactiveFormsModule],
-=======
-  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatMenuModule, NgClass, NgFor, MatDialogClose, NgIf, ReactiveFormsModule],
->>>>>>> profilo
   templateUrl: './recensioni.component.html',
   styleUrl: './recensioni.component.scss'
 })
@@ -69,11 +65,7 @@ export class RecensioniComponent implements OnInit {
         punteggio: this.recensioneForm.get('punteggio')?.value
       }
 
-<<<<<<< HEAD
       const dialogRef = this.dialog.open(AskConfirmComponent, { data: [this.gioco?.nomeGioco, recensione,''], width: '60%', height: '70%' })
-=======
-      const dialogRef = this.dialog.open(AskConfirmComponent, { data: [this.gioco?.nomeGioco, recensione, ''], width: '60%', height: '70%' })
->>>>>>> profilo
 
       dialogRef.afterClosed().subscribe((data: boolean) => {
         if (data) {
@@ -99,14 +91,6 @@ export class RecensioniComponent implements OnInit {
     return Number(value);
   }
 
-<<<<<<< HEAD
-  updateRece(recensione:any){
-
-  }
-  
-  deleteRece(recensione:any){
-
-=======
   updateRece(recensione: any) {
     const dialogRef = this.dialog.open(AskConfirmComponent, { data: [this.gioco?.nomeGioco, recensione, ''], width: '60%', height: '70%' })
 
@@ -137,6 +121,5 @@ export class RecensioniComponent implements OnInit {
         this.toastr.show("Non è stata aggiunta nessuna recensione.")
       }
     })
->>>>>>> profilo
   }
 }
