@@ -19,9 +19,8 @@ export class ProfileComponent implements OnInit {
       params => {
         if (params && params['user']) {
           this.visitedUser = JSON.parse(params['user']);
-          if (this.visitedUser != null && this.visitedUser != undefined) {
-            localStorage.setItem('visitedUser', JSON.stringify(this.visitedUser));
-          }
+          if (this.visitedUser != null && this.visitedUser != undefined) localStorage.setItem('visitedUser', JSON.stringify(this.visitedUser));
+          else this.router.navigate(['/lobby']);
         } else {
           if (!localStorage.getItem('visitedUser')) this.router.navigate(['/lobby']);
           else this.visitedUser = JSON.parse(localStorage.getItem('visitedUser')!);
