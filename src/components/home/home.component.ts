@@ -30,7 +30,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.onResize();
-    console.log(window.innerHeight)
     if(!browserRefresh){
       localStorage.setItem('location','')   
     }

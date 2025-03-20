@@ -1,15 +1,13 @@
-import { ChangeDetectorRef, Component, OnInit, Sanitizer } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GiochiService } from '../../services/giochi.service';
 import { throttleTime } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { GiocoPreviewComponent } from '../../shared/components/gioco-preview/gioco-preview.component';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { DomSanitizer } from '@angular/platform-browser';
+import { FormControl, FormGroup } from '@angular/forms';
 import { RecensioniComponent } from '../../shared/components/recensioni/recensioni.component';
 import { User } from '../../interfaces/interfaces';
 import { Router } from '@angular/router';
-
+ 
 @Component({
   selector: 'app-giochi',
   templateUrl: './giochi.component.html',
