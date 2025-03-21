@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../interfaces/interfaces';
 import { ProfileServive } from '../../services/profile.service';
 import { NgClass, NgFor, NgIf } from '@angular/common';
-import { E } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-profile',
@@ -34,6 +33,9 @@ export class ProfileComponent implements OnInit {
     { label: 'Più recente', values: ['createdAt', 'DESC'] },
     { label: 'Meno recente', values: ['createdAt', 'ASC'] }];
   sizes: number[] = [2, 5, 10];
+  windowWidth:number = 0;
+  menuVoices : string[] = ['Profilo' , 'Recensioni', 'Giochi', 'Trofei', 'Classifiche'];
+  section:string = 'Profilo';
   constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive) { }
 
   ngOnInit(): void {
@@ -55,8 +57,9 @@ export class ProfileComponent implements OnInit {
   }
 
   getAllDatas() {
-    this.getRecensioni()
-    this.getGiochi()
+    this.getRecensioni();
+    this.getGiochi();
+    this.onResize();
   }
 
   getRecensioni() {
@@ -76,5 +79,10 @@ export class ProfileComponent implements OnInit {
 
   toNumber(element:string){
     return Number(element);
+  }
+
+  @HostListener('window:resize',['$event'])
+  onResize(){
+    this.windowWidth = window.innerWidth;
   }
 }

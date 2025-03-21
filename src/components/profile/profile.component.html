@@ -3,23 +3,51 @@
         <div class="col-md-12 py-3">
             <h1>{{visitedUser?.fullName}}</h1>
         </div>
-        <div class="col-lg-3 col-md-4 p-3">
-            <div class=" border shadow row overflow-hidden">
-                <div class="col-md-12 bg-info mb-3 text-center">
-                    <h2>Profile image</h2>
+        <div class="col-md-3" *ngIf="windowWidth>699">
+            <ul class="text-start">
+                <li *ngFor="let v of menuVoices" class="p-3" (click)="section=v">
+                    {{v.toUpperCase()}}
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <div *ngIf="section=='Profilo'">
+                <div class="col-12 p-3 d-flex align-items-end justify-content-center">
+                    <div class="profile-image rounded-circle shadow"
+                        style.backgroundImage="url('{{visitedUser?.immagineProfilo}}')"></div>
+                    <p class="fs-2 px-2">{{visitedUser?.fullName}}</p>
                 </div>
-                <div class="col-md-12 p-2">
-                    <img src="{{visitedUser?.immagineProfilo}}" alt="immagine del profilo"
-                        class="rounded-circle border">
+                <div class="col-md-12 p-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12 fs-2 p-4">
+                                    <p class="fs-4 text-danger">Nome</p>
+                                    {{visitedUser?.nome}}
+                                </div>
+                                <div class="col-md-12 fs-2 p-4">
+                                    <p class="fs-4 text-danger">Cognome</p>
+                                    {{visitedUser?.cognome}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 fs-2 p-4 overflow-x-auto overflow-y-hidden">
+                            <p class="fs-4 text-danger">Email</p>
+                            {{visitedUser?.email}}
+                        </div>
+                        <div class="col-md-6 fs-2 p-4">
+                            <p class="fs-4 text-danger">Città</p>
+                            {{visitedUser?.citta?.nome}}
+                        </div>
+                        <div class="col-md-6 fs-2 p-4">
+                            <p class="fs-4 text-danger">Profilo creato in data</p>
+                            {{visitedUser?.createdAt}}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6 col-md-8 p-3">
-            <div class="px-2 border shadow overflow-hidden">
+            <div *ngIf="section=='Recensioni'">
                 <div class="row text-center">
-                    <div class="col-md-12 bg-info mb-3">
-                        <h2>Recensioni</h2>
-                    </div>
                     <div class="col-md-12 d-flex justify-content-end">
                         <div>
                             <label for="ordina" class="form-label">Ordina per</label>
@@ -29,23 +57,23 @@
                             </select>
                         </div>
                         <div>
-                        <label for="ordina" class="form-label">Elementi per pagina</label>
-                        <select class="form-select" name="elementi" id="elementi" #elementi
-                            (change)="receSize=toNumber(elementi.value);getRecensioni()">
-                            <option [value]="s" *ngFor="let s of sizes">{{s}}</option>
-                        </select>
+                            <label for="ordina" class="form-label">Elementi per pagina</label>
+                            <select class="form-select" name="elementi" id="elementi" #elementi
+                                (change)="receSize=toNumber(elementi.value);getRecensioni()">
+                                <option [value]="s" *ngFor="let s of sizes">{{s}}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6 p-2 text-center" *ngFor="let r of recensioni?.content">
                         <div class="bg-light border rounded shadow-sm">
-                            <div class="w-100 text-center bg-info d-flex justify-content-center pt-2 rounded-top">
-                                <img src="{{'data:image/png;base64,'+r?.giocoImage}}" class="profile-image"
+                            <div class="w-100 text-center bg-light d-flex justify-content-center pt-2 rounded-top">
+                                <img src="{{'data:image/png;base64,'+r?.giocoImage}}" class="gioco-image"
                                     alt="immagine gioco">
                                 <p class="p-2 fs-4">
                                     {{r?.giocoName}}
                                 </p>
                             </div>
-                            <div class="pt-4 pb-2">
+                            <div class="pt-4 pb-2 bg-white">
                                 <div class="d-flex justify-content-center">
                                     <i class="bi bi-star-fill text-warning h3"
                                         *ngFor="let vp of validationPoints, index as i"
@@ -54,7 +82,7 @@
                                 <div>
                                     <p class="d-flex justify-content-center align-items-end">
                                         <img src="{{r?.userProfileImage}}" alt="profile image"
-                                            class="rounded-circle border profile-image">
+                                            class="rounded-circle border gioco-image">
                                         <span class="px-3 fs-5">{{r?.userFullName}}</span>
                                     </p>
                                     <p class="fs-3 py-3 border-bottom">
@@ -81,48 +109,21 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-3 col-md-4 p-3">
-            <div class="border shadow row">
-                <div class="col-md-12 bg-info text-center">
-                    <h2>Dati del profilo</h2>
-                </div>
-                <div class="col-lg-6 fs-2 p-2">
-                    <p class="fs-4 text-danger">Nome</p>
-                    {{visitedUser?.nome}}
-                </div>
-                <div class="col-lg-6 fs-2 p-2">
-                    <p class="fs-4 text-danger">Cognome</p>
-                    {{visitedUser?.cognome}}
-                </div>
-                <div class="col-lg-12 fs-2 p-2 overflow-x-auto overflow-y-hidden">
-                    <p class="fs-4 text-danger">Email</p>
-                    {{visitedUser?.email}}
-                </div>
-                <div class="col-lg-12 fs-2 p-2">
-                    <p class="fs-4 text-danger">Città</p>
-                    {{visitedUser?.citta?.nome}}
-                </div>
-                <div class="col-lg-12 fs-2 p-2">
-                    <p class="fs-4 text-danger">Profilo creato in data</p>
-                    {{visitedUser?.createdAt}}
-                </div>
+            <div *ngIf="section=='Trofei'">
             </div>
-        </div>
-        <div class="col-md-8 p-3">
-            <div class="px-2">
-                <div class="border shadow row text-center">
-                    <div class="col-md-12 bg-info">
-                        <h2>Cronologia dei giochi</h2>
-                    </div>
-                    <div class="col-md-6" *ngFor="let g of giochi?.content">
+            <div *ngIf="section=='Giochi'">
+                <div class="px-2">
+                    <div class="row text-center">
+                        <div class="col-md-6" *ngFor="let g of giochi?.content">
 
-                    </div>
-                    <div class="col-md-12 py-2" *ngIf="giochi == null || giochi?.content?.length == 0">
-                        <h2>{{visitedUser?.fullName}} non ha giocato a nessun gioco ancora.</h2>
+                        </div>
+                        <div class="col-md-12 py-2 bg-white" *ngIf="giochi == null || giochi?.content?.length == 0">
+                            <h2>{{visitedUser?.fullName}} non ha giocato a nessun gioco ancora.</h2>
+                        </div>
                     </div>
                 </div>
             </div>
+            <ng-template *ngIf="section=='Classifiche'"></ng-template>
         </div>
     </div>
 </div>
