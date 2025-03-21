@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { GiochiService } from '../../services/giochi.service';
 import { throttleTime } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,7 +7,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { RecensioniComponent } from '../../shared/components/recensioni/recensioni.component';
 import { User } from '../../interfaces/interfaces';
 import { Router } from '@angular/router';
- 
+import { RecensioneService } from '../../services/recensione.service';
+
 @Component({
   selector: 'app-giochi',
   templateUrl: './giochi.component.html',
@@ -32,11 +33,13 @@ export class GiochiComponent implements OnInit {
   isLoading: boolean = false;
   maxPages: number = 1;
   sizes: number[] = [2, 5, 10]
-  constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router) { }
+  windowWidth: number = 0;
+  constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router,private recensioniService:RecensioneService) { }
 
   ngOnInit(): void {
     this.initializeGiocoForm();
     this.getGiochi(false, this.body);
+    this.onResize();
   }
 
   getGiochi(origin: boolean, body: { nome: string, difficolta: number, punteggio: number }, isActive?: boolean) {
@@ -52,7 +55,7 @@ export class GiochiComponent implements OnInit {
       this.searchGiocoForm.get('sortOrder')?.value != undefined &&
       this.searchGiocoForm.get('sortOrder')?.value != null ?
       this.sortOrder = this.searchGiocoForm.get('sortOrder')?.value : ''
-
+    this.isLoading = true;
     this.giochiService.searchGiochi(body, this.page, this.size, this.orderBy, this.sortOrder, true).pipe(throttleTime(1000)).subscribe({
       next: (data: any) => {
         if (!origin) data?.content?.map((g: any) => { this.giochi.push(g) })
@@ -104,19 +107,31 @@ export class GiochiComponent implements OnInit {
     if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 5 && !this.isLoading) {
       this.page += 1;
       if (this.page < this.maxPages) {
-        this.isLoading = true;
-        setTimeout(() => {
           this.searchGiochi();
-        }, 1000)
       }
     }
   }
   rateGame(gioco: any) {
     const dialogRef = this.matDialog.open(RecensioniComponent, { data: gioco, width: '90%', height: '90%' })
-    dialogRef.afterClosed().subscribe((data: any) => { })
+    dialogRef.afterClosed().subscribe((data: any) => {
+        this.checkAlertReces();
+    })
   }
 
   goToProfile(user: User) {
     this.router.navigate(['/lobby/profile'], { queryParams: { user: JSON.stringify(user) } })
+  }
+  @HostListener('window:resize', ["$event"])
+  onResize() {
+    this.windowWidth = window.innerWidth;
+  }
+
+  checkAlertReces(){
+    this.recensioniService.alertReces.subscribe((bool:boolean)=>{
+      if(bool){
+        this.page != 0 ? this.page = 0 : ''; 
+        this.getGiochi(true,this.body);
+      }
+    })
   }
 }

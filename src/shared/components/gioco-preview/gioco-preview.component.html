@@ -1,13 +1,14 @@
     <div class="row">
-        <div mat-dialog-title class="col-md-12 text-center w-100 bg-info border border-bottom">
+        <div mat-dialog-title class="col-md-12 text-center w-100 bg-info d-flex justify-content-center border border-bottom">
+            <img src="{{gioco?.image}}" class="border rounded-circle gioco-image" alt="gioco_image">
             <h2 class="text-white">{{gioco?.nomeGioco}}</h2>
         </div>
-        <mat-dialog-content class="col-md-12 p-3 text-center bg" style="background:url('{{gioco.image}}')">
-        <p class="fs-5 py-4">
+        <mat-dialog-content class="col-md-12 p-3 py-5 text-center bg" style="background:url('{{gioco.image}}')">
+        <p class="fs-5 py-4 p-3 w-75 m-auto border rounded bg-personal-transparent">
             {{gioco?.descrizione}}
         </p>
-        <div class="py-3">
-            <p>Livello di difficoltà : {{gioco?.difficolta<=2?'FACILE':gioco?.difficolta>2&&gioco?.difficolta<=4?'MEDIO':'DIFFICILE'}}</p>
+        <div class="py-5 my-3 bg-personal-transparent w-75 m-auto">
+            <p class="fs-5">Livello di difficoltà : {{gioco?.difficolta<=2?'FACILE':gioco?.difficolta>2&&gioco?.difficolta<=4?'MEDIO':'DIFFICILE'}}</p>
             <div class="d-flex justify-content-around">
                 <p class="p-2 border border-dark rounded-circle {{i+1<=gioco.difficolta?'d-block':'d-none'}} m-1"
                     [ngClass]="gioco.difficolta<=2?'bg-success':gioco.difficolta<=4?'bg-warning':'bg-danger'"
@@ -17,7 +18,8 @@
         </mat-dialog-content>
         <div class="col-md-12 text-end">
             <mat-dialog-actions class="text-end">
-                <button class="btn text-danger" mat-dialog-close>Chiudi</button>
+                <button class="btn btn-outline-success m-1">Gioca</button>
+                <button class="btn text-danger m-1" mat-dialog-close>Chiudi</button>
             </mat-dialog-actions>
         </div>
         <div class="col-md-12">

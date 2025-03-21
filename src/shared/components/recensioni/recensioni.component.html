@@ -1,4 +1,4 @@
-<div class="w-100 bg-success text-center">
+<div class="w-100 bg-light-personal text-center">
     <h2 class="">{{'Le recensioni di ' + gioco?.nomeGioco}}</h2>
 </div>
 <div class="p-3 text-center position-relative">
@@ -7,9 +7,11 @@
             <h2>La tua recensione</h2>
         </div>
         <div class="bg-light border rounded shadow-sm" *ngIf="recensione!=null else recensisci">
-            <div class="w-100 text-center bg-warning rounded-top">
+            <div class="w-100 text-center bg-light-personal rounded-top">
                 <div class="d-flex justify-content-end">
-                    <button class="btn text-dark fw-bolder" [matMenuTriggerFor]="appMenu"> ... </button>
+                    <button class="btn text-dark fw-bolder" [matMenuTriggerFor]="appMenu">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </button>
                     <mat-menu #appMenu="matMenu" class="overflow-hidden">
                         <ng-template matMenuContent>
                             <div>
@@ -92,7 +94,7 @@
             </div>
             <div class="col-lg-6 p-2" *ngFor="let r of recensioni?.content">
                 <div class="bg-light border rounded shadow-sm">
-                    <div class="w-100 text-center bg-warning d-flex justify-content-center pt-2 rounded-top">
+                    <div class="w-100 text-center bg-light-personal d-flex justify-content-center pt-2 rounded-top">
                         <img src="{{gioco?.image}}" class="gioco-image" alt="immagine gioco">
                         <p class="p-2 fs-4">
                             {{gioco?.nomeGioco}}
@@ -107,7 +109,7 @@
                             <p class="d-flex justify-content-center align-items-end">
                                 <img src="{{r?.user?.immagineProfilo}}" alt="profile image"
                                     class="rounded-circle border">
-                                <span class="px-3 fs-5">{{r?.user?.fullName}}</span>
+                                <span class="px-3 fs-5 btn" (click)="goToProfile(r?.user)">{{r?.user?.fullName}}</span>
                             </p>
                             <p class="fs-3 py-3 border-bottom">
                                 {{r?.commento}}

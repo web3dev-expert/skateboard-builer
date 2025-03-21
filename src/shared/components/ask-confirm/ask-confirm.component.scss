@@ -23,3 +23,14 @@ h1 {
 .recensioni-container{
   height: 80%;
 }
+textarea{
+  background-color: transparent!important;
+  border: none!important;
+  width: auto;
+  &:focus{
+    outline: none!important;
+  }
+}
+i{
+  cursor: pointer;
+}

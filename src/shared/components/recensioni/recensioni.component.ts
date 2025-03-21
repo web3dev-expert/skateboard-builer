@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { User } from '../../../interfaces/interfaces';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { AuthService } from '../../../services/auth.service';
 import { RecensioneService } from '../../../services/recensione.service';
 import { NgClass, NgFor, NgIf } from '@angular/common';
@@ -8,11 +8,12 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ToastrService } from 'ngx-toastr';
 import { AskConfirmComponent } from '../ask-confirm/ask-confirm.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recensioni',
   standalone: true,
-  imports: [MatDialogTitle, MatDialogContent, MatDialogActions,MatMenuModule, NgClass, NgFor, MatDialogClose, NgIf, ReactiveFormsModule],
+  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatMenuModule, NgClass, NgFor, MatDialogClose, NgIf, ReactiveFormsModule],
   templateUrl: './recensioni.component.html',
   styleUrl: './recensioni.component.scss'
 })
@@ -35,7 +36,7 @@ export class RecensioniComponent implements OnInit {
     { label: 'Meno recente', values: ['createdAt', 'ASC'] }];
   sizes: number[] = [2, 5, 10];
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService, private recensioneService: RecensioneService, private toastr: ToastrService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog, private router: Router, private dialogRef: MatDialogRef<RecensioniComponent>) {
     this.gioco = data;
     this.user = this.authService.getUser();
   }
@@ -65,13 +66,14 @@ export class RecensioniComponent implements OnInit {
         punteggio: this.recensioneForm.get('punteggio')?.value
       }
 
-      const dialogRef = this.dialog.open(AskConfirmComponent, { data: [this.gioco?.nomeGioco, recensione,''], width: '60%', height: '70%' })
+      const dialogRef = this.dialog.open(AskConfirmComponent, { data: [this.gioco, recensione, 'Salva'], width: '60%', height: '70%' })
 
       dialogRef.afterClosed().subscribe((data: boolean) => {
         if (data) {
           this.recensioneService.saveRecensione(recensione).subscribe({
             next: () => {
               this.getRecensioni();
+              this.recensioneService.alertRece(true);
             }
           })
         } else {
@@ -92,34 +94,39 @@ export class RecensioniComponent implements OnInit {
   }
 
   updateRece(recensione: any) {
-    const dialogRef = this.dialog.open(AskConfirmComponent, { data: [this.gioco?.nomeGioco, recensione, ''], width: '60%', height: '70%' })
+    const dialogRef = this.dialog.open(AskConfirmComponent, { data: [this.gioco, recensione, 'Modifica'], width: '60%', height: '70%' })
 
-    dialogRef.afterClosed().subscribe((data: boolean) => {
-      if (data) {
-        this.recensioneService.saveRecensione(recensione).subscribe({
-          next: () => {
-            this.getRecensioni();
-          }
-        })
+    dialogRef.afterClosed().subscribe((data: any[]) => {
+      if (data && data[0] == true) {
+        this.recensione = data[1];
+        this.toastr.success("Recensione modificata con successo.")
+        this.recensioneService.alertRece(true);
       } else {
-        this.toastr.show("Non è stata aggiunta nessuna recensione.")
+        this.toastr.show("Non è stata modificata nessuna recensione.")
       }
     })
   }
 
   deleteRece(recensione: any) {
-    const dialogRef = this.dialog.open(AskConfirmComponent, { data: [this.gioco?.nomeGioco, recensione, ''], width: '60%', height: '70%' })
+    const dialogRef = this.dialog.open(AskConfirmComponent, { data: [this.gioco, recensione, 'Elimina'], width: '60%', height: '70%' })
 
     dialogRef.afterClosed().subscribe((data: boolean) => {
       if (data) {
-        this.recensioneService.saveRecensione(recensione).subscribe({
+        this.recensioneService.deleteRecensione(recensione?.id).subscribe({
           next: () => {
-            this.getRecensioni();
+            this.toastr.success("Recensione eliminata con successo.")
+            this.recensione = null;
+            this.recensioneService.alertRece(true);
           }
         })
       } else {
-        this.toastr.show("Non è stata aggiunta nessuna recensione.")
+        this.toastr.show("Non è stata eliminata nessuna recensione.")
       }
     })
+  }
+
+  goToProfile(user: User) {
+    this.router.navigate(['/lobby/profile'], { queryParams: { user: JSON.stringify(user) } });
+    this.dialogRef.close();
   }
 }

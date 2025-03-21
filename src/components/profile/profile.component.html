@@ -49,14 +49,14 @@
             <div *ngIf="section=='Recensioni'">
                 <div class="row text-center">
                     <div class="col-md-12 d-flex justify-content-end">
-                        <div>
+                        <div class="p-1">
                             <label for="ordina" class="form-label">Ordina per</label>
                             <select class="form-select" name="ordina" id="ordina" #ordina
                                 (change)="receSortOrder=ordina.value.substring(ordina.value.lastIndexOf(',')+1);receOrderBy=ordina.value.split('',(ordina.value.length-ordina.value.substring(ordina.value.lastIndexOf(',')).length)).join().replaceAll(',','');getRecensioni()">
                                 <option [value]="oA.values" *ngFor="let oA of ordinaArray">{{oA.label}}</option>
                             </select>
                         </div>
-                        <div>
+                        <div class="p-1">
                             <label for="ordina" class="form-label">Elementi per pagina</label>
                             <select class="form-select" name="elementi" id="elementi" #elementi
                                 (change)="receSize=toNumber(elementi.value);getRecensioni()">
@@ -97,10 +97,10 @@
                     </div>
                     <div class="col-md-12 d-flex justify-content-center"
                         *ngIf="recensioni&&recensioni?.content?.length>0">
-                        <button class="btn m-1" *ngIf="recensioni?.first == true"
+                        <button class="btn m-1" *ngIf="recensioni?.first == false"
                             (click)="recePage=recePage-1;getRecensioni();"><i class="bi bi-caret-left"></i>
                         </button>
-                        <button class="btn m-1" *ngIf="recensioni?.last == true"
+                        <button class="btn m-1" *ngIf="recensioni?.last == false"
                             (click)="recePage=recePage+1;getRecensioni();"><i class="bi bi-caret-right"></i>
                         </button>
                     </div>
@@ -110,6 +110,7 @@
                 </div>
             </div>
             <div *ngIf="section=='Trofei'">
+                <h2>to do ...</h2>
             </div>
             <div *ngIf="section=='Giochi'">
                 <div class="px-2">
@@ -123,7 +124,9 @@
                     </div>
                 </div>
             </div>
-            <ng-template *ngIf="section=='Classifiche'"></ng-template>
+            <div *ngIf="section=='Classifiche'">
+                <h2>to do ...</h2>
+            </div>
         </div>
     </div>
 </div>

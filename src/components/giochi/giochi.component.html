@@ -1,5 +1,6 @@
 <div class="row">
-    <div class="col-md-4 text-center overflow-auto">
+    <div class="col-md-12"></div>
+    <div class="col-md-4 text-center overflow-auto" [ngClass]="windowWidth<768?'d-none':'d-block'">
         <h2>Ricerca fra i giochi</h2>
         <form [formGroup]="searchGiocoForm" class="text-center">
             <label for="nomeGioco" class="py-1">Nome completo o in parte</label>
@@ -22,36 +23,36 @@
             <label class="py-1">Ordina per </label>
             <div class="row text-start">
                 <div class="col-md-6 p-1">
-                    <input class="form-check-input" type="radio" name="orderBy" formControlName="orderBy" id="id" value="id"
-                        checked>
+                    <input class="form-check-input" type="radio" name="orderBy" formControlName="orderBy" id="id"
+                        value="id" checked>
                     <label class="form-check-label" for="id">
                         Id
                     </label>
                 </div>
                 <div class="col-md-6 p-1">
-                    <input class="form-check-input" type="radio" name="orderBy" formControlName="orderBy" value="nomeGioco"
-                        id="nomeGioco">
+                    <input class="form-check-input" type="radio" name="orderBy" formControlName="orderBy"
+                        value="nomeGioco" id="nomeGioco">
                     <label class="form-check-label" for="nomeGioco">
                         Nome gioco
                     </label>
                 </div>
                 <div class="col-md-6 p-1">
-                    <input class="form-check-input" type="radio" name="orderBy" formControlName="orderBy" value="difficolta"
-                        id="difficolta">
+                    <input class="form-check-input" type="radio" name="orderBy" formControlName="orderBy"
+                        value="difficolta" id="difficolta">
                     <label class="form-check-label" for="difficolta">
                         Difficoltà
                     </label>
                 </div>
                 <div class="col-md-6 p-1">
-                    <input class="form-check-input" type="radio" name="orderBy" formControlName="orderBy" value="createdAt"
-                        id="dataCreazione">
+                    <input class="form-check-input" type="radio" name="orderBy" formControlName="orderBy"
+                        value="createdAt" id="dataCreazione">
                     <label class="form-check-label" for="dataCreazione">
                         Data creazione
                     </label>
                 </div>
                 <div class="col-md-6 p-1">
-                    <input class="form-check-input" type="radio" name="orderBy" formControlName="orderBy" value="recensione"
-                        id="recensioni">
+                    <input class="form-check-input" type="radio" name="orderBy" formControlName="orderBy"
+                        value="recensione" id="recensioni">
                     <label class="form-check-label" for="recensioni">
                         Recensioni
                     </label>
@@ -62,15 +63,15 @@
                     <label for="sortOrder">Direzione </label>
                 </div>
                 <div class="col-md-6 p-1">
-                    <input class="form-check-input" type="radio" name="sortOrder" formControlName="sortOrder" value="ASC" checked
-                        id="crescente">
+                    <input class="form-check-input" type="radio" name="sortOrder" formControlName="sortOrder"
+                        value="ASC" checked id="crescente">
                     <label class="form-check-label" for="crescente">
                         Crescente
                     </label>
                 </div>
                 <div class="col-md-6 p-1">
-                    <input class="form-check-input" type="radio" name="sortOrder" formControlName="sortOrder" value="DESC"
-                        id="decrescente">
+                    <input class="form-check-input" type="radio" name="sortOrder" formControlName="sortOrder"
+                        value="DESC" id="decrescente">
                     <label class="form-check-label" for="decrescente">
                         Decrescente
                     </label>
@@ -79,16 +80,17 @@
             <button type="button" class="btn btn-success mt-3" (click)="searchGiochi('fromForm')">Ricerca</button>
         </form>
     </div>
-    <div class="col-md-8 border border-top-0 border-right-0 border-bottom-0 border-dark p-3 overflow-auto" id="scroller-pagination" (scroll)="onScroll($event)">
-        <div class="w-100 m-auto p-4" *ngFor="let g of giochi, index as i">
-            <div class="p-5 game-card bg-white" *ngIf="!isLoading">
+    <div class="col-md-8 border border-top-0 border-end-0 border-bottom-0 border-dark p-1 overflow-auto"
+        id="scroller-pagination" (scroll)="onScroll($event)">
+        <div class="m-auto p-3" [ngClass]="windowWidth<500?'w-100':'w-75'" *ngFor="let g of giochi, index as i">
+            <div class="p-3 game-card bg-white" *ngIf="!isLoading">
                 <div class="w-100 text-center">
                     <img src="{{g?.image}}" class="w-50 m-auto" alt="gioco_image">
                 </div>
                 <div class="text-center py-2 mb-2">
                     <h2>{{g.nomeGioco}}</h2>
                 </div>
-                <div class="border">
+                <div class="border overflow-auto">
                     <p class="bg-light border-bottom p-1 fs-4">Recensioni ({{g?.totalRecensioniNumber}}) : </p>
                     <div *ngFor="let r of g?.recensione, index as i" class="p-2">
                         <div *ngIf="i<=1" [ngClass]="i==1||g?.recensione?.length==1?'':'border-bottom'">
@@ -103,7 +105,7 @@
                                     </button>
                                 </p>
                                 <p>
-                                    {{r?.commento}}
+                                    {{r?.commentoPreview}}
                                 </p>
                             </div>
                         </div>
@@ -112,7 +114,8 @@
                         Non ci sono recensioni
                     </div>
                     <div class="p-2">
-                      <button class="btn btn-success m-1" type="button" (click)="rateGame(g)" title="O vedi tutte le altre">Lascia una recensione</button>
+                        <button class="btn btn-success m-1" type="button" (click)="rateGame(g)">Lascia una recensione o
+                            vedi le altre</button>
                     </div>
                 </div>
                 <div class="border my-2">
@@ -127,7 +130,7 @@
                 </div>
             </div>
             <div class="w-100 p-2 bg-info text-center d-flex justify-content-around align-items-center text-light button"
-                (click)="openGameDialog(g)" *ngIf="!isLoading" (click)="openGameDialog(g)" >
+                (click)="openGameDialog(g)" *ngIf="!isLoading" (click)="openGameDialog(g)">
                 <p class="fs-4 fw-bold pt-3"
                     [ngClass]="g.difficolta<=2?'text-success':g.difficolta<=4?'text-warning':'text-danger'">VAI AL GIOCO
                 </p>
