@@ -13,6 +13,9 @@ export class FormsService {
     private login: string = '/login';
     private signup: string = '/signup';
     private cities: string = '/cities';
+    private clear: string = '/clear';
+    private verifyPasswordCode: string = '/verifyPasswordCode';
+
     public requestLoginCode:BehaviorSubject<String> = new BehaviorSubject<String>('');
 
     constructor(private http: HttpClient) {
@@ -42,5 +45,13 @@ export class FormsService {
 
     getCities(){
         return this.http.get(environment.API_URL+this.auth+this.cities)
+    }
+
+    clearCode(email:string){
+        return this.http.get(environment.API_URL+this.auth+this.clear+`/${email}`)
+    }
+    
+    verifyCode(email:string, code:string, validation?:boolean){
+        return this.http.get(environment.API_URL+this.auth+this.verifyPasswordCode+`/${email}/${code}/${validation||false}`)
     }
 }
