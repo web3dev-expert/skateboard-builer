@@ -18,8 +18,8 @@
         </mat-dialog-content>
         <div class="col-md-12 text-end">
             <mat-dialog-actions class="text-end">
-                <button class="btn btn-outline-success m-1">Gioca</button>
-                <button class="btn text-danger m-1" mat-dialog-close>Chiudi</button>
+                <button class="btn btn-outline-success m-1" (click)="play()">Gioca</button>
+                <button class="btn text-danger m-1" (click)="close(false)">Chiudi</button>
             </mat-dialog-actions>
         </div>
         <div class="col-md-12">

@@ -1,1 +1,30 @@
-<p>game-field works!</p>
+<div class="container py-5 my-5">
+    <div class="row m-auto py-5 my-5 text-center" *ngIf="game&&game==1">
+        <div class="col-md-12 py-5">
+            <h1>Gioco</h1>
+        </div>
+        <div class="col-md-12">
+            <h2 [ngClass]="isEnemyMoving?'enemy-moving':'enemy-not-moving'">
+                L'avversario sta facendo la sua mossa
+            </h2>
+            <h2 *ngIf="enemyWins">
+                L'avversario ha vinto!
+            </h2>
+            <h2 *ngIf="userWins">
+                Hai vinto!
+            </h2>
+        </div>
+        <div class="col-4 p-5" (click)="position($event)"></div>
+        <div class="col-4 p-5 border border-top-0 border-dark" (click)="position($event)"></div>
+        <div class="col-4 p-5" (click)="position($event)"></div>
+        <div class="col-4 p-5 border border-start-0 border-dark" (click)="position($event)"></div>
+        <div class="col-4 p-5" (click)="position($event)"></div>
+        <div class="col-4 p-5 border border-end-0 border-dark" (click)="position($event)"></div>
+        <div class="col-4 p-5" (click)="position($event)"></div>
+        <div class="col-4 p-5 border border-bottom-0 border-dark" (click)="position($event)"></div>
+        <div class="col-4 p-5" (click)="position($event)"></div>
+        <div class="col-md-12" *ngIf="enemyWins||userWins||isFull">
+            <button class="btn my-2 btn-outline-success">Ricomincia</button>
+        </div>
+    </div>
+</div>

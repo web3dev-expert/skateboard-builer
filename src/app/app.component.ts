@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationStart) {
         browserRefresh = !router.navigated;
       }
-  });
+    });
     this.modeService.mode.subscribe((data: string) => {
       this.mode = data;
     })
@@ -41,8 +41,9 @@ export class AppComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    let accessToken: string = localStorage.getItem('accessToken')!
-    let location: string = localStorage.getItem('location')!
+    let accessToken: string = localStorage.getItem('accessToken')!;
+    let location: string = localStorage.getItem('location')!;
+    let gioco: string = localStorage.getItem('game')!;
 
     if (accessToken) {
       this.authService.verifyAccessToken(accessToken).subscribe({
@@ -51,12 +52,13 @@ export class AppComponent implements OnInit {
             this.authService.setUser(user);
             this.authService.authenticateUser(true);
             this.authService.setToken(accessToken);
-            this.router.navigate([`/${location || 'home'}`]);
+            if (location && location == 'game-field') this.router.navigate([`/${location}`], { queryParams: { gioco: gioco } });
+            else this.router.navigate([`/${location || 'home'}`]);
           }
         }
       })
     }
-    else{
+    else {
       localStorage.clear()
     }
   }

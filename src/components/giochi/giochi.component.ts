@@ -34,7 +34,7 @@ export class GiochiComponent implements OnInit {
   maxPages: number = 1;
   sizes: number[] = [2, 5, 10]
   windowWidth: number = 0;
-  constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router,private recensioniService:RecensioneService) { }
+  constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router, private recensioniService: RecensioneService) { }
 
   ngOnInit(): void {
     this.initializeGiocoForm();
@@ -79,7 +79,7 @@ export class GiochiComponent implements OnInit {
       width: '50%',
       height: '70%'
     })
-    dialogRef.afterClosed().subscribe((data: any) => { })
+    dialogRef.afterClosed().subscribe((data: any) => { if (data) this.router.navigate(['/game-field'], { queryParams: { gioco: gioco.id } }); })
   }
 
   initializeGiocoForm() {
@@ -107,14 +107,14 @@ export class GiochiComponent implements OnInit {
     if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 5 && !this.isLoading) {
       this.page += 1;
       if (this.page < this.maxPages) {
-          this.searchGiochi();
+        this.searchGiochi();
       }
     }
   }
   rateGame(gioco: any) {
     const dialogRef = this.matDialog.open(RecensioniComponent, { data: gioco, width: '90%', height: '90%' })
     dialogRef.afterClosed().subscribe((data: any) => {
-        this.checkAlertReces();
+      this.checkAlertReces();
     })
   }
 
@@ -126,11 +126,11 @@ export class GiochiComponent implements OnInit {
     this.windowWidth = window.innerWidth;
   }
 
-  checkAlertReces(){
-    this.recensioniService.alertReces.subscribe((bool:boolean)=>{
-      if(bool){
-        this.page != 0 ? this.page = 0 : ''; 
-        this.getGiochi(true,this.body);
+  checkAlertReces() {
+    this.recensioniService.alertReces.subscribe((bool: boolean) => {
+      if (bool) {
+        this.page != 0 ? this.page = 0 : '';
+        this.getGiochi(true, this.body);
       }
     })
   }
