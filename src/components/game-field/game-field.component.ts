@@ -19,6 +19,10 @@ export class GameFieldComponent implements OnInit, OnDestroy {
   isFull: boolean = false;
   start: string = '';
   cominciata: boolean = false;
+  usersMatchesWon: number = 0;
+  enemysMatchesWon: number = 0;
+  totalMatchesPlayed: number = 0;
+  totalSplitMatches: number = 0;
   constructor(private route: ActivatedRoute, private router: Router) {
     this.route.queryParams.subscribe(
       params => {
@@ -31,7 +35,7 @@ export class GameFieldComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     let whoStart: number = Math.round(Math.random() * 2);
-    if (whoStart == 1) this.start = 'user';
+    if (whoStart <= 1) this.start = 'user';
     else {
       this.start = 'enemy';
       this.enemyMoves();
@@ -48,16 +52,20 @@ export class GameFieldComponent implements OnInit, OnDestroy {
     if (this.isEnemyMoving) return;
     else if (this.enemyWins) return;
     else if (this.userWins) return;
-    else if(!this.cominciata) return;
-    else if(this.isFull) return;
+    else if (!this.cominciata) return;
+    else if (this.isFull) return;
     if (event.target.innerHTML == undefined || event.target.innerHTML == null || event.target.innerHTML == '') {
       event.target.append('🟢');
 
-     this.usersMoves.push(Number(event?.target?.id));
+      this.usersMoves.push(Number(event?.target?.id));
 
-      if (this.checkIfTris(this.usersMoves)) this.userWins = true;
+      if (this.checkIfTris(this.usersMoves)) {
+        this.userWins = true;
+        this.usersMatchesWon += 1;
+      }
       if (this.userWins) return;
       this.isFull = this.checkIfFull();
+      if (this.isFull) this.totalSplitMatches += 1;
       if (this.isFull) return;
       this.enemyMoves();
     }
@@ -67,7 +75,7 @@ export class GameFieldComponent implements OnInit, OnDestroy {
     if (this.enemyWins) return;
     else if (this.userWins) return;
     else if (this.isFull) return;
-    else if(!this.cominciata) return;
+    else if (!this.cominciata) return;
 
     this.isEnemyMoving = true;
     setTimeout(() => {
@@ -77,39 +85,48 @@ export class GameFieldComponent implements OnInit, OnDestroy {
       let userTris: number = -1;
 
       for (let i = 0; i <= div.length - 1; i++) {
-        if (!this.includesAll(this.usersMoves,[Number(div[i].id)])&&!this.includesAll(this.enemysMoves,[Number(div[i].id)])){
-        cleanDiv.push(div[i]);
+        if (!this.includesAll(this.usersMoves, [Number(div[i].id)]) && !this.includesAll(this.enemysMoves, [Number(div[i].id)])) {
+          cleanDiv.push(div[i]);
         }
       }
-      cleanDiv = cleanDiv.filter(c=> c.innerHTML=='' || c.innerHTML == undefined || c.innerHTML == null );
-      enemyTris = this.checkTris(this.enemysMoves,this.usersMoves);
+      cleanDiv = cleanDiv.filter(c => c.innerHTML == '' || c.innerHTML == undefined || c.innerHTML == null);
+      enemyTris = this.checkTris(this.enemysMoves, this.usersMoves);
 
-      if (enemyTris && enemyTris != -1) { 
+      if (enemyTris && enemyTris != -1) {
         div[enemyTris].append('❌');
-        this.isEnemyMoving = false; 
+        this.isEnemyMoving = false;
+        debugger
         this.enemyWins = true;
-        console.log(this.enemyWins)
-        this.enemysMoves.push(Number(div[enemyTris].id)); 
-        return; };
+        this.enemysMatchesWon += 1;
+        this.enemysMoves.push(Number(div[enemyTris].id));
+        return;
+      };
+
       userTris = this.checkTris(this.usersMoves, this.enemysMoves);
       let randomUserObstacle = Math.random() * 2;
-      if (userTris && userTris != -1 && randomUserObstacle > 0.35) { 
-        div[userTris].append('❌'); 
-        this.isEnemyMoving = false; 
-        this.enemysMoves.push(Number(div[userTris].id)); 
-        if(this.checkIfTris(this.enemysMoves)) this.enemyWins = true;
-        return; 
+
+      if (userTris && userTris != -1 && randomUserObstacle > 0.35) {
+        div[userTris].append('❌');
+        this.isEnemyMoving = false;
+        this.enemysMoves.push(Number(div[userTris].id));
+        if (this.checkIfTris(this.enemysMoves)) {
+          debugger
+          this.enemyWins = true;
+          this.enemysMatchesWon += 1;
+        }
+        return;
       };
       let randomIndex: number = Math.round(Math.random() * cleanDiv.length)
       if (cleanDiv[randomIndex == 0 ? 0 : randomIndex == 1 ? 0 : randomIndex - 1]) cleanDiv[randomIndex == 0 ? 0 : randomIndex == 1 ? 0 : randomIndex - 1].append('❌')
-        this.enemysMoves.push(Number(cleanDiv[randomIndex == 0 ? 0 : randomIndex == 1 ? 0 : randomIndex - 1].id));
+      this.enemysMoves.push(Number(cleanDiv[randomIndex == 0 ? 0 : randomIndex == 1 ? 0 : randomIndex - 1].id));
       this.isEnemyMoving = false;
       this.isFull = this.checkIfFull();
+      if (this.isFull) this.totalSplitMatches += 1;
       if (this.isFull) return;
     }, 4000)
   }
 
-  checkTris(array: number[],array1:number[]): number {
+  checkTris(array: number[], array1: number[]): number {
     if (this.includesAll(array, [0, 1]) && !this.includesAll(array1, [2])) return 2;
     else if (this.includesAll(array, [0, 2]) && !this.includesAll(array1, [1])) return 1;
     else if (this.includesAll(array, [1, 2]) && !this.includesAll(array1, [0])) return 0;
@@ -129,7 +146,6 @@ export class GameFieldComponent implements OnInit, OnDestroy {
     else if (this.includesAll(array, [4, 7]) && !this.includesAll(array1, [1])) return 1;
     else if (this.includesAll(array, [4, 8]) && !this.includesAll(array1, [0])) return 0;
     else if (this.includesAll(array, [4, 5]) && !this.includesAll(array1, [3])) return 3;
-    else if (this.includesAll(array, [5, 7]) && !this.includesAll(array1, [2])) return 2;
     else if (this.includesAll(array, [6, 7]) && !this.includesAll(array1, [8])) return 8;
     else if (this.includesAll(array, [6, 8]) && !this.includesAll(array1, [7])) return 7;
     else if (this.includesAll(array, [7, 8]) && !this.includesAll(array1, [6])) return 6;
@@ -139,7 +155,7 @@ export class GameFieldComponent implements OnInit, OnDestroy {
   }
 
 
-  checkIfTris(array:number []): boolean {
+  checkIfTris(array: number[]): boolean {
 
     if (this.includesAll(array, [0, 1, 2])) return true;
     else if (this.includesAll(array, [2, 4, 6])) return true;
@@ -178,10 +194,12 @@ export class GameFieldComponent implements OnInit, OnDestroy {
     this.isFull = false;
     this.usersMoves = [];
     this.enemysMoves = [];
+    this.totalMatchesPlayed += 1;
     this.ngOnInit();
   }
   comincia() {
     this.cominciata = true;
+    this.totalMatchesPlayed += 1;
     this.ngOnInit();
   }
 }
