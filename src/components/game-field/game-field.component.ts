@@ -49,10 +49,13 @@ export class GameFieldComponent implements OnInit, OnDestroy {
     else if (this.enemyWins) return;
     else if (this.userWins) return;
     else if(!this.cominciata) return;
+    else if(this.isFull) return;
     if (event.target.innerHTML == undefined || event.target.innerHTML == null || event.target.innerHTML == '') {
       event.target.append('🟢');
 
-      if (this.checkIfUserTris()) this.userWins = true;
+     this.usersMoves.push(Number(event?.target?.id));
+
+      if (this.checkIfTris(this.usersMoves)) this.userWins = true;
       if (this.userWins) return;
       this.isFull = this.checkIfFull();
       if (this.isFull) return;
@@ -66,147 +69,86 @@ export class GameFieldComponent implements OnInit, OnDestroy {
     else if (this.isFull) return;
     else if(!this.cominciata) return;
 
-    var alreadyAdded: boolean = false;
     this.isEnemyMoving = true;
     setTimeout(() => {
       let div = document.getElementsByClassName('col-4');
-      let cleanDiv = [];
+      let cleanDiv: any[] = [];
       let enemyTris: number = -1;
       let userTris: number = -1;
+
       for (let i = 0; i <= div.length - 1; i++) {
-        if (div[i].innerHTML != '🟢' && div[i].innerHTML != '❌') cleanDiv.push(div[i]);
-        else {
-          if (div[i].innerHTML == '🟢') {
-            this.usersMoves.map(el => {
-              if (el == i) {
-                alreadyAdded = true;
-              }
-            })
-            if (!alreadyAdded) this.usersMoves.push(i);
-            alreadyAdded = false;
-          } else {
-            this.enemysMoves.map(el => {
-              if (el == i) {
-                alreadyAdded = true;
-              }
-            })
-            if (!alreadyAdded) this.enemysMoves.push(i);
-            alreadyAdded = false;
-          }
+        if (!this.includesAll(this.usersMoves,[Number(div[i].id)])&&!this.includesAll(this.enemysMoves,[Number(div[i].id)])){
+        cleanDiv.push(div[i]);
         }
       }
+      cleanDiv = cleanDiv.filter(c=> c.innerHTML=='' || c.innerHTML == undefined || c.innerHTML == null );
+      enemyTris = this.checkTris(this.enemysMoves,this.usersMoves);
 
-      enemyTris = this.checkEnemyTris();
-
-      if (enemyTris && enemyTris != -1) { div[enemyTris].append('❌'); this.isEnemyMoving = false; this.enemyWins = true; return; };
-      userTris = this.checkUserTris();
+      if (enemyTris && enemyTris != -1) { 
+        div[enemyTris].append('❌');
+        this.isEnemyMoving = false; 
+        this.enemyWins = true;
+        console.log(this.enemyWins)
+        this.enemysMoves.push(Number(div[enemyTris].id)); 
+        return; };
+      userTris = this.checkTris(this.usersMoves, this.enemysMoves);
       let randomUserObstacle = Math.random() * 2;
-      if (userTris && userTris != -1 && randomUserObstacle > 0.35) { div[userTris].append('❌'); this.isEnemyMoving = false; return; };
+      if (userTris && userTris != -1 && randomUserObstacle > 0.35) { 
+        div[userTris].append('❌'); 
+        this.isEnemyMoving = false; 
+        this.enemysMoves.push(Number(div[userTris].id)); 
+        if(this.checkIfTris(this.enemysMoves)) this.enemyWins = true;
+        return; 
+      };
       let randomIndex: number = Math.round(Math.random() * cleanDiv.length)
-
       if (cleanDiv[randomIndex == 0 ? 0 : randomIndex == 1 ? 0 : randomIndex - 1]) cleanDiv[randomIndex == 0 ? 0 : randomIndex == 1 ? 0 : randomIndex - 1].append('❌')
+        this.enemysMoves.push(Number(cleanDiv[randomIndex == 0 ? 0 : randomIndex == 1 ? 0 : randomIndex - 1].id));
       this.isEnemyMoving = false;
       this.isFull = this.checkIfFull();
       if (this.isFull) return;
     }, 4000)
   }
 
-  checkEnemyTris(): number {
-
-    if (this.includesAll(this.enemysMoves, [0, 1]) && !this.includesAll(this.usersMoves, [2])) return 2;
-    else if (this.includesAll(this.enemysMoves, [0, 2]) && !this.includesAll(this.usersMoves, [1])) return 1;
-    else if (this.includesAll(this.enemysMoves, [1, 2]) && !this.includesAll(this.usersMoves, [0])) return 0;
-    else if (this.includesAll(this.enemysMoves, [0, 3]) && !this.includesAll(this.usersMoves, [6])) return 6;
-    else if (this.includesAll(this.enemysMoves, [0, 4]) && !this.includesAll(this.usersMoves, [8])) return 8;
-    else if (this.includesAll(this.enemysMoves, [0, 8]) && !this.includesAll(this.usersMoves, [4])) return 4;
-    else if (this.includesAll(this.enemysMoves, [0, 6]) && !this.includesAll(this.usersMoves, [3])) return 3;
-    else if (this.includesAll(this.enemysMoves, [1, 4]) && !this.includesAll(this.usersMoves, [7])) return 7;
-    else if (this.includesAll(this.enemysMoves, [2, 4]) && !this.includesAll(this.usersMoves, [6])) return 6;
-    else if (this.includesAll(this.enemysMoves, [2, 6]) && !this.includesAll(this.usersMoves, [4])) return 4;
-    else if (this.includesAll(this.enemysMoves, [2, 5]) && !this.includesAll(this.usersMoves, [8])) return 8;
-    else if (this.includesAll(this.enemysMoves, [2, 8]) && !this.includesAll(this.usersMoves, [5])) return 5;
-    else if (this.includesAll(this.enemysMoves, [3, 6]) && !this.includesAll(this.usersMoves, [0])) return 0;
-    else if (this.includesAll(this.enemysMoves, [3, 4]) && !this.includesAll(this.usersMoves, [5])) return 5;
-    else if (this.includesAll(this.enemysMoves, [3, 5]) && !this.includesAll(this.usersMoves, [4])) return 4;
-    else if (this.includesAll(this.enemysMoves, [4, 6]) && !this.includesAll(this.usersMoves, [2])) return 2;
-    else if (this.includesAll(this.enemysMoves, [4, 7]) && !this.includesAll(this.usersMoves, [1])) return 1;
-    else if (this.includesAll(this.enemysMoves, [4, 8]) && !this.includesAll(this.usersMoves, [0])) return 0;
-    else if (this.includesAll(this.enemysMoves, [4, 5]) && !this.includesAll(this.usersMoves, [3])) return 3;
-    else if (this.includesAll(this.enemysMoves, [5, 7]) && !this.includesAll(this.usersMoves, [2])) return 2;
-    else if (this.includesAll(this.enemysMoves, [6, 7]) && !this.includesAll(this.usersMoves, [8])) return 8;
-    else if (this.includesAll(this.enemysMoves, [6, 8]) && !this.includesAll(this.usersMoves, [7])) return 7;
-    else if (this.includesAll(this.enemysMoves, [7, 8]) && !this.includesAll(this.usersMoves, [6])) return 6;
-    else if (this.includesAll(this.enemysMoves, [7, 1]) && !this.includesAll(this.usersMoves, [4])) return 4;
-    else if (this.includesAll(this.enemysMoves, [8, 5]) && !this.includesAll(this.usersMoves, [2])) return 2;
+  checkTris(array: number[],array1:number[]): number {
+    if (this.includesAll(array, [0, 1]) && !this.includesAll(array1, [2])) return 2;
+    else if (this.includesAll(array, [0, 2]) && !this.includesAll(array1, [1])) return 1;
+    else if (this.includesAll(array, [1, 2]) && !this.includesAll(array1, [0])) return 0;
+    else if (this.includesAll(array, [0, 3]) && !this.includesAll(array1, [6])) return 6;
+    else if (this.includesAll(array, [0, 4]) && !this.includesAll(array1, [8])) return 8;
+    else if (this.includesAll(array, [0, 8]) && !this.includesAll(array1, [4])) return 4;
+    else if (this.includesAll(array, [0, 6]) && !this.includesAll(array1, [3])) return 3;
+    else if (this.includesAll(array, [1, 4]) && !this.includesAll(array1, [7])) return 7;
+    else if (this.includesAll(array, [2, 4]) && !this.includesAll(array1, [6])) return 6;
+    else if (this.includesAll(array, [2, 6]) && !this.includesAll(array1, [4])) return 4;
+    else if (this.includesAll(array, [2, 5]) && !this.includesAll(array1, [8])) return 8;
+    else if (this.includesAll(array, [2, 8]) && !this.includesAll(array1, [5])) return 5;
+    else if (this.includesAll(array, [3, 6]) && !this.includesAll(array1, [0])) return 0;
+    else if (this.includesAll(array, [3, 4]) && !this.includesAll(array1, [5])) return 5;
+    else if (this.includesAll(array, [3, 5]) && !this.includesAll(array1, [4])) return 4;
+    else if (this.includesAll(array, [4, 6]) && !this.includesAll(array1, [2])) return 2;
+    else if (this.includesAll(array, [4, 7]) && !this.includesAll(array1, [1])) return 1;
+    else if (this.includesAll(array, [4, 8]) && !this.includesAll(array1, [0])) return 0;
+    else if (this.includesAll(array, [4, 5]) && !this.includesAll(array1, [3])) return 3;
+    else if (this.includesAll(array, [5, 7]) && !this.includesAll(array1, [2])) return 2;
+    else if (this.includesAll(array, [6, 7]) && !this.includesAll(array1, [8])) return 8;
+    else if (this.includesAll(array, [6, 8]) && !this.includesAll(array1, [7])) return 7;
+    else if (this.includesAll(array, [7, 8]) && !this.includesAll(array1, [6])) return 6;
+    else if (this.includesAll(array, [7, 1]) && !this.includesAll(array1, [4])) return 4;
+    else if (this.includesAll(array, [8, 5]) && !this.includesAll(array1, [2])) return 2;
     return -1;
   }
 
-  checkUserTris(): number {
 
-    if (this.includesAll(this.usersMoves, [0, 1]) && !this.includesAll(this.enemysMoves, [2])) return 2;
-    else if (this.includesAll(this.usersMoves, [0, 2]) && !this.includesAll(this.enemysMoves, [1])) return 1;
-    else if (this.includesAll(this.usersMoves, [1, 2]) && !this.includesAll(this.enemysMoves, [0])) return 0;
-    else if (this.includesAll(this.usersMoves, [0, 3]) && !this.includesAll(this.enemysMoves, [6])) return 6;
-    else if (this.includesAll(this.usersMoves, [0, 4]) && !this.includesAll(this.enemysMoves, [8])) return 8;
-    else if (this.includesAll(this.usersMoves, [0, 8]) && !this.includesAll(this.enemysMoves, [4])) return 4;
-    else if (this.includesAll(this.usersMoves, [0, 6]) && !this.includesAll(this.enemysMoves, [3])) return 3;
-    else if (this.includesAll(this.usersMoves, [1, 4]) && !this.includesAll(this.enemysMoves, [7])) return 7;
-    else if (this.includesAll(this.usersMoves, [2, 4]) && !this.includesAll(this.enemysMoves, [6])) return 6;
-    else if (this.includesAll(this.usersMoves, [2, 6]) && !this.includesAll(this.enemysMoves, [4])) return 4;
-    else if (this.includesAll(this.usersMoves, [2, 5]) && !this.includesAll(this.enemysMoves, [8])) return 8;
-    else if (this.includesAll(this.usersMoves, [2, 8]) && !this.includesAll(this.enemysMoves, [5])) return 5;
-    else if (this.includesAll(this.usersMoves, [3, 6]) && !this.includesAll(this.enemysMoves, [0])) return 0;
-    else if (this.includesAll(this.usersMoves, [3, 4]) && !this.includesAll(this.enemysMoves, [5])) return 5;
-    else if (this.includesAll(this.usersMoves, [3, 5]) && !this.includesAll(this.enemysMoves, [4])) return 4;
-    else if (this.includesAll(this.usersMoves, [4, 6]) && !this.includesAll(this.enemysMoves, [2])) return 2;
-    else if (this.includesAll(this.usersMoves, [4, 7]) && !this.includesAll(this.enemysMoves, [1])) return 1;
-    else if (this.includesAll(this.usersMoves, [4, 8]) && !this.includesAll(this.enemysMoves, [0])) return 0;
-    else if (this.includesAll(this.usersMoves, [4, 5]) && !this.includesAll(this.enemysMoves, [3])) return 3;
-    else if (this.includesAll(this.usersMoves, [5, 7]) && !this.includesAll(this.enemysMoves, [2])) return 2;
-    else if (this.includesAll(this.usersMoves, [6, 7]) && !this.includesAll(this.enemysMoves, [8])) return 8;
-    else if (this.includesAll(this.usersMoves, [6, 8]) && !this.includesAll(this.enemysMoves, [7])) return 7;
-    else if (this.includesAll(this.usersMoves, [7, 8]) && !this.includesAll(this.enemysMoves, [6])) return 6;
-    else if (this.includesAll(this.usersMoves, [7, 1]) && !this.includesAll(this.enemysMoves, [4])) return 4;
-    else if (this.includesAll(this.usersMoves, [8, 5]) && !this.includesAll(this.enemysMoves, [2])) return 2;
-    return -1;
-  }
+  checkIfTris(array:number []): boolean {
 
-  checkIfUserTris(): boolean {
-
-    let div = document.getElementsByClassName('col-4');
-    let cleanDiv = [];
-    let alreadyAdded: boolean = false;
-    for (let i = 0; i <= div.length - 1; i++) {
-      if (div[i].innerHTML != '🟢' && div[i].innerHTML != '❌') cleanDiv.push(div[i]);
-      else {
-        if (div[i].innerHTML == '🟢') {
-          this.usersMoves.map(el => {
-            if (el == i) {
-              alreadyAdded = true;
-            }
-          })
-          if (!alreadyAdded) this.usersMoves.push(i);
-          alreadyAdded = false;
-        } else {
-          this.enemysMoves.map(el => {
-            if (el == i) {
-              alreadyAdded = true;
-            }
-          })
-          if (!alreadyAdded) this.enemysMoves.push(i);
-          alreadyAdded = false;
-        }
-      }
-    }
-
-    if (this.includesAll(this.usersMoves, [0, 1, 2])) return true;
-    else if (this.includesAll(this.usersMoves, [2, 4, 6])) return true;
-    else if (this.includesAll(this.usersMoves, [0, 3, 6])) return true;
-    else if (this.includesAll(this.usersMoves, [0, 4, 8])) return true;
-    else if (this.includesAll(this.usersMoves, [1, 4, 7])) return true;
-    else if (this.includesAll(this.usersMoves, [2, 5, 8])) return true;
-    else if (this.includesAll(this.usersMoves, [3, 4, 5])) return true;
-    else if (this.includesAll(this.usersMoves, [6, 7, 8])) return true;
+    if (this.includesAll(array, [0, 1, 2])) return true;
+    else if (this.includesAll(array, [2, 4, 6])) return true;
+    else if (this.includesAll(array, [0, 3, 6])) return true;
+    else if (this.includesAll(array, [0, 4, 8])) return true;
+    else if (this.includesAll(array, [1, 4, 7])) return true;
+    else if (this.includesAll(array, [2, 5, 8])) return true;
+    else if (this.includesAll(array, [3, 4, 5])) return true;
+    else if (this.includesAll(array, [6, 7, 8])) return true;
 
     return false;
   }
