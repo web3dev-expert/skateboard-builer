@@ -13,6 +13,9 @@
             <h2 *ngIf="userWins">
                 Hai vinto!
             </h2>
+            <h2 *ngIf="isFull">
+                Ben fatto! Comincia un'altra partita.
+            </h2>
         </div>
         <div class="col-4 p-5" (click)="position($event)"></div>
         <div class="col-4 p-5 border border-top-0 border-dark" (click)="position($event)"></div>
@@ -23,8 +26,10 @@
         <div class="col-4 p-5" (click)="position($event)"></div>
         <div class="col-4 p-5 border border-bottom-0 border-dark" (click)="position($event)"></div>
         <div class="col-4 p-5" (click)="position($event)"></div>
-        <div class="col-md-12" *ngIf="enemyWins||userWins||isFull">
-            <button class="btn my-2 btn-outline-success">Ricomincia</button>
+        <div class="col-md-12">
+            <button class="btn my-5 btn-outline-success" *ngIf="enemyWins||userWins||isFull" (click)="ricomincia()">Ricomincia</button>
+            <button class="btn my-5 btn-outline-success" *ngIf="!cominciata" (click)="comincia()">Comincia</button>
         </div>
+        
     </div>
 </div>

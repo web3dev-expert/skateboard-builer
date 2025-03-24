@@ -77,7 +77,7 @@ export class GiochiComponent implements OnInit {
     const dialogRef = this.matDialog.open(GiocoPreviewComponent, {
       data: gioco,
       width: '50%',
-      height: '70%'
+      height: '90%'
     })
     dialogRef.afterClosed().subscribe((data: any) => { if (data) this.router.navigate(['/game-field'], { queryParams: { gioco: gioco.id } }); })
   }
