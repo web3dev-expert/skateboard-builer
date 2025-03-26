@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../interfaces/interfaces';
 import { ProfileServive } from '../../services/profile.service';
 import { NgClass, NgFor, NgIf } from '@angular/common';
+import { GamefieldService } from '../../services/gamefield.service';
 
 @Component({
   selector: 'app-profile',
@@ -36,7 +37,7 @@ export class ProfileComponent implements OnInit {
   windowWidth:number = 0;
   menuVoices : string[] = ['Profilo' , 'Recensioni', 'Giochi', 'Trofei', 'Classifiche'];
   section:string = 'Profilo';
-  constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive) { }
+  constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService : GamefieldService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(
@@ -76,7 +77,13 @@ export class ProfileComponent implements OnInit {
       }
     })
   }
-
+  getPartite() {
+    this.gamefieldService.getPartitaByUser(this.user?.id).subscribe({
+      next: (partite: any) => {
+        console.log(partite)
+      }
+    })
+  }
   toNumber(element:string){
     return Number(element);
   }
