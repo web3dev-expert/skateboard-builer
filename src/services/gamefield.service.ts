@@ -11,6 +11,7 @@ export class GamefieldService {
   private byUser: string = '/user';
   private byGioco: string = '/gioco';
   private byUserAndDate: string = '/userAndDate';
+  private byUserAndGioco: string = '/userAndGioco';
 
 
   constructor(private http: HttpClient) { }
@@ -31,4 +32,7 @@ export class GamefieldService {
     return this.http.get(environment.API_URL + this.byUserAndDate + `/${userId}?from=${from}&to=${to}`)
   }
 
+  getPartitaByUserAndGioco(userId: number, giocoId: number) {
+    return this.http.get(environment.API_URL + this.partita + this.byUserAndGioco + `/${userId}/${giocoId}`)
+  }
 }

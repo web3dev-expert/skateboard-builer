@@ -14,7 +14,7 @@ import { GamefieldService } from '../../services/gamefield.service';
 export class GameFieldComponent implements OnInit, OnDestroy{
   game: number = 0;
 
-  constructor(private route: ActivatedRoute, private router: Router, private gamefieldService: GamefieldService) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     this.route.queryParams.subscribe(
       params => {
         this.game = JSON.parse(params['gioco']);

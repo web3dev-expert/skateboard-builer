@@ -27,12 +27,14 @@ export class TrisComponent implements OnInit, OnDestroy {
   user: User | null = null;
   @Input() game!: number;
   partite: { userId: number, giocoId: number, esito: string, punteggio: number }[] = [];
+  partiteHistory: any = null;
 
   constructor(private authSerice: AuthService, private gamefieldService: GamefieldService) {
     this.user = this.authSerice.getUser();
   }
 
   ngOnInit(): void {
+    this.getPartite();
     let whoStart: number = Math.round(Math.random() * 2);
     if (whoStart <= 1) this.start = 'user';
     else {
@@ -196,20 +198,34 @@ export class TrisComponent implements OnInit, OnDestroy {
     this.enemysMoves = [];
     this.totalMatchesPlayed += 1;
     this.partite.push({ userId: this.user!.id, giocoId: this.game, esito: 'PERSA', punteggio: 0 })
+    if(this.partiteHistory != null) this.partiteHistory.totalElements+=1;
+    
     this.ngOnInit();
   }
   comincia() {
     this.cominciata = true;
     this.totalMatchesPlayed += 1;
     this.partite.push({ userId: this.user!.id, giocoId: this.game, esito: 'PERSA', punteggio: 0 })
+    if(this.partiteHistory != null) this.partiteHistory.totalElements+=1;
     this.ngOnInit();
   }
 
   ngOnDestroy(): void {
     this.gamefieldService.postPartite(this.partite).subscribe({
-      next: (data:any) => {
+      next: (data: any) => {
         console.log(data);
       }
     })
+  }
+
+
+  getPartite() {
+    if (this.partiteHistory == null) {
+      this.gamefieldService.getPartitaByUserAndGioco(this.user!.id, this.game).subscribe({
+        next: (data: any) => {
+          this.partiteHistory = data;
+        }
+      })
+    }
   }
 }
