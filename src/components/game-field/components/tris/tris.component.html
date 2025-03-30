@@ -24,7 +24,7 @@
     </div>
     <div class="col-md-10">
         <div class="row m-auto overflow-hidden particular-row">
-            <p class="fs-5">Hai giocato in totale : {{partiteHistory==null? totalMatchesPlayed&&totalMatchesPlayed == 1?  totalMatchesPlayed + " partita" : totalMatchesPlayed + " partite" : partiteHistory.totalElements==1? partiteHistory.totalElements + " partita" : partiteHistory.totalElements + " partite a questo gioco."}} </p>
+            <p class="fs-5" *ngIf="showPartite">Hai giocato in totale : {{partiteHistory==null? totalMatchesPlayed&&totalMatchesPlayed == 1?  totalMatchesPlayed + " partita" : totalMatchesPlayed + " partite" : partiteHistory.totalElements==1? partiteHistory.totalElements + " partita" : partiteHistory.totalElements + " partite a questo gioco."}} </p>
             <div class="col-md-12">
                 <h2 [ngClass]="isEnemyMoving?'enemy-moving':'enemy-not-moving'">
                     L'avversario sta facendo la sua mossa

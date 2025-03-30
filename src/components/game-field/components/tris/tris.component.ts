@@ -1,5 +1,5 @@
 import { NgIf, NgClass } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../../../services/auth.service';
 import { User } from '../../../../interfaces/interfaces';
 import { GamefieldService } from '../../../../services/gamefield.service';
@@ -28,13 +28,20 @@ export class TrisComponent implements OnInit, OnDestroy {
   @Input() game!: number;
   partite: { userId: number, giocoId: number, esito: string, punteggio: number }[] = [];
   partiteHistory: any = null;
-
+  showPartite: boolean = false;
   constructor(private authSerice: AuthService, private gamefieldService: GamefieldService) {
     this.user = this.authSerice.getUser();
   }
 
   ngOnInit(): void {
-    this.getPartite();
+    if (localStorage.getItem('partite')) {
+      this.partite = JSON.parse(localStorage.getItem('partite')!);
+      this.ngOnDestroy();
+    }
+    setTimeout(() => {
+      this.getPartite();
+      this.showPartite = true;
+    }, 3000)
     let whoStart: number = Math.round(Math.random() * 2);
     if (whoStart <= 1) this.start = 'user';
     else {
@@ -198,22 +205,23 @@ export class TrisComponent implements OnInit, OnDestroy {
     this.enemysMoves = [];
     this.totalMatchesPlayed += 1;
     this.partite.push({ userId: this.user!.id, giocoId: this.game, esito: 'PERSA', punteggio: 0 })
-    if(this.partiteHistory != null) this.partiteHistory.totalElements+=1;
-    
+    if (this.partiteHistory != null) this.partiteHistory.totalElements += 1;
+
     this.ngOnInit();
   }
   comincia() {
     this.cominciata = true;
     this.totalMatchesPlayed += 1;
     this.partite.push({ userId: this.user!.id, giocoId: this.game, esito: 'PERSA', punteggio: 0 })
-    if(this.partiteHistory != null) this.partiteHistory.totalElements+=1;
+    if (this.partiteHistory != null) this.partiteHistory.totalElements += 1;
     this.ngOnInit();
   }
 
   ngOnDestroy(): void {
     this.gamefieldService.postPartite(this.partite).subscribe({
       next: (data: any) => {
-        console.log(data);
+        localStorage.removeItem('partite');
+        this.partite = [];
       }
     })
   }
@@ -227,5 +235,10 @@ export class TrisComponent implements OnInit, OnDestroy {
         }
       })
     }
+  }
+
+  @HostListener('window:beforeunload', ["$event"])
+  catchReload(event: any) {
+    if (this.partite?.length > 0) localStorage.setItem('partite', JSON.stringify(this.partite));
   }
 }
