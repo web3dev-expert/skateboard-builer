@@ -3,11 +3,12 @@ import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core
 import { AuthService } from '../../../../services/auth.service';
 import { User } from '../../../../interfaces/interfaces';
 import { GamefieldService } from '../../../../services/gamefield.service';
+import { SharedModule } from '../../../../shared/modules/shared.module';
 
 @Component({
   selector: 'app-tris',
   standalone: true,
-  imports: [NgIf, NgClass],
+  imports: [NgIf, NgClass, SharedModule],
   templateUrl: './tris.component.html',
   styleUrl: './tris.component.scss'
 })
@@ -28,7 +29,7 @@ export class TrisComponent implements OnInit, OnDestroy {
   @Input() game!: number;
   partite: { userId: number, giocoId: number, esito: string, punteggio: number }[] = [];
   partiteHistory: any = null;
-  showPartite: boolean = false;
+  isLoading: boolean = true;
   constructor(private authSerice: AuthService, private gamefieldService: GamefieldService) {
     this.user = this.authSerice.getUser();
   }
@@ -40,7 +41,6 @@ export class TrisComponent implements OnInit, OnDestroy {
     }
     setTimeout(() => {
       this.getPartite();
-      this.showPartite = true;
     }, 3000)
     let whoStart: number = Math.round(Math.random() * 2);
     if (whoStart <= 1) this.start = 'user';
@@ -232,6 +232,7 @@ export class TrisComponent implements OnInit, OnDestroy {
       this.gamefieldService.getPartitaByUserAndGioco(this.user!.id, this.game).subscribe({
         next: (data: any) => {
           this.partiteHistory = data;
+          this.isLoading = false;
         }
       })
     }
