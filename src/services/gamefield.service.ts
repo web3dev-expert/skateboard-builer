@@ -12,7 +12,7 @@ export class GamefieldService {
   private byGioco: string = '/gioco';
   private byUserAndDate: string = '/userAndDate';
   private byUserAndGioco: string = '/userAndGioco';
-
+  private assignGiocoToUser: string = '/assignGiocoToUser';
 
   constructor(private http: HttpClient) { }
 
@@ -34,5 +34,9 @@ export class GamefieldService {
 
   getPartitaByUserAndGioco(userId: number, giocoId: number) {
     return this.http.get(environment.API_URL + this.partita + this.byUserAndGioco + `/${userId}/${giocoId}`)
+  }
+
+  assignGiocoUser(giocoId: number, userId: number){
+    return this.http.get(environment.API_URL + this.byGioco+this.assignGiocoToUser + `?gioco=${giocoId}&user=${userId}`)
   }
 }

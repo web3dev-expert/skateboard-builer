@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit {
     { label: 'Meno recente', values: ['createdAt', 'ASC'] }];
   sizes: number[] = [2, 5, 10];
   windowWidth:number = 0;
-  menuVoices : string[] = ['Profilo' , 'Recensioni', 'Giochi', 'Trofei', 'Classifiche'];
+  menuVoices : string[] = ['Profilo' , 'Recensioni', 'Giochi', 'Trofei', 'Classifiche','Partite'];
   section:string = 'Profilo';
   constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService : GamefieldService) { }
 
