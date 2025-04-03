@@ -56,8 +56,8 @@ export class TrisComponent implements OnInit, OnDestroy {
     else if (this.userWins) return;
     else if (!this.cominciata) return;
     else if (this.isFull) return;
-    if (event.target.innerHTML == undefined || event.target.innerHTML == null || event.target.innerHTML == '') {
-      event.target.append('🟢');
+    if (event.target.children[0].textContent == undefined || event.target.children[0].textContent == null || event.target.children[0].textContent == '') {
+      event.target.children[0].textContent=('🟢');
 
       this.usersMoves.push(Number(event?.target?.id));
 
@@ -85,7 +85,7 @@ export class TrisComponent implements OnInit, OnDestroy {
 
     this.isEnemyMoving = true;
     setTimeout(() => {
-      let div = document.getElementsByClassName('col-4');
+      let div = document.getElementsByClassName('col-4') as HTMLCollectionOf<HTMLDivElement>;
       let cleanDiv: any[] = [];
       let enemyTris: number = -1;
       let userTris: number = -1;
@@ -95,11 +95,11 @@ export class TrisComponent implements OnInit, OnDestroy {
           cleanDiv.push(div[i]);
         }
       }
-      cleanDiv = cleanDiv.filter(c => c.innerHTML == '' || c.innerHTML == undefined || c.innerHTML == null);
+      cleanDiv = cleanDiv.filter(c => c.children[0].textContent == '' || c.children[0].textContent == undefined || c.children[0].textContent == null);
       enemyTris = this.checkTris(this.enemysMoves, this.usersMoves);
 
       if (enemyTris && enemyTris != -1) {
-        div[enemyTris].append('❌');
+        div[enemyTris].children[0].textContent=('❌');
         this.isEnemyMoving = false;
         this.enemyWins = true;
         this.partite[this.partite.length - 1].esito = 'PERSA';
@@ -112,7 +112,7 @@ export class TrisComponent implements OnInit, OnDestroy {
       let randomUserObstacle = Math.random() * 2;
 
       if (userTris && userTris != -1 && randomUserObstacle > 0.35) {
-        div[userTris].append('❌');
+        div[userTris].children[0].textContent=('❌');
         this.isEnemyMoving = false;
         this.enemysMoves.push(Number(div[userTris].id));
         if (this.checkIfTris(this.enemysMoves)) {
@@ -123,7 +123,7 @@ export class TrisComponent implements OnInit, OnDestroy {
         return;
       };
       let randomIndex: number = Math.round(Math.random() * cleanDiv.length)
-      if (cleanDiv[randomIndex == 0 ? 0 : randomIndex == 1 ? 0 : randomIndex - 1]) cleanDiv[randomIndex == 0 ? 0 : randomIndex == 1 ? 0 : randomIndex - 1].append('❌')
+      if (cleanDiv[randomIndex == 0 ? 0 : randomIndex == 1 ? 0 : randomIndex - 1]) cleanDiv[randomIndex == 0 ? 0 : randomIndex == 1 ? 0 : randomIndex - 1].children[0].textContent=('❌');
       this.enemysMoves.push(Number(cleanDiv[randomIndex == 0 ? 0 : randomIndex == 1 ? 0 : randomIndex - 1].id));
       this.isEnemyMoving = false;
       this.isFull = this.checkIfFull();
@@ -183,20 +183,20 @@ export class TrisComponent implements OnInit, OnDestroy {
 
 
   checkIfFull() {
-    let div = document.getElementsByClassName('col-4');
+    let div = document.getElementsByClassName('col-4') as HTMLCollectionOf<HTMLDivElement>;
 
     for (let i = 0; i <= div.length - 1; i++) {
-      if (div[i].innerHTML != '🟢' && div[i].innerHTML != '❌') return false;
+      if (div[i].children[0].textContent!= '🟢' && div[i].children[0].textContent != '❌') return false;
     }
 
     return true;
   }
 
   ricomincia() {
-    let div = document.getElementsByClassName('col-4');
+    let div = document.getElementsByClassName('col-4') as HTMLCollectionOf<HTMLDivElement>;
 
     for (let i = 0; i <= div.length - 1; i++) {
-      div[i].innerHTML = '';
+      div[i].children[0].textContent= '';
     }
     this.userWins = false;
     this.enemyWins = false;

@@ -1,13 +1,13 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TrisComponent } from './components/tris/tris.component';
-import { GamefieldService } from '../../services/gamefield.service';
+import { MemoryComponent } from './components/memory/memory.component';
 
 @Component({
   selector: 'app-game-field',
   standalone: true,
-  imports: [NgIf,TrisComponent],
+  imports: [NgIf,TrisComponent,MemoryComponent],
   templateUrl: './game-field.component.html',
   styleUrl: './game-field.component.scss'
 })

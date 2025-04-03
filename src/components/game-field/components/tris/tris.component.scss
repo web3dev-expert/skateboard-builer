@@ -4,6 +4,11 @@
     width: 75%!important;
     .col-4 {
         cursor: pointer !important;
+        position: relative;
+        .position-absolute{
+           left: 45%;
+           top: 45%;
+        }
     }
 }
 .particular-row{
