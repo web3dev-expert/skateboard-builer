@@ -33,4 +33,6 @@ export class ProfileServive {
     getPunteggiByUserId(userId: number, page: number, size: number, orderBy: string, sortOrder: string) {
         return this.http.get(environment.API_URL + this.recensione + `?id=${userId}&page=${page}&size=${size}&orderBy=${orderBy}&sortOrder=${sortOrder}`)
     }
+
+    
 }

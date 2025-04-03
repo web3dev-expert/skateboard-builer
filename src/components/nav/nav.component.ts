@@ -47,7 +47,7 @@ export class NavComponent {
     this.isLoadingLogoutOrRoute = true;
     setTimeout(()=>{
       this.isLoadingLogoutOrRoute = false;
-      this.router.navigate([`/${route}`,  { queryParams: { user: JSON.stringify(this.user) } }])
+      this.router.navigate([`/${route}`],  { queryParams: { user: JSON.stringify(this.user) } })
     },1000)
   }
 }

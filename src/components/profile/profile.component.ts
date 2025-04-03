@@ -42,6 +42,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(
       params => {
+        debugger
         if (params && params['user']) {
           this.visitedUser = JSON.parse(params['user']);
           this.getAllDatas();
@@ -49,9 +50,8 @@ export class ProfileComponent implements OnInit {
           else this.router.navigate(['/lobby']);
         } else {
           if (!localStorage.getItem('visitedUser')) this.router.navigate(['/lobby']);
-          else this.visitedUser = JSON.parse(localStorage.getItem('visitedUser')!); this.getAllDatas();
+          else {this.visitedUser = JSON.parse(localStorage.getItem('visitedUser')!); this.getAllDatas();}
         }
-        console.log(this.visitedUser)
       }
     )
     localStorage.setItem('location', 'lobby/profile')

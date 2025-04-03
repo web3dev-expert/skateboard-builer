@@ -39,4 +39,8 @@ export class GamefieldService {
   assignGiocoUser(giocoId: number, userId: number){
     return this.http.get(environment.API_URL + this.byGioco+this.assignGiocoToUser + `?gioco=${giocoId}&user=${userId}`)
   }
+
+  getGiochiByUser(userId: number) {
+    return this.http.get(environment.API_URL + this.byGioco + this.byUser + `Id`)
+  }
 }

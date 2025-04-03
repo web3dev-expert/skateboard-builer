@@ -214,6 +214,7 @@ export class TrisComponent implements OnInit, OnDestroy {
     this.totalMatchesPlayed += 1;
     this.partite.push({ userId: this.user!.id, giocoId: this.game, esito: 'PERSA', punteggio: 0 })
     if (this.partiteHistory != null) this.partiteHistory.totalElements += 1;
+    this.associateGiocoToUser();
     this.ngOnInit();
   }
 
@@ -241,5 +242,9 @@ export class TrisComponent implements OnInit, OnDestroy {
   @HostListener('window:beforeunload', ["$event"])
   catchReload(event: any) {
     if (this.partite?.length > 0) localStorage.setItem('partite', JSON.stringify(this.partite));
+  }
+
+  associateGiocoToUser(){
+    this.gamefieldService.assignGiocoUser(this.game,this.user!.id).subscribe();
   }
 }
