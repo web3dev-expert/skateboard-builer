@@ -17,6 +17,7 @@ export class MemoryComponent implements OnInit {
   step: number = 0;
   difficolta: string = '';
   remainingCardToFind: number = 0;
+  cards: HTMLDivElement[] = [];
   constructor(private authService: AuthService) {
     this.user = this.authService.getUser();
   }
@@ -54,8 +55,17 @@ export class MemoryComponent implements OnInit {
           newDiv.classList.add('p-5');
           newDiv.classList.add('col-2');
           newDiv.classList.add('personal-card');
+          this.cards.push(newDiv);
+        }
+        for (let i = 0; i <= this.cards.length - 1; i++) {
+          let randomNumber = Math.round(Math.random() * this.cards.length - 1);
+          let div = this.cards[i];
+          this.cards[i] = this.cards[randomNumber];
+          this.cards[randomNumber] = div;
+        }
+        for (let i = 0; i <= this.cards.length - 1; i++) {
           setTimeout(() => {
-            div.appendChild(newDiv);
+            div.appendChild(this.cards[i]);
           }, i * 200)
         }
       }
