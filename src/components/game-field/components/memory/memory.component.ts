@@ -71,6 +71,8 @@ export class MemoryComponent implements OnInit {
           flipCard.classList.add('m-2');
           flipCard.classList.add('p-5');
           flipCard.classList.add('col-2');
+          flipCard.id = `flip-${i}`;
+          flipCard.addEventListener('click', (event: Event) => this.checkIfRight(event, i));
           this.cards.push(flipCard);
         }
         for (let i = 0; i <= this.cards.length - 1; i++) {
@@ -155,5 +157,10 @@ export class MemoryComponent implements OnInit {
       div.style.webkitBackfaceVisibility = 'hidden'; /* Safari */
       div.style.backfaceVisibility = 'hidden';
     }
+  }
+
+  checkIfRight(event: Event, id: number) {
+    event.preventDefault();
+    console.log(document.getElementById('flip-' + id));
   }
 }
