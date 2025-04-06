@@ -2,11 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { User } from '../../../../interfaces/interfaces';
 import { AuthService } from '../../../../services/auth.service';
 import { NgClass, NgIf } from '@angular/common';
+import { SharedModule } from '../../../../shared/modules/shared.module';
 
 @Component({
   selector: 'app-memory',
   standalone: true,
-  imports: [NgIf, NgClass],
+  imports: [NgIf, NgClass, SharedModule],
   templateUrl: './memory.component.html',
   styleUrl: './memory.component.scss'
 })
@@ -20,6 +21,7 @@ export class MemoryComponent implements OnInit {
   cards: HTMLDivElement[] = [];
   secondsToFlip: number = 0;
   downgradeSecondsInterval: any = null;
+  showSpinner: boolean = false;
   constructor(private authService: AuthService) {
     this.user = this.authService.getUser();
   }
@@ -39,25 +41,37 @@ export class MemoryComponent implements OnInit {
   }
 
   giveCards() {
+    this.showSpinner = true;
     let div: any = null;
+
+
     setTimeout(() => {
       div = document.getElementById('carte-field') as HTMLDivElement;
       if (div) {
         for (let i = 1; i <= this.remainingCardToFind; i++) {
-          const newDiv: HTMLDivElement = document.createElement('div');
+          const flipCard: HTMLDivElement = document.createElement('div');
+          const flipCardInner: HTMLDivElement = document.createElement('div');
+          const flipCardFront: HTMLDivElement = document.createElement('div');
+          const flipCardBack: HTMLDivElement = document.createElement('div');
+          flipCard.style.perspective = '1000px'; /* Remove this if you don't want the 3D effect */
+          flipCard.style.cursor = 'pointer!important';
+          this.initializeFlipCardStyle(flipCardInner, 'inner');
+          this.initializeFlipCardStyle(flipCardFront, 'front');
           const newContent: Node = document.createTextNode(i.toString());
-          newDiv.appendChild(newContent);
-          newDiv.style.transition = '1s;'
-          newDiv.classList.add('personal-card');
-          newDiv.classList.add('d-inline');
-          newDiv.classList.add('fs-2');
-          newDiv.classList.add('border');
-          newDiv.classList.add('rounded');
-          newDiv.classList.add('m-2');
-          newDiv.classList.add('p-5');
-          newDiv.classList.add('col-2');
-          newDiv.classList.add('personal-card');
-          this.cards.push(newDiv);
+          flipCardFront.appendChild(newContent);
+          this.initializeFlipCardStyle(flipCardBack, 'back');
+          flipCardInner.appendChild(flipCardFront);
+          flipCardInner.appendChild(flipCardBack);
+          flipCard.appendChild(flipCardInner);
+
+          flipCard.style.transition = '1s;';
+          flipCard.classList.add('fs-2');
+          flipCard.classList.add('border');
+          flipCard.classList.add('rounded');
+          flipCard.classList.add('m-2');
+          flipCard.classList.add('p-5');
+          flipCard.classList.add('col-2');
+          this.cards.push(flipCard);
         }
         for (let i = 0; i <= this.cards.length - 1; i++) {
           let randomNumber = Math.round(Math.random() * this.cards.length - 1);
@@ -69,6 +83,7 @@ export class MemoryComponent implements OnInit {
       }
     }, 2000)
     setTimeout(() => {
+      this.showSpinner = false;
       for (let i = 0; i <= this.cards.length - 1; i++) {
         setTimeout(() => {
           div.appendChild(this.cards[i]);
@@ -107,11 +122,38 @@ export class MemoryComponent implements OnInit {
 
   flipCards() {
     clearInterval(this.downgradeSecondsInterval);
-    (document.getElementById('carte-field') as HTMLDivElement)!.childNodes.forEach((child:ChildNode,index:number)=>{
-     setTimeout(()=>{
-      (child as HTMLDivElement).style.transform = 'rotateX(180deg)'
-     },index * 200)    
+    (document.getElementById('carte-field') as HTMLDivElement)!.childNodes.forEach((child: ChildNode, index: number) => {
+      setTimeout(() => {
+        (child as HTMLDivElement).style.transform = 'rotateY(180deg)';
+        ((child as HTMLDivElement).childNodes[0] as HTMLDivElement).style.transform = 'rotateY(180deg)';
+      }, index * 200)
     });
 
+  }
+
+  initializeFlipCardStyle(div: any, type: string) {
+    if (type && type == 'inner') {
+      div.style.position = 'relative';
+      div.style.width = '100%';
+      div.style.height = '100%';
+      div.style.textAlign = 'center';
+      div.style.transition = 'transform 0.8s';
+      div.style.transformStyle = 'preserve-3d';
+    } else if (type && type == 'front') {
+      div.style.backgroundColor = '#bbb';
+    } else if (type && type == 'back') {
+      div.style.backgroundColor = 'red';
+      div.style.color = 'white';
+      div.style.transform = 'rotateY(180deg)';
+    } else {
+
+    }
+    if (type && (type == 'front' || type == 'back')) {
+      div.style.position = 'absolute';
+      div.style.width = '100%';
+      div.style.height = '100%';
+      div.style.webkitBackfaceVisibility = 'hidden'; /* Safari */
+      div.style.backfaceVisibility = 'hidden';
+    }
   }
 }
