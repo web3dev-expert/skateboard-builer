@@ -18,6 +18,8 @@ export class MemoryComponent implements OnInit {
   difficolta: string = '';
   remainingCardToFind: number = 0;
   cards: HTMLDivElement[] = [];
+  secondsToFlip: number = 0;
+  downgradeSecondsInterval: any = null;
   constructor(private authService: AuthService) {
     this.user = this.authService.getUser();
   }
@@ -37,13 +39,13 @@ export class MemoryComponent implements OnInit {
   }
 
   giveCards() {
+    let div: any = null;
     setTimeout(() => {
-      let div = document.getElementById('carte-field') as HTMLDivElement;
+      div = document.getElementById('carte-field') as HTMLDivElement;
       if (div) {
-
         for (let i = 1; i <= this.remainingCardToFind; i++) {
-          const newDiv = document.createElement("div");
-          const newContent = document.createTextNode(String(i));
+          const newDiv: HTMLDivElement = document.createElement('div');
+          const newContent: Node = document.createTextNode(i.toString());
           newDiv.appendChild(newContent);
           newDiv.style.transition = '1s;'
           newDiv.classList.add('personal-card');
@@ -59,20 +61,57 @@ export class MemoryComponent implements OnInit {
         }
         for (let i = 0; i <= this.cards.length - 1; i++) {
           let randomNumber = Math.round(Math.random() * this.cards.length - 1);
+          if (randomNumber < 0) randomNumber = 0;
           let div = this.cards[i];
           this.cards[i] = this.cards[randomNumber];
           this.cards[randomNumber] = div;
         }
-        for (let i = 0; i <= this.cards.length - 1; i++) {
-          setTimeout(() => {
-            div.appendChild(this.cards[i]);
-          }, i * 200)
-        }
       }
-    }, 2000);
+    }, 2000)
+    setTimeout(() => {
+      for (let i = 0; i <= this.cards.length - 1; i++) {
+        setTimeout(() => {
+          div.appendChild(this.cards[i]);
+          if (i == this.cards.length - 1) this.evaluateSecondsToFlip();
+        }, i * 200)
+      }
+    }, 3500)
   }
   handleClickEvent(event: any) {
     event.preventDefault();
-    console.log(event);
+  }
+
+  evaluateSecondsToFlip() {
+    switch (this.difficolta) {
+      case 'bassa': {
+        this.secondsToFlip = 5;
+        break;
+      }
+      case 'media': {
+        this.secondsToFlip = 40;
+        break;
+      }
+      case 'alta': {
+        this.secondsToFlip = 60;
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+    this.downgradeSecondsInterval = setInterval(() => {
+      if (this.secondsToFlip != 0) this.secondsToFlip -= 1;
+      else this.flipCards();
+    }, 1000)
+  }
+
+  flipCards() {
+    clearInterval(this.downgradeSecondsInterval);
+    (document.getElementById('carte-field') as HTMLDivElement)!.childNodes.forEach((child:ChildNode,index:number)=>{
+     setTimeout(()=>{
+      (child as HTMLDivElement).style.transform = 'rotateX(180deg)'
+     },index * 200)    
+    });
+
   }
 }

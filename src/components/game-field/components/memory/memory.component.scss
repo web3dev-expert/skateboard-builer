@@ -1,9 +1,14 @@
 @import url("../../../../shared/style/style.scss");
 
-.carte-field{
+.carte-field {
     max-width: 80%;
     margin: auto;
 }
-.personal-card{
-    cursor: pointer!important;
+
+.personal-card {
+    cursor: pointer !important;
+}
+
+.advice {
+    transition: 1s !important;
 }

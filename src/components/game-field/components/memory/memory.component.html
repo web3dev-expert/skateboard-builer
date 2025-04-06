@@ -67,6 +67,9 @@
                 <div class="col-md-12 w-75 text-start m-auto pt-5">
                     Carte da trovare : {{remainingCardToFind}}
                 </div>
+                <div class="col-md-12 text-center m-auto pt-5 fs-4 advice" *ngIf="secondsToFlip!=0">
+                    Le carte verrano girate in {{secondsToFlip}} secondi.
+                </div>
                 <div class="col-md-12 pt-5 mt-5">
                     <div class="row" id="carte-field">
 
