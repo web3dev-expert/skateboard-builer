@@ -41,6 +41,8 @@
                         <div>
                             <button mat-menu-item [ngClass]="mode!='light'?'text-light':'text-dark'" class="btn fs-4"
                                 (click)="goToRoute('lobby/profile')">Profile</button>
+                                <button mat-menu-item [ngClass]="mode!='light'?'text-light':'text-dark'" class="btn fs-4"
+                                (click)="goToRoute('lobby/preferiti')">Preferiti</button>
                             <button mat-menu-item class="btn fs-4" (click)="logout()"
                                 [ngClass]="mode!='light'?'text-light':'text-dark'"
                                 [routerLink]="'/home'">Logout</button>

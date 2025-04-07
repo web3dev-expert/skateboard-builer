@@ -65,7 +65,17 @@
         <div *ngIf="step==3" class="col-md-12 py-5">
             <div class="row text-center pt-5">
                 <div class="col-md-12 w-75 text-start m-auto pt-5">
-                    Carte da trovare : {{remainingCardToFind}}
+                    <ul>
+                        <li>
+                            Carte da trovare : {{remainingCardToFind}}
+                        </li>
+                        <li>
+                            Punteggio partita : {{punti||0}}
+                        </li>
+                        <li>
+                            Partite giocate a questo gioco : {{totalPartite||0}}
+                        </li>
+                    </ul>
                 </div>
                 <div class="col-md-12" *ngIf="showSpinner">
                     <app-spinner></app-spinner>
@@ -74,8 +84,32 @@
                     Le carte verrano girate in {{secondsToFlip}} secondi.
                 </div>
                 <div class="col-md-12 pt-5 mt-5">
-                    <div class="row" id="carte-field">
+                    <div class="row" id="carte-field" *ngIf="showSpinner== false" (click)="checkCardEquals($event)">
+                        <div class="flip-card col-2 m-auto" *ngFor="let c of officialCards">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front p-5 border rounded">
+                                    <p class="fs-5 fwv-bold">
+                                        {{c}}
+                                    </p>
+                                </div>
+                                <div class="flip-card-back p-5 border rounded">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 pt-5 mt-5">
 
+                    <div class="p-5 border rounded pointer mt-5 col-2 m-auto" *ngIf="givenCard != 0">
+                        <p class="fs-5 fw-bold"> {{givenCard}}</p>
+                    </div>
+                    <div class="p-5 row" *ngIf="rigioca&&officialCards.length==0">
+                        <div class="col-md-12 p-3 fs-5">
+                            Fine! Hai totalizzato {{punti}} {{punti == 1? ' punto': ' punti'}} su 5.
+                        </div>
+                        <div class="col-md-12 p-3">
+                            <button class="btn" (click)="giveCards()">Gioca di nuovo</button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,33 +1,43 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { User } from '../../../../interfaces/interfaces';
 import { AuthService } from '../../../../services/auth.service';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { SharedModule } from '../../../../shared/modules/shared.module';
+import { GamefieldService } from '../../../../services/gamefield.service';
 
 @Component({
   selector: 'app-memory',
   standalone: true,
-  imports: [NgIf, NgClass, SharedModule],
+  imports: [NgIf, NgClass, SharedModule, NgFor],
   templateUrl: './memory.component.html',
   styleUrl: './memory.component.scss'
 })
-export class MemoryComponent implements OnInit {
+export class MemoryComponent implements OnInit, OnDestroy {
 
   @Input() game!: number;
   user: User | null = null;
   step: number = 0;
   difficolta: string = '';
   remainingCardToFind: number = 0;
-  cards: HTMLDivElement[] = [];
+  cards: number[] = [];
   secondsToFlip: number = 0;
   downgradeSecondsInterval: any = null;
   showSpinner: boolean = false;
-  constructor(private authService: AuthService) {
+  officialCards: number[] = [];
+  isCardGiven: boolean = false;
+  givenCard: number = 0;
+  rigioca: boolean = false;
+  punti: number = 5;
+  isDivClicked: number = 0;
+  partite: any[] = [];
+  totalPartite: number = 0;
+  constructor(private authService: AuthService, private gamefieldService: GamefieldService) {
     this.user = this.authService.getUser();
   }
 
   ngOnInit(): void {
-    this.step = 1
+    this.step = 1;
+    this.getPartite();
   }
 
 
@@ -41,54 +51,39 @@ export class MemoryComponent implements OnInit {
   }
 
   giveCards() {
+    this.totalPartite += 1;
+    this.partite.push(
+      {
+        esito: "NON_VALIDA",
+        userId: this.user!.id,
+        giocoId: this.game,
+        punteggio: this.punti
+      }
+    )
     this.showSpinner = true;
-    let div: any = null;
-
+    this.cards = [];
+    this.isCardGiven = false;
+    this.isDivClicked = 0;
+    this.punti = 5;
+    this.remainingCardToFind = this.difficolta == 'bassa' ? this.remainingCardToFind = 5 : this.difficolta == 'media' ? this.remainingCardToFind = 10 : this.difficolta == 'alta' ? 20 : 0;
 
     setTimeout(() => {
-      div = document.getElementById('carte-field') as HTMLDivElement;
-      if (div) {
-        for (let i = 1; i <= this.remainingCardToFind; i++) {
-          const flipCard: HTMLDivElement = document.createElement('div');
-          const flipCardInner: HTMLDivElement = document.createElement('div');
-          const flipCardFront: HTMLDivElement = document.createElement('div');
-          const flipCardBack: HTMLDivElement = document.createElement('div');
-          flipCard.style.perspective = '1000px'; /* Remove this if you don't want the 3D effect */
-          flipCard.style.cursor = 'pointer!important';
-          this.initializeFlipCardStyle(flipCardInner, 'inner');
-          this.initializeFlipCardStyle(flipCardFront, 'front');
-          const newContent: Node = document.createTextNode(i.toString());
-          flipCardFront.appendChild(newContent);
-          this.initializeFlipCardStyle(flipCardBack, 'back');
-          flipCardInner.appendChild(flipCardFront);
-          flipCardInner.appendChild(flipCardBack);
-          flipCard.appendChild(flipCardInner);
-
-          flipCard.style.transition = '1s;';
-          flipCard.classList.add('fs-2');
-          flipCard.classList.add('border');
-          flipCard.classList.add('rounded');
-          flipCard.classList.add('m-2');
-          flipCard.classList.add('p-5');
-          flipCard.classList.add('col-2');
-          flipCard.id = `flip-${i}`;
-          flipCard.addEventListener('click', (event: Event) => this.checkIfRight(event, i));
-          this.cards.push(flipCard);
-        }
-        for (let i = 0; i <= this.cards.length - 1; i++) {
-          let randomNumber = Math.round(Math.random() * this.cards.length - 1);
-          if (randomNumber < 0) randomNumber = 0;
-          let div = this.cards[i];
-          this.cards[i] = this.cards[randomNumber];
-          this.cards[randomNumber] = div;
-        }
+      for (let i = 1; i <= this.remainingCardToFind; i++) {
+        this.cards.push(i);
+      }
+      for (let i = 0; i <= this.cards.length - 1; i++) {
+        let randomNumber = Math.round(Math.random() * (this.cards.length - 1));
+        if (randomNumber < 0) randomNumber = 0;
+        let number = this.cards[i];
+        this.cards[i] = this.cards[randomNumber];
+        this.cards[randomNumber] = number;
       }
     }, 2000)
     setTimeout(() => {
-      this.showSpinner = false;
       for (let i = 0; i <= this.cards.length - 1; i++) {
         setTimeout(() => {
-          div.appendChild(this.cards[i]);
+          this.showSpinner = false;
+          this.officialCards.push(this.cards[i]);
           if (i == this.cards.length - 1) this.evaluateSecondsToFlip();
         }, i * 200)
       }
@@ -101,15 +96,15 @@ export class MemoryComponent implements OnInit {
   evaluateSecondsToFlip() {
     switch (this.difficolta) {
       case 'bassa': {
-        this.secondsToFlip = 5;
+        this.secondsToFlip = 10;
         break;
       }
       case 'media': {
-        this.secondsToFlip = 40;
+        this.secondsToFlip = 20;
         break;
       }
       case 'alta': {
-        this.secondsToFlip = 60;
+        this.secondsToFlip = 30;
         break;
       }
       default: {
@@ -124,11 +119,18 @@ export class MemoryComponent implements OnInit {
 
   flipCards() {
     clearInterval(this.downgradeSecondsInterval);
-    (document.getElementById('carte-field') as HTMLDivElement)!.childNodes.forEach((child: ChildNode, index: number) => {
-      setTimeout(() => {
-        (child as HTMLDivElement).style.transform = 'rotateY(180deg)';
-        ((child as HTMLDivElement).childNodes[0] as HTMLDivElement).style.transform = 'rotateY(180deg)';
-      }, index * 200)
+    setTimeout(() => {
+      (document.getElementById('carte-field') as HTMLDivElement)!.childNodes.forEach((child: ChildNode, index: number) => {
+        setTimeout(() => {
+          if (child.nodeType && child.nodeType != 8) {
+            (child as HTMLDivElement).style.transform = 'rotateY(180deg)';
+            ((child as HTMLDivElement).childNodes[0] as HTMLDivElement).style.transform = 'rotateY(180deg)';
+          }
+        }, index * 200)
+        if (index == (document.getElementById('carte-field') as HTMLDivElement)!.childNodes.length - 2) {
+          this.giveCard();
+        }
+      }, 1000)
     });
 
   }
@@ -144,14 +146,13 @@ export class MemoryComponent implements OnInit {
     } else if (type && type == 'front') {
       div.style.backgroundColor = '#bbb';
     } else if (type && type == 'back') {
-      div.style.backgroundColor = 'red';
-      div.style.color = 'white';
       div.style.transform = 'rotateY(180deg)';
     } else {
 
     }
     if (type && (type == 'front' || type == 'back')) {
       div.style.position = 'absolute';
+      div.style.cursor = 'pointer!important';
       div.style.width = '100%';
       div.style.height = '100%';
       div.style.webkitBackfaceVisibility = 'hidden'; /* Safari */
@@ -159,8 +160,73 @@ export class MemoryComponent implements OnInit {
     }
   }
 
-  checkIfRight(event: Event, id: number) {
-    event.preventDefault();
-    console.log(document.getElementById('flip-' + id));
+  checkCardEquals(event: any) {
+    if (this.isCardGiven) {
+      let clickedCard = event.target.parentElement.firstChild.textContent;
+      if (clickedCard == this.givenCard) {
+        this.isDivClicked = 0;
+        this.officialCards = this.officialCards.filter(c => c != clickedCard);
+        this.givenCard = 0;
+        this.remainingCardToFind -= 1;
+        this.giveCard();
+      } else {
+        this.isDivClicked += 1;
+        event.target.textContent = '❌';
+        event.target.style.fontSize = '30px';
+        if (this.isDivClicked == 1 && this.difficolta == 'bassa') {
+          this.punti -= 1;
+        } else if (this.isDivClicked == 2 && this.difficolta == 'media') {
+          this.punti -= 1;
+        } else if (this.isDivClicked == 4 && this.difficolta == 'alta') {
+          this.punti -= 1;
+        }
+        setTimeout(() => {
+          event.target.textContent = '';
+        }, 500);
+      }
+
+    }
+  }
+
+  giveCard() {
+    this.isCardGiven = true;
+    let randomNumber = Math.round(Math.random() * (this.officialCards.length - 1));
+
+    if (randomNumber < 0) randomNumber = 0;
+    setTimeout(() => {
+      if (this.officialCards.length > 0) this.givenCard = this.officialCards[randomNumber];
+      else {
+        this.partite[this.partite.length - 1].esito = "VALIDA";
+        this.rigioca = true;
+        this.isCardGiven = false;
+      }
+    }, 1000)
+  }
+
+  ngOnDestroy(): void {
+    this.gamefieldService.postPartite(this.partite).subscribe();
+    localStorage.removeItem('partite');
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onReload(event: any) {
+    localStorage.setItem('partite', JSON.stringify(this.partite));
+  }
+  getPartite() {
+    let localStoragePartite = localStorage.getItem('partite');
+    if (localStoragePartite) {
+      this.partite = JSON.parse(localStorage.getItem('partite')!);
+      this.gamefieldService.postPartite(this.partite).subscribe({
+        next: (data: any) => {
+          this.gamefieldService.getPartitaByUserAndGioco(this.user!.id, this.game).subscribe((partite: any) => {
+            this.totalPartite = partite?.totalElements;
+          })
+        }
+      });
+    } else {
+      this.gamefieldService.getPartitaByUserAndGioco(this.user!.id, this.game).subscribe((partite: any) => {
+        this.totalPartite = partite?.totalElements;
+      })
+    }
   }
 }
