@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { GiochiService } from '../../services/giochi.service';
 import { throttleTime } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,6 +34,7 @@ export class GiochiComponent implements OnInit {
   maxPages: number = 1;
   sizes: number[] = [2, 5, 10]
   windowWidth: number = 0;
+  @Input() user: User | null = null;
   constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router, private recensioniService: RecensioneService) { }
 
   ngOnInit(): void {
@@ -131,6 +132,38 @@ export class GiochiComponent implements OnInit {
       if (bool) {
         this.page != 0 ? this.page = 0 : '';
         this.getGiochi(true, this.body);
+      }
+    })
+  }
+  isPreferred(gioco: any) {
+    return this.user?.preferiti?.find(g => g.gioco.id == gioco.id);
+  }
+  addToFavourites(gioco: any) {
+    let preferitiDTO = {
+      gioco_id: gioco.id,
+      user_id: this.user!.id
+    }
+    this.giochiService.addToFavourites(preferitiDTO).subscribe({
+      next: (resp: any) => {
+        this.user?.preferiti.push(resp);
+        console.log(this.user)
+      }
+    })
+  }
+  removeFromFavourites(gioco: any) {
+    let preferitoId = 0;
+    this.user?.preferiti.forEach((p: any) => {
+      if (p.gioco.id == gioco.id) {
+        preferitoId = p.id;
+      }
+    });
+
+    this.giochiService.removeFromFavourites(preferitoId!).subscribe({
+      next: (resp: any) => {
+        if (resp) {
+          this.user!.preferiti = this.user!.preferiti.filter(p => p?.gioco?.id != gioco.id);
+          console.log(this.user)
+        }
       }
     })
   }

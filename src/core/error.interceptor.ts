@@ -24,76 +24,83 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError((err: any) => {
         setTimeout(() => {
           if (err instanceof HttpErrorResponse) {
-            if (
-              (err.error &&
-                err.error.message &&
-                err.error.message ==
-                'Il token non è valido! Per favore effettua nuovamente il login o refresha la pagina!') ||
-              (err.error &&
-                err.error.message &&
-                err.error.message ==
-                'Il token non è valido.')
-            ) {
-              this.formsService.requestLoginCode.next("");
-              let refreshToken = localStorage.getItem('refreshToken');
-              let location = localStorage.getItem('location');
-              if (refreshToken) {
-                this.authService
-                  .verifyRefreshToken(refreshToken!)
-                  .subscribe({
-                    next: (tokens: any) => {
-                      localStorage.setItem('accessToken', tokens.accessToken);
-                      localStorage.setItem('refreshToken', tokens.refreshToken);
-                      this.authService.setToken(tokens.accessToken);
-                      this.authService
-                        .verifyAccessToken(tokens.accessToken)
-                        .subscribe({
-                          next: (user: any) => {
-                            if (user) {
-                              localStorage.setItem(
-                                'user',
-                                JSON.stringify(user)
-                              );
-                              this.authService.setUser(user);
-                              this.authService.authenticateUser(true);
-                              this.router.navigate([`/${location || 'home'}`]);
-                            }
-                          },
-                        });
-                    }
-                  });
-              } else {
-                localStorage.clear();
-                this.authService.authenticateUser(false);
-                this.authService.setUser(null);
-                this.authService.setToken('');
-                this.router.navigate(['home']);
+            try {
+              if (err.status === 401 || err.status === 403) {
+                throw Error("unauthorized");
               }
-            } else if (
-              err.error &&
-              err.error.message &&
-              err.error.message ==
-              'Il refresh token non è valido. Accedi nuovamente.') {
+              if (
+                (err.error &&
+                  err.error.message &&
+                  err.error.message ==
+                  'Il token non è valido! Per favore effettua nuovamente il login o refresha la pagina!') ||
+                (err.error &&
+                  err.error.message &&
+                  err.error.message ==
+                  'Il token non è valido.')
+              ) {
                 this.formsService.requestLoginCode.next("");
-              localStorage.clear()
-            }else if(err.error &&
-              err.error.message &&
-              err.error.message ==
-              "Abbiamo inviato un codice alla mail da te indicata. Inseriscilo qui sotto.") {
+                let refreshToken = localStorage.getItem('refreshToken');
+                let location = localStorage.getItem('location');
+                if (refreshToken) {
+                  this.authService
+                    .verifyRefreshToken(refreshToken!)
+                    .subscribe({
+                      next: (tokens: any) => {
+                        localStorage.setItem('accessToken', tokens.accessToken);
+                        localStorage.setItem('refreshToken', tokens.refreshToken);
+                        this.authService.setToken(tokens.accessToken);
+                        this.authService
+                          .verifyAccessToken(tokens.accessToken)
+                          .subscribe({
+                            next: (user: any) => {
+                              if (user) {
+                                localStorage.setItem(
+                                  'user',
+                                  JSON.stringify(user)
+                                );
+                                this.authService.setUser(user);
+                                this.authService.authenticateUser(true);
+                                this.router.navigate([`/${location || 'home'}`]);
+                              }
+                            },
+                          });
+                      }
+                    });
+                } else {
+                  localStorage.clear();
+                  this.authService.authenticateUser(false);
+                  this.authService.setUser(null);
+                  this.authService.setToken('');
+                  this.router.navigate(['home']);
+                }
+              } else if (
+                err.error &&
+                err.error.message &&
+                err.error.message ==
+                'Il refresh token non è valido. Accedi nuovamente.') {
+                this.formsService.requestLoginCode.next("");
+                localStorage.clear()
+              } else if (err.error &&
+                err.error.message &&
+                err.error.message ==
+                "Abbiamo inviato un codice alla mail da te indicata. Inseriscilo qui sotto.") {
                 this.formsService.requestLoginCode.next(err.error.message);
                 this.toastr.show("Abbiamo inviato un codice alla mail da te indicata. Inseriscilo qui sotto.");
-              }else {
+              } else {
                 this.formsService.requestLoginCode.next("");
-              let error = null;
-              if (null != err?.error?.messageList && err?.error?.messageList.length > 0) {
-                error = err?.error?.messageList[0];
+                let error = null;
+                if (null != err?.error?.messageList && err?.error?.messageList.length > 0) {
+                  error = err?.error?.messageList[0];
+                }
+                this.toastr.show(
+                  err?.error?.message ||
+                  error ||
+                  err?.message ||
+                  "E' successo qualcosa nell'elaborazione della richiesta"
+                );
               }
-              this.toastr.show(
-                err?.error?.message ||
-                error ||
-                err?.message ||
-                "E' successo qualcosa nell'elaborazione della richiesta"
-              );
+            } catch (error: any) {
+              window.location.reload();
             }
           }
 

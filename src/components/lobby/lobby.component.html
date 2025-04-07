@@ -95,7 +95,7 @@
                     </div>
                     <div class="col-md-12 p-2">
                         <div class="w-100 border shadow-sm p-3 bg-light overflow-auto">
-                            <app-giochi *ngIf="location=='giochi'"></app-giochi>
+                            <app-giochi *ngIf="location=='giochi'" [user]="user"></app-giochi>
                             <app-classifiche *ngIf="location=='classifiche'"></app-classifiche>
                             <app-trofei *ngIf="location=='trofei'"></app-trofei>
                             <app-punteggi *ngIf="location=='punteggi'"></app-punteggi>
