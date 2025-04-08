@@ -24,10 +24,6 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError((err: any) => {
         setTimeout(() => {
           if (err instanceof HttpErrorResponse) {
-            try {
-              if (err.status === 401 || err.status === 403) {
-                throw Error("unauthorized");
-              }
               if (
                 (err.error &&
                   err.error.message &&
@@ -36,7 +32,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                 (err.error &&
                   err.error.message &&
                   err.error.message ==
-                  'Il token non è valido.')
+                  'Il token non è valido.') ||
+                  (err.status === 401 || err.status === 403)
               ) {
                 this.formsService.requestLoginCode.next("");
                 let refreshToken = localStorage.getItem('refreshToken');
@@ -99,9 +96,6 @@ export class ErrorInterceptor implements HttpInterceptor {
                   "E' successo qualcosa nell'elaborazione della richiesta"
                 );
               }
-            } catch (error: any) {
-              window.location.reload();
-            }
           }
 
           this.showError.emitShowSpinner(false);

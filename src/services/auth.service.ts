@@ -33,7 +33,7 @@ export class AuthService {
   getUser(){
     return this.user;
   }
-  setUser(user:| null){
+  setUser(user:User | null){
     this.user=user;
   }
   verifyAccessToken(token:string){

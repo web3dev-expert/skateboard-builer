@@ -30,6 +30,7 @@ export class GiochiService {
     }
 
     getPreferitiByUserId(userId: number, page: number, size: number, orderBy: string, sortOrderd: string) {
-        return this.http.get(environment.API_URL + this.preferito + this.user + `?page=${page}&size=${size}&orderBy=${orderBy}&sortOrder=${sortOrderd}`);
+        return this.http.get(environment.API_URL + this.preferito + this.user + `/${userId}?page=${page}&size=${size}&orderBy=${orderBy}&sortOrder=${sortOrderd}`);
     }
+
 };

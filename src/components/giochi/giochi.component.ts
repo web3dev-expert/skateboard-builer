@@ -8,6 +8,7 @@ import { RecensioniComponent } from '../../shared/components/recensioni/recensio
 import { User } from '../../interfaces/interfaces';
 import { Router } from '@angular/router';
 import { RecensioneService } from '../../services/recensione.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-giochi',
@@ -35,7 +36,9 @@ export class GiochiComponent implements OnInit {
   sizes: number[] = [2, 5, 10]
   windowWidth: number = 0;
   @Input() user: User | null = null;
-  constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router, private recensioniService: RecensioneService) { }
+  constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router, private recensioniService: RecensioneService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.initializeGiocoForm();
@@ -146,7 +149,6 @@ export class GiochiComponent implements OnInit {
     this.giochiService.addToFavourites(preferitiDTO).subscribe({
       next: (resp: any) => {
         this.user?.preferiti.push(resp);
-        console.log(this.user)
       }
     })
   }
@@ -162,7 +164,6 @@ export class GiochiComponent implements OnInit {
       next: (resp: any) => {
         if (resp) {
           this.user!.preferiti = this.user!.preferiti.filter(p => p?.gioco?.id != gioco.id);
-          console.log(this.user)
         }
       }
     })

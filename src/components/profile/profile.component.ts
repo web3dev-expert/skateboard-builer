@@ -4,6 +4,12 @@ import { User } from '../../interfaces/interfaces';
 import { ProfileServive } from '../../services/profile.service';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { GamefieldService } from '../../services/gamefield.service';
+import { GiocoPreviewComponent } from '../../shared/components/gioco-preview/gioco-preview.component';
+import { MatDialog } from '@angular/material/dialog';
+import { RecensioniComponent } from '../../shared/components/recensioni/recensioni.component';
+import { RecensioneService } from '../../services/recensione.service';
+import { GiochiService } from '../../services/giochi.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -34,15 +40,16 @@ export class ProfileComponent implements OnInit {
     { label: 'Più recente', values: ['createdAt', 'DESC'] },
     { label: 'Meno recente', values: ['createdAt', 'ASC'] }];
   sizes: number[] = [2, 5, 10];
-  windowWidth:number = 0;
-  menuVoices : string[] = ['Profilo' , 'Recensioni', 'Giochi', 'Trofei', 'Classifiche','Partite'];
-  section:string = 'Profilo';
-  constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService : GamefieldService) { }
+  windowWidth: number = 0;
+  menuVoices: string[] = ['Profilo', 'Recensioni', 'Giochi', 'Trofei', 'Classifiche', 'Partite'];
+  section: string = 'Profilo';
+  circles: number[] = [1, 2, 3, 4, 5];
+  constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService: GamefieldService, private matDialog: MatDialog
+  ,private giochiService: GiochiService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(
       params => {
-        debugger
         if (params && params['user']) {
           this.visitedUser = JSON.parse(params['user']);
           this.getAllDatas();
@@ -50,8 +57,9 @@ export class ProfileComponent implements OnInit {
           else this.router.navigate(['/lobby']);
         } else {
           if (!localStorage.getItem('visitedUser')) this.router.navigate(['/lobby']);
-          else {this.visitedUser = JSON.parse(localStorage.getItem('visitedUser')!); this.getAllDatas();}
+          else { this.visitedUser = JSON.parse(localStorage.getItem('visitedUser')!); this.getAllDatas(); }
         }
+        console.log(this.visitedUser)
       }
     )
     localStorage.setItem('location', 'lobby/profile')
@@ -84,12 +92,21 @@ export class ProfileComponent implements OnInit {
       }
     })
   }
-  toNumber(element:string){
+  toNumber(element: string) {
     return Number(element);
   }
 
-  @HostListener('window:resize',['$event'])
-  onResize(){
+  @HostListener('window:resize', ['$event'])
+  onResize() {
     this.windowWidth = window.innerWidth;
+  }
+
+  openGameDialog(gioco: any) {
+    const dialogRef = this.matDialog.open(GiocoPreviewComponent, {
+      data: gioco,
+      width: '50%',
+      height: '90%'
+    })
+    dialogRef.afterClosed().subscribe((data: any) => { if (data) this.router.navigate(['/game-field'], { queryParams: { gioco: gioco.id } }); })
   }
 }

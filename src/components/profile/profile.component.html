@@ -115,8 +115,35 @@
             <div *ngIf="section=='Giochi'">
                 <div class="px-2">
                     <div class="row text-center">
-                        <div class="col-md-6" *ngFor="let g of giochi?.content">
-
+                        <div class="col-md-12 p-3">
+                            <h2>I giochi a cui hai giocato</h2>
+                        </div>
+                        <div class="col-md-6 p-3" *ngFor="let g of giochi?.content, index as i">
+                            <div class="p-3 game-card bg-white border shadow" >
+                                <div class="w-100 text-center position-relative">
+                                    <img src="{{'data:image/png;base64,'+g?.image}}" class="w-50 m-auto" alt="gioco_image">
+                                </div>
+                                <div class="text-center py-2 mb-2">
+                                    <h2>{{g.nomeGioco}}</h2>
+                                </div>
+                                <div class="border my-2">
+                                    <p class="bg-light border-bottom p-2 fs-4">Livello di difficoltà : {{g.difficolta
+                                        <=2?'FACILE':g.difficolta>2&&g.difficolta
+                                            <=4?'MEDIO':'DIFFICILE'}} </p>
+                                                <div class="d-flex justify-content-around difficult-points-container">
+                                                    <p class="p-2 border border-dark rounded-circle {{i+1<=g.difficolta?'d-block':'d-none'}} m-1"
+                                                        [ngClass]="g.difficolta<=2?'bg-success':g.difficolta<=4?'bg-warning':'bg-danger'"
+                                                        *ngFor="let c of circles,index as i"></p>
+                                                </div>
+                                </div>
+                            </div>
+                            <div class="w-100 p-2 bg-info text-center d-flex justify-content-around align-items-center text-light button shadow"
+                                (click)="openGameDialog(g)" >
+                                <p class="fs-4 fw-bold pt-3"
+                                    [ngClass]="g.difficolta<=2?'text-success':g.difficolta<=4?'text-warning':'text-danger'">VAI AL GIOCO
+                                </p>
+                                <i class="bi bi-arrow-up-right h3 p-3 " title="Vai al gioco"></i>
+                            </div>
                         </div>
                         <div class="col-md-12 py-2 bg-white" *ngIf="giochi == null || giochi?.content?.length == 0">
                             <h2>{{visitedUser?.fullName}} non ha giocato a nessun gioco ancora.</h2>
