@@ -5,7 +5,7 @@
         </div>
         <div class="col-md-3" *ngIf="windowWidth>699">
             <ul class="text-start">
-                <li *ngFor="let v of menuVoices" class="p-3" (click)="section=v">
+                <li *ngFor="let v of menuVoices" class="p-3" (click)="switchSection(v)">
                     {{v.toUpperCase()}}
                 </li>
             </ul>
@@ -118,10 +118,20 @@
                         <div class="col-md-12 p-3">
                             <h2>I giochi a cui hai giocato</h2>
                         </div>
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <label for="sort">Ordina per</label>
+                            <select name="sort" id="sort"
+                                (change)="giochiSortOrder=sort.value.substring(sort.value.lastIndexOf(',')+1);giochiOrderBy=sort.value.split('',(sort.value.length-sort.value.substring(sort.value.lastIndexOf(',')).length)).join().replaceAll(',','');getGiochi()"
+                                #sort class="form-select">
+                                <option *ngFor="let o of ordinaGiocoArray" value="{{o.values}}">{{o.label}}</option>
+                            </select>
+                        </div>
                         <div class="col-md-6 p-3" *ngFor="let g of giochi?.content, index as i">
-                            <div class="p-3 game-card bg-white border shadow" >
+                            <div class="p-3 game-card bg-white border shadow">
                                 <div class="w-100 text-center position-relative">
-                                    <img src="{{'data:image/png;base64,'+g?.image}}" class="w-50 m-auto" alt="gioco_image">
+                                    <img src="{{'data:image/png;base64,'+g?.image}}" class="w-50 m-auto"
+                                        alt="gioco_image">
                                 </div>
                                 <div class="text-center py-2 mb-2">
                                     <h2>{{g.nomeGioco}}</h2>
@@ -138,15 +148,29 @@
                                 </div>
                             </div>
                             <div class="w-100 p-2 bg-info text-center d-flex justify-content-around align-items-center text-light button shadow"
-                                (click)="openGameDialog(g)" >
+                                (click)="openGameDialog(g)">
                                 <p class="fs-4 fw-bold pt-3"
-                                    [ngClass]="g.difficolta<=2?'text-success':g.difficolta<=4?'text-warning':'text-danger'">VAI AL GIOCO
+                                    [ngClass]="g.difficolta<=2?'text-success':g.difficolta<=4?'text-warning':'text-danger'">
+                                    VAI AL GIOCO
                                 </p>
                                 <i class="bi bi-arrow-up-right h3 p-3 " title="Vai al gioco"></i>
                             </div>
                         </div>
                         <div class="col-md-12 py-2 bg-white" *ngIf="giochi == null || giochi?.content?.length == 0">
                             <h2>{{visitedUser?.fullName}} non ha giocato a nessun gioco ancora.</h2>
+                        </div>
+                        <div class="col-md-12" *ngIf="giochi&&giochi?.content">
+                            <button class="btn fs-5" *ngIf="!giochi?.first"
+                                (click)="giochiPage=0;getGiochi();">First</button>
+                            <button class="btn" *ngIf="!giochi?.first" (click)="giochiPage=giochiPage-1;getGiochi();">
+                                <i class="bi bi-arrow-left-circle-fill h4"></i>
+                            </button>
+                            <button class="btn fs-5" *ngIf="!giochi?.last"
+                                (click)="giochiPage=giochiPage+1;getGiochi();">
+                                <i class="bi bi-arrow-right-circle-fill h4"></i>
+                            </button>
+                            <button class="btn" *ngIf="!giochi?.last"
+                                (click)="giochiPage=giochi?.totalPages-1;getGiochi();">Last</button>
                         </div>
                     </div>
                 </div>
@@ -155,7 +179,55 @@
                 <h2>to do ...</h2>
             </div>
             <div *ngIf="section=='Partite'">
-                <h2>to do ...</h2>
+                <div class="row">
+                    <div class="col-md-12 py-3">
+                        <h2>Le tue partite</h2>
+                    </div>
+                    <div class="col-md-12"
+                        *ngIf="!partite || (partite?.content && partite?.contet==0) ||!partite?.content">
+                        Non hai ancora giocato!
+                    </div>
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6" *ngIf="partite&&partite?.content&&partite?.content?.length>0">
+                    <label for="sort">Ordina per : </label>
+                    <select name="sort" id="sort" #sort class="form-select" (change)="partiteSortOrder = sort.value.substring(sort.value.indexOf(',')+1);
+                    partiteOrderBy = sort.value.substring(0,sort.value.indexOf(',')); getPartite()" (mousedown)="sort.size=5;"
+                    (change)="sort.blur();" (blur)="sort.size=1;">
+                        <option value="{{o.values}}" *ngFor="let o of ordinaPartiteArray">{{o.label}}</option>
+                    </select>
+                    </div>
+                    <div class="col-md-6 p-3" *ngFor="let p of partite?.content">
+                        <div class="p-2 border shadow">
+                            <p>{{p.id + " - " + p.createdAt}}</p>
+                            <div class="d-flex justify-content-around">
+                                <img src="{{'data:image/png;base64,' + p?.gioco?.image}}" alt="immagine_gioco"
+                                    class="w-25">
+                                <p class="fs-4"> - {{p?.gioco?.nomeGioco}}</p>
+                            </div>
+                            <div>
+                                <p>Esito partita : <span [ngClass]="calculateEsito(p?.esito)"
+                                        class="fw-bold">{{p?.esito}}</span></p>
+                            </div>
+                            <div>
+                                <p *ngIf="!p?.punteggio">La partita non prevede punteggio.</p>
+                                <p *ngIf="p?.punteggio!=null">Punteggio : {{p?.punteggio?.punteggio}} </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" *ngIf="partite&&partite?.content">
+                        <button class="btn fs-5" *ngIf="!partite?.first"
+                            (click)="partitePage=0;getPartite();">First</button>
+                        <button class="btn" *ngIf="!partite?.first" (click)="partitePage=partitePage-1;getPartite();">
+                            <i class="bi bi-arrow-left-circle-fill h4"></i>
+                        </button>
+                        <button class="btn fs-5" *ngIf="!partite?.last"
+                            (click)="partitePage=partitePage+1;getPartite();">
+                            <i class="bi bi-arrow-right-circle-fill h4"></i>
+                        </button>
+                        <button class="btn" *ngIf="!partite?.last"
+                            (click)="partitePage=partite?.totalPages-1;getPartite();">Last</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

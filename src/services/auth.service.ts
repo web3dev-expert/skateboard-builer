@@ -17,7 +17,6 @@ export class AuthService {
   private accessToken:string = '/verifyToken'
   private refreshToken:string = '/verifyRefreshToken'
 
-
   constructor(private authGuard:AuthGuard,private http:HttpClient) { }
 
   authenticateUser(bool:boolean){
