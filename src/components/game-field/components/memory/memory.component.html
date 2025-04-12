@@ -84,8 +84,8 @@
                     Le carte verrano girate in {{secondsToFlip}} secondi.
                 </div>
                 <div class="col-md-12 pt-5 mt-5">
-                    <div class="row" id="carte-field" *ngIf="showSpinner== false" (click)="checkCardEquals($event)">
-                        <div class="flip-card col-2 m-auto" *ngFor="let c of officialCards">
+                    <div class="row row-container" id="carte-field" >
+                        <div class="flip-card col-md-3 m-auto d-inline" (click)="checkCardEquals($event)" *ngFor="let c of officialCards">
                             <div class="flip-card-inner">
                                 <div class="flip-card-front p-5 border rounded">
                                     <p class="fs-5 fwv-bold">

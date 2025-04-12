@@ -8,6 +8,8 @@ import { environment } from '../core/environment';
 export class GamefieldService {
 
   private partita: string = '/partita';
+  private classifiche: string = '/classifiche';
+  private trofeo: string = '/trofeo';
   private byUser: string = '/user';
   private byGioco: string = '/gioco';
   private byUserAndDate: string = '/userAndDate';
@@ -22,6 +24,12 @@ export class GamefieldService {
 
   getPartitaByUser(userId: number, page: number, size: number, orderBy: string, sortOrder: string) {
     return this.http.get(environment.API_URL + this.partita + this.byUser + `/${userId}?page=${page}&size=${size}&orderBy=${orderBy}&sortOrder=${sortOrder}`)
+  }
+  getClassificheByUser(userId: number, page: number, size: number, orderBy: string, sortOrder: string) {
+    return this.http.get(environment.API_URL + this.classifiche + this.byUser + `/${userId}?page=${page}&size=${size}&orderBy=${orderBy}&sortOrder=${sortOrder}`)
+  }
+  getTrofeiByUser(userId: number, page: number, size: number, orderBy: string, sortOrder: string) {
+    return this.http.get(environment.API_URL + this.trofeo + this.byUser + `/${userId}?page=${page}&size=${size}&orderBy=${orderBy}&sortOrder=${sortOrder}`)
   }
 
   getPartitaByGioco(giocoId: number) {

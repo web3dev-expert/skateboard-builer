@@ -96,15 +96,15 @@ export class MemoryComponent implements OnInit, OnDestroy {
   evaluateSecondsToFlip() {
     switch (this.difficolta) {
       case 'bassa': {
-        this.secondsToFlip = 10;
+        this.secondsToFlip = 1;
         break;
       }
       case 'media': {
-        this.secondsToFlip = 20;
+        this.secondsToFlip = 2;
         break;
       }
       case 'alta': {
-        this.secondsToFlip = 30;
+        this.secondsToFlip = 3;
         break;
       }
       default: {
@@ -161,6 +161,7 @@ export class MemoryComponent implements OnInit, OnDestroy {
   }
 
   checkCardEquals(event: any) {
+    event.preventDefault();
     if (this.isCardGiven) {
       let clickedCard = event.target.parentElement.firstChild.textContent;
       if (clickedCard == this.givenCard) {
@@ -180,9 +181,10 @@ export class MemoryComponent implements OnInit, OnDestroy {
         } else if (this.isDivClicked == 4 && this.difficolta == 'alta') {
           this.punti -= 1;
         }
+
         setTimeout(() => {
           event.target.textContent = '';
-        }, 500);
+        }, 300);
       }
 
     }

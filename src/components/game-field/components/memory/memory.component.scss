@@ -1,12 +1,15 @@
 @import url("../../../../shared/style/style.scss");
 
 .carte-field {
-    max-width: 80%;
+    width: 80%!important;
     margin: auto;
 }
 
 .advice {
     transition: 1s !important;
+}
+.row-container{
+  min-height: 500px;
 }
 .flip-card {
     background-color: transparent;

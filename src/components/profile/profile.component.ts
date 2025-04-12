@@ -1,11 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { User } from '../../interfaces/interfaces';
 import { ProfileServive } from '../../services/profile.service';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { GamefieldService } from '../../services/gamefield.service';
 import { GiocoPreviewComponent } from '../../shared/components/gioco-preview/gioco-preview.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -40,19 +41,19 @@ export class ProfileComponent implements OnInit {
     { label: 'Nome ascendente', values: ['nomeGioco', 'ASC'] },
     { label: 'Difficoltà minore', values: ['difficolta', 'ASC'] },
     { label: 'Difficoltà maggiore', values: ['difficolta', 'DESC'] }];
-    ordinaPartiteArray: { label: string, values: string[] }[] = [
-      { label: 'Id ascendente', values: ['id', 'ASC'] },
-      { label: 'Id discendente', values: ['id', 'DESC'] },
-      { label: 'Punteggio migliore', values: ['punteggio.punteggio', 'DESC'] },
-      { label: 'Punteggio peggiore', values: ['punteggio.punteggio', 'ASC'] },
-      { label: 'Nome gioco discendente', values: ['gioco.nomeGioco', 'DESC'] },
-      { label: 'Nome gioco ascendente', values: ['gioco.nomeGioco', 'ASC'] },
-      { label: 'Difficoltà maggiore', values: ['gioco.difficolta', 'DESC'] },
-      { label: 'Difficoltà minore', values: ['gioco.difficolta', 'ASC'] },
-      { label: 'Più recente', values: ['createdAt', 'DESC'] },
-      { label: 'Meno recente', values: ['createdAt', 'ASC'] },
-      { label: 'Esito partita discendente', values: ['esito', 'DESC'] },
-      { label: 'Esito partita ascendente', values: ['esito', 'ASC'] }];
+  ordinaPartiteArray: { label: string, values: string[] }[] = [
+    { label: 'Id ascendente', values: ['id', 'ASC'] },
+    { label: 'Id discendente', values: ['id', 'DESC'] },
+    { label: 'Punteggio migliore', values: ['punteggio.punteggio', 'DESC'] },
+    { label: 'Punteggio peggiore', values: ['punteggio.punteggio', 'ASC'] },
+    { label: 'Nome gioco discendente', values: ['gioco.nomeGioco', 'DESC'] },
+    { label: 'Nome gioco ascendente', values: ['gioco.nomeGioco', 'ASC'] },
+    { label: 'Difficoltà maggiore', values: ['gioco.difficolta', 'DESC'] },
+    { label: 'Difficoltà minore', values: ['gioco.difficolta', 'ASC'] },
+    { label: 'Più recente', values: ['createdAt', 'DESC'] },
+    { label: 'Meno recente', values: ['createdAt', 'ASC'] },
+    { label: 'Esito partita discendente', values: ['esito', 'DESC'] },
+    { label: 'Esito partita ascendente', values: ['esito', 'ASC'] }];
 
 
   sizes: number[] = [2, 5, 10];
@@ -65,7 +66,18 @@ export class ProfileComponent implements OnInit {
   partiteOrderBy: string = 'id';
   partiteSortOrder: string = 'ASC';
   partite: any = null;
-  constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService: GamefieldService, private matDialog: MatDialog) { }
+  classifichePage: number = 0;
+  classificheSize: number = 6;
+  classificheOrderBy: string = 'id';
+  classificheSortOrder: string = 'ASC';
+  classifiche: any = null;
+  trofeiPage: number = 0;
+  trofeiSize: number = 9;
+  trofeiOrderBy: string = 'id';
+  trofeiSortOrder: string = 'ASC';
+  trofei: any = null;
+  constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService: GamefieldService, private matDialog: MatDialog,
+    public authService: AuthService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(
@@ -79,7 +91,6 @@ export class ProfileComponent implements OnInit {
           if (!localStorage.getItem('visitedUser')) this.router.navigate(['/lobby']);
           else { this.visitedUser = JSON.parse(localStorage.getItem('visitedUser')!); this.getAllDatas(); }
         }
-        console.log(this.visitedUser)
       }
     )
     localStorage.setItem('location', 'lobby/profile')
@@ -89,6 +100,8 @@ export class ProfileComponent implements OnInit {
     this.getRecensioni();
     this.getGiochi();
     this.getPartite();
+    this.getClassifiche();
+    this.getTrofei();
     this.onResize();
   }
 
@@ -103,7 +116,6 @@ export class ProfileComponent implements OnInit {
     this.profiloService.getGiochiByUserId(this.visitedUser!.id, this.giochiPage, this.giochiSize, this.giochiOrderBy, this.giochiSortOrder).subscribe({
       next: (games: any) => {
         this.giochi = games;
-        console.log(this.giochi)
       }
     })
   }
@@ -111,6 +123,20 @@ export class ProfileComponent implements OnInit {
     this.gamefieldService.getPartitaByUser(this.visitedUser!.id, this.partitePage, this.partiteSize, this.partiteOrderBy, this.partiteSortOrder).subscribe({
       next: (partite: any) => {
         this.partite = partite;
+      }
+    })
+  }
+  getClassifiche() {
+    this.gamefieldService.getClassificheByUser(this.visitedUser!.id, this.classifichePage, this.classificheSize, this.classificheOrderBy, this.classificheSortOrder).subscribe({
+      next: (classifiche: any) => {
+        this.classifiche = classifiche;
+      }
+    })
+  }
+  getTrofei() {
+    this.gamefieldService.getTrofeiByUser(this.visitedUser!.id, this.trofeiPage, this.trofeiSize, this.trofeiOrderBy, this.trofeiSortOrder).subscribe({
+      next: (trofei: any) => {
+        this.trofei = trofei;
       }
     })
   }
@@ -167,9 +193,8 @@ export class ProfileComponent implements OnInit {
       }
     }
   }
-  c(value:string, partie:string,order:string){
-    console.log(value)
-    console.log(partie)
-    console.log(order)
+
+  goToRanking(c: any) {
+    this.router.navigate(['/lobby'], {queryParams:{classificaId:c?.id,section:'classifiche'}});
   }
 }
