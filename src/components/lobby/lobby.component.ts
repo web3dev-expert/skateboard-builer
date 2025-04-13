@@ -18,6 +18,7 @@ export class LobbyComponent implements OnInit, OnChanges {
   showMenu: boolean = false;
   classificaId: number = 0;
   isLoading: boolean = false;
+  canSwitchLocation: boolean = true;
   constructor(private authService: AuthService, private modeService: ModeService, private router: Router, private activatedRoute: ActivatedRoute) {
     this.user = this.authService.getUser()
     this.modeService.mode.subscribe((data: string) => {
@@ -46,16 +47,22 @@ export class LobbyComponent implements OnInit, OnChanges {
     this.router.navigate(['/lobby/profile'], navigationExtras);
   }
   changeLocation(location: string) {
-    if (!this.isLoading) {
-      this.isLoading = true;
-      setTimeout(() => {
-        this.isLoading = false;
-        this.location = location;
-      }, 1000)
+    if (location != this.location) {
+      if (!this.isLoading&&this.canSwitchLocation) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+          this.location = location;
+        }, 1000)
+      }
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.isLoading = false;
+  }
+
+  onReceiveSwitchLocation(boolean: any){
+    this.canSwitchLocation = boolean
   }
 }

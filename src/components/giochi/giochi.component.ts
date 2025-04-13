@@ -1,6 +1,6 @@
-import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { GiochiService } from '../../services/giochi.service';
-import { throttleTime } from 'rxjs';
+import { Subscriber, throttleTime } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { GiocoPreviewComponent } from '../../shared/components/gioco-preview/gioco-preview.component';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -36,20 +36,21 @@ export class GiochiComponent implements OnInit, OnDestroy {
   windowWidth: number = 0;
   @Input() user: User | null = null;
   timeout: any = null;
-    constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router, private recensioniService: RecensioneService) { }
+  @Output() canSwitchLocation: EventEmitter<boolean> = new EventEmitter<boolean>(false);
+  constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router, private recensioniService: RecensioneService) { }
 
   ngOnInit(): void {
-      this.initializeGiocoForm();
-      this.getGiochi(false, this.body);
-      this.onResize();
+    this.initializeGiocoForm();
+    this.getGiochi(false, this.body);
+    this.onResize();
   }
   ngOnDestroy(): void {
-    if(this.timeout){
-      clearTimeout(this.timeout);
-    }
+    this.isLoading = false;
+    clearTimeout(this.timeout);
   }
 
   getGiochi(origin: boolean, body: { nome: string, difficolta: number, punteggio: number }, isActive?: boolean) {
+    this.canSwitchLocation.emit(false);
     this.searchGiocoForm.get('size')?.value != '' &&
       this.searchGiocoForm.get('size')?.value != undefined &&
       this.searchGiocoForm.get('size')?.value != null ?
@@ -67,14 +68,16 @@ export class GiochiComponent implements OnInit, OnDestroy {
       next: (data: any) => {
         if (!origin) data?.content?.map((g: any) => { this.giochi.push(g) })
         else this.giochi = data?.content
-
         this.giochi.filter((g: any) => {
           g.image = this.readGiocoImage(g?.image)
         })
         this.maxPages = data.totalPages;
         this.timeout = setTimeout(() => {
           this.isLoading = false;
-        }, 1000)
+          setTimeout(() => {
+            this.canSwitchLocation.emit(true);
+          }, 200)
+        }, 300)
       }
     })
   }

@@ -96,7 +96,7 @@
                     </div>
                     <div class="col-md-12 p-2">
                         <div class="w-100 border shadow-sm p-3 bg-light overflow-auto" *ngIf="!isLoading">
-                            <app-giochi *ngIf="location=='giochi'" [user]="user"></app-giochi>
+                            <app-giochi *ngIf="location=='giochi'" [user]="user" (canSwitchLocation)="onReceiveSwitchLocation($event)"></app-giochi>
                             <app-classifiche *ngIf="location=='classifiche'"
                                 [classificaId]="classificaId"></app-classifiche>
                             <app-trofei *ngIf="location=='trofei'"></app-trofei>
