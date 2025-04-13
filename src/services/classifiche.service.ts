@@ -16,8 +16,8 @@ export class ClassificheService {
 
 
 
-    getAll() {
-        return this.http.get(environment.API_URL + this.classifiche);
+    getAll(page:number,size:number,orderBy:string,sortOrder:string) {
+        return this.http.get(environment.API_URL + this.classifiche+`?page=${page}&size=${size}&orderBy=${orderBy}&sortOrder=${sortOrder}`);
     }
 
     getByUserId(userId: number) {

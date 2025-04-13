@@ -13,6 +13,10 @@ export class ClassificheComponent implements OnInit {
   classifica: any;
   isLoading: boolean = false;
   classifiche: any = null;
+  classifichePage:number = 0;
+  classificheSize:number = 5;
+  classificheOrderBy:string = 'id';
+  classificheSortOrder:string = 'DESC';
   constructor(private classificheService: ClassificheService, private matDialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -29,7 +33,7 @@ export class ClassificheComponent implements OnInit {
   }
 
   getClassifiche() {
-    this.classificheService.getAll().subscribe({
+    this.classificheService.getAll(this.classifichePage,this.classificheSize,this.classificheOrderBy,this.classificheSortOrder).subscribe({
       next: (data: any) => {
         this.classifiche = data;
       }

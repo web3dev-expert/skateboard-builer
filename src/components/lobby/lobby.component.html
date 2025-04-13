@@ -60,19 +60,7 @@
                             <button class="btn" (click)="changeLocation('classifiche')">
                                 Classifiche
                             </button>
-                        </div>
-                        <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
-                        <div class="p-2 lobby-nav-button text-center" [ngClass]="location=='trofei'? 'bg-warning':''">
-                            <button class="btn" (click)="changeLocation('trofei')">
-                                I tuoi trofei
-                            </button>
-                        </div>
-                        <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
-                        <div class="p-2 lobby-nav-button text-center" [ngClass]="location=='punteggi'? 'bg-warning':''">
-                            <button class="btn" (click)="changeLocation('punteggi')">
-                                Punteggi
-                            </button>
-                        </div>
+                        </div>                    
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
                         <div class="p-2 lobby-nav-button text-center"
                             [ngClass]="location=='statistiche'? 'bg-warning':''">
@@ -99,8 +87,6 @@
                             <app-giochi *ngIf="location=='giochi'" [user]="user" (canSwitchLocation)="onReceiveSwitchLocation($event)"></app-giochi>
                             <app-classifiche *ngIf="location=='classifiche'"
                                 [classificaId]="classificaId"></app-classifiche>
-                            <app-trofei *ngIf="location=='trofei'"></app-trofei>
-                            <app-punteggi *ngIf="location=='punteggi'"></app-punteggi>
                             <app-statistiche *ngIf="location=='statistiche'"></app-statistiche>
                             <app-about-us *ngIf="location=='about-us'"></app-about-us>
                             <app-assistenza *ngIf="location=='assistenza'"></app-assistenza>
