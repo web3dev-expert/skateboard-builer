@@ -76,6 +76,7 @@ export class ProfileComponent implements OnInit {
   trofeiOrderBy: string = 'id';
   trofeiSortOrder: string = 'ASC';
   trofei: any = null;
+  firstTimeReces: number = 0;
   constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService: GamefieldService, private matDialog: MatDialog,
     public authService: AuthService) { }
 
@@ -83,10 +84,14 @@ export class ProfileComponent implements OnInit {
     this.route.queryParams.subscribe(
       params => {
         if (params && params['user']) {
-          this.visitedUser = JSON.parse(params['user']);
-          this.getAllDatas();
-          if (this.visitedUser != null && this.visitedUser != undefined) localStorage.setItem('visitedUser', JSON.stringify(this.visitedUser));
-          else this.router.navigate(['/lobby']);
+          this.authService.getUserById(params['user']).subscribe({
+            next: (data: any) => {
+              this.visitedUser = data;
+              this.getAllDatas();
+              if (this.visitedUser != null && this.visitedUser != undefined) localStorage.setItem('visitedUser', JSON.stringify(this.visitedUser));
+              else this.router.navigate(['/lobby']);
+            }
+          })
         } else {
           if (!localStorage.getItem('visitedUser')) this.router.navigate(['/lobby']);
           else { this.visitedUser = JSON.parse(localStorage.getItem('visitedUser')!); this.getAllDatas(); }
@@ -97,11 +102,11 @@ export class ProfileComponent implements OnInit {
   }
 
   getAllDatas() {
-    this.getRecensioni();
     this.getGiochi();
     this.getPartite();
     this.getClassifiche();
     this.getTrofei();
+    this.getRecensioni();
     this.onResize();
   }
 
@@ -195,6 +200,6 @@ export class ProfileComponent implements OnInit {
   }
 
   goToRanking(c: any) {
-    this.router.navigate(['/lobby'], {queryParams:{classificaId:c?.id,section:'classifiche'}});
+    this.router.navigate(['/lobby'], { queryParams: { classificaId: c?.id, section: 'classifiche' } });
   }
 }

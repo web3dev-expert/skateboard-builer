@@ -131,7 +131,7 @@ export class GiochiComponent implements OnInit, OnDestroy {
   }
 
   goToProfile(user: User) {
-    this.router.navigate(['/lobby/profile'], { queryParams: { user: JSON.stringify(user) } })
+    this.router.navigate(['/lobby/profile'], { queryParams: { user: user.id } })
   }
   @HostListener('window:resize', ["$event"])
   onResize() {

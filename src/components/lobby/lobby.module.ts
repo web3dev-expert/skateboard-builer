@@ -26,7 +26,7 @@ import { SharedModule } from "../../shared/modules/shared.module";
         StatisticheComponent,
         AssistenzaComponent,
         AboutUsComponent,
-        PunteggiComponent
+        PunteggiComponent,
             ],
       imports: [
         LobbyRoutingModule,

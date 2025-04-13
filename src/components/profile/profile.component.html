@@ -67,33 +67,38 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6 p-2 text-center" *ngFor="let r of recensioni?.content">
-                        <div class="bg-light border rounded shadow-sm">
-                            <div class="w-100 text-center bg-light d-flex justify-content-center pt-2 rounded-top">
-                                <img src="{{'data:image/png;base64,'+r?.giocoImage}}" class="gioco-image"
-                                    alt="immagine gioco">
-                                <p class="p-2 fs-4">
-                                    {{r?.giocoName}}
-                                </p>
-                            </div>
-                            <div class="pt-4 pb-2 bg-white">
-                                <div class="d-flex justify-content-center">
-                                    <i class="bi bi-star-fill text-warning h3"
-                                        *ngFor="let vp of validationPoints, index as i"
-                                        [ngClass]="i+1<=r?.punteggio?'textg-warning':'d-none'"></i>
-                                </div>
-                                <div>
-                                    <p class="d-flex justify-content-center align-items-end">
-                                        <img src="{{r?.userProfileImage}}" alt="profile image"
-                                            class="rounded-circle border gioco-image">
-                                        <span class="px-3 fs-5">{{r?.userFullName}}</span>
-                                    </p>
-                                    <p class="fs-3 py-3 border-bottom">
-                                        {{r?.commento}}
-                                    </p>
-                                    <p class="date">
-                                        {{r?.createdAt}}
-                                    </p>
+                    <div class="col-md-12" *ngIf="recensioni?.content?.length>0">
+                        <div class="row">
+                            <div class="col-md-6 p-2 text-center" *ngFor="let r of recensioni?.content">
+                                <div class="bg-light border rounded shadow-sm">
+                                    <div
+                                        class="w-100 text-center bg-light d-flex justify-content-center pt-2 rounded-top">
+                                        <img src="{{'data:image/png;base64,'+r?.giocoImage}}" class="gioco-image"
+                                            alt="immagine gioco">
+                                        <p class="p-2 fs-4">
+                                            {{r?.giocoName}}
+                                        </p>
+                                    </div>
+                                    <div class="pt-4 pb-2 bg-white">
+                                        <div class="d-flex justify-content-center">
+                                            <i class="bi bi-star-fill text-warning h3"
+                                                *ngFor="let vp of validationPoints, index as i"
+                                                [ngClass]="i+1<=r?.punteggio?'textg-warning':'d-none'"></i>
+                                        </div>
+                                        <div>
+                                            <p class="d-flex justify-content-center align-items-end">
+                                                <img src="{{r?.userProfileImage}}" alt="profile image"
+                                                    class="rounded-circle border gioco-image">
+                                                <span class="px-3 fs-5">{{r?.userFullName}}</span>
+                                            </p>
+                                            <p class="fs-3 py-3 border-bottom">
+                                                {{r?.commento}}
+                                            </p>
+                                            <p class="date">
+                                                {{r?.createdAt}}
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -108,8 +113,10 @@
                         </button>
                     </div>
                     <div class="col-md-12" *ngIf="recensioni == null || recensioni?.content?.length==0">
-                        <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">{{visitedUser?.fullName}} non ha ancora lasciato recensioni.</h2>
-                        <h2 *ngIf="authService.getUser()!.id == visitedUser?.id">Non hai ancora lasciato recensioni.</h2>
+                        <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">{{visitedUser?.fullName}} non ha ancora
+                            lasciato recensioni.</h2>
+                        <h2 *ngIf="authService.getUser()!.id == visitedUser?.id">Non hai ancora lasciato recensioni.
+                        </h2>
                     </div>
                 </div>
             </div>
@@ -119,7 +126,8 @@
                         <h2>Trofei</h2>
                     </div>
                     <div class="col-md-12" *ngIf="!trofei || !trofei?.content || trofei?.content?.length==0">
-                        <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">{{visitedUser?.fullName}} non ha ancora vinto trofei.</h2>
+                        <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">{{visitedUser?.fullName}} non ha ancora
+                            vinto trofei.</h2>
                         <h2 *ngIf="authService.getUser()!.id == visitedUser?.id">Non hai ancora vinto trofei.</h2>
 
                     </div>
@@ -159,7 +167,8 @@
                 <div class="px-2">
                     <div class="row text-center">
                         <div class="col-md-12 p-3">
-                            <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">I giochi a cui ha giocato {{visitedUser?.fullName}}</h2>
+                            <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">I giochi a cui ha giocato
+                                {{visitedUser?.fullName}}</h2>
                             <h2 *ngIf="authService.getUser()!.id == visitedUser?.id">I giochi a cui hai giocato</h2>
                         </div>
                         <div class="col-md-6"></div>
@@ -201,8 +210,10 @@
                             </div>
                         </div>
                         <div class="col-md-12 py-2 bg-white" *ngIf="giochi == null || giochi?.content?.length == 0">
-                            <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">{{visitedUser?.fullName}} non ha giocato a nessun gioco ancora.</h2>
-                            <h2 *ngIf="authService.getUser()!.id == visitedUser?.id">Non hai giocato a nessun gioco ancora.</h2>
+                            <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">{{visitedUser?.fullName}} non ha
+                                giocato a nessun gioco ancora.</h2>
+                            <h2 *ngIf="authService.getUser()!.id == visitedUser?.id">Non hai giocato a nessun gioco
+                                ancora.</h2>
                         </div>
                         <div class="col-md-12" *ngIf="giochi&&giochi?.content">
                             <button class="btn fs-5" *ngIf="!giochi?.first"
@@ -224,8 +235,10 @@
                 <div class="row">
                     <div class="col-md-12"
                         *ngIf="!classifiche|| !classifiche?.content||classifiche?.content?.length==0">
-                        <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">Al momento, {{visitedUser?.fullName}} non partecipa a nessuna classifica.</h2>
-                        <h2 *ngIf="authService.getUser()!.id == visitedUser?.id">Al momento non partecipi a nessuna classifica.</h2>
+                        <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">Al momento, {{visitedUser?.fullName}}
+                            non partecipa a nessuna classifica.</h2>
+                        <h2 *ngIf="authService.getUser()!.id == visitedUser?.id">Al momento non partecipi a nessuna
+                            classifica.</h2>
                     </div>
                     <div class="col-md-12" *ngIf="classifiche&&classifiche?.content&&classifiche?.content?.length>0">
                         <div class="row">
@@ -262,12 +275,13 @@
             </div>
             <div *ngIf="section=='Partite'">
                 <div class="row">
-                    <div class="col-md-12 py-3">
+                    <div class="col-md-12 py-3" *ngIf="partite && partite?.content && partite?.contet?.size>0">
                         <h2>Le tue partite</h2>
                     </div>
                     <div class="col-md-12"
-                        *ngIf="!partite || (partite?.content && partite?.contet==0) ||!partite?.content">
-                        <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">{{visitedUser?.fullName}} non ha ancora giocato!</h2>
+                        *ngIf="!partite || !partite?.content || partite?.content?.length == 0">
+                        <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">{{visitedUser?.fullName}} non ha ancora
+                            giocato!</h2>
                         <h2 *ngIf="authService.getUser()!.id == visitedUser?.id">Non hai ancora giocato!</h2>
                     </div>
                     <div class="col-md-6"></div>
