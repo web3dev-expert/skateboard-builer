@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { GiochiService } from '../../services/giochi.service';
 import { throttleTime } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,14 +8,13 @@ import { RecensioniComponent } from '../../shared/components/recensioni/recensio
 import { User } from '../../interfaces/interfaces';
 import { Router } from '@angular/router';
 import { RecensioneService } from '../../services/recensione.service';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-giochi',
   templateUrl: './giochi.component.html',
   styleUrl: './giochi.component.scss'
 })
-export class GiochiComponent implements OnInit {
+export class GiochiComponent implements OnInit, OnDestroy {
   giochi: any[] = [];
   circles: number[] = [1, 2, 3, 4, 5];
   searchGiocoForm: FormGroup = new FormGroup({});
@@ -36,14 +35,18 @@ export class GiochiComponent implements OnInit {
   sizes: number[] = [2, 5, 10]
   windowWidth: number = 0;
   @Input() user: User | null = null;
-  constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router, private recensioniService: RecensioneService,
-    private authService: AuthService
-  ) { }
+  timeout: any = null;
+    constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router, private recensioniService: RecensioneService) { }
 
   ngOnInit(): void {
-    this.initializeGiocoForm();
-    this.getGiochi(false, this.body);
-    this.onResize();
+      this.initializeGiocoForm();
+      this.getGiochi(false, this.body);
+      this.onResize();
+  }
+  ngOnDestroy(): void {
+    if(this.timeout){
+      clearTimeout(this.timeout);
+    }
   }
 
   getGiochi(origin: boolean, body: { nome: string, difficolta: number, punteggio: number }, isActive?: boolean) {
@@ -69,7 +72,9 @@ export class GiochiComponent implements OnInit {
           g.image = this.readGiocoImage(g?.image)
         })
         this.maxPages = data.totalPages;
-        this.isLoading = false;
+        this.timeout = setTimeout(() => {
+          this.isLoading = false;
+        }, 1000)
       }
     })
   }

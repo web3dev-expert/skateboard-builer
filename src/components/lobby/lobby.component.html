@@ -38,7 +38,8 @@
                             {{user?.createdAt}}
                         </div>
                         <div class="col-md-12 text-end">
-                            <button class="btn brn-light text-success" title="Vai al gioco" (click)="navigateToProfile()">
+                            <button class="btn brn-light text-success" title="Vai al gioco"
+                                (click)="navigateToProfile()">
                                 <i class="bi bi-arrow-up-right h3 p-3 text-success"></i>
                             </button>
                         </div>
@@ -49,59 +50,63 @@
                 <div class="row">
                     <div class="col-md-12 scrollable-container d-flex bg-light">
                         <div class="p-2 lobby-nav-button text-center" [ngClass]="location=='giochi'? 'bg-warning':''">
-                            <button class="btn" (click)="location='giochi'">
+                            <button class="btn" (click)="changeLocation('giochi')">
                                 Giochi disponibili
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
                         <div class="p-2 lobby-nav-button text-center"
                             [ngClass]="location=='classifiche'? 'bg-warning':''">
-                            <button class="btn" (click)="location='classifiche'">
+                            <button class="btn" (click)="changeLocation('classifiche')">
                                 Classifiche
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
                         <div class="p-2 lobby-nav-button text-center" [ngClass]="location=='trofei'? 'bg-warning':''">
-                            <button class="btn" (click)="location='trofei'">
+                            <button class="btn" (click)="changeLocation('trofei')">
                                 I tuoi trofei
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
                         <div class="p-2 lobby-nav-button text-center" [ngClass]="location=='punteggi'? 'bg-warning':''">
-                            <button class="btn" (click)="location='punteggi'">
+                            <button class="btn" (click)="changeLocation('punteggi')">
                                 Punteggi
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
                         <div class="p-2 lobby-nav-button text-center"
                             [ngClass]="location=='statistiche'? 'bg-warning':''">
-                            <button class="btn" (click)="location='statistiche'">
+                            <button class="btn" (click)="changeLocation('statistiche')">
                                 Statistiche
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
                         <div class="p-2 lobby-nav-button text-center" [ngClass]="location=='about-us'? 'bg-warning':''">
-                            <button class="btn" (click)="location='about-us'">
+                            <button class="btn" (click)="changeLocation('about-us')">
                                 About us
                             </button>
                         </div>
                         <img src="assets/lobby/green-dots.png" alt="green_dot" class="green-dots">
                         <div class="p-2 lobby-nav-button text-center"
                             [ngClass]="location=='assistenza'? 'bg-warning':''">
-                            <button class="btn" (click)="location='assistenza'">
+                            <button class="btn" (click)="changeLocation('assistenza')">
                                 Assistenza
                             </button>
                         </div>
                     </div>
                     <div class="col-md-12 p-2">
-                        <div class="w-100 border shadow-sm p-3 bg-light overflow-auto">
+                        <div class="w-100 border shadow-sm p-3 bg-light overflow-auto" *ngIf="!isLoading">
                             <app-giochi *ngIf="location=='giochi'" [user]="user"></app-giochi>
-                            <app-classifiche *ngIf="location=='classifiche'" [classificaId]="classificaId"></app-classifiche>
+                            <app-classifiche *ngIf="location=='classifiche'"
+                                [classificaId]="classificaId"></app-classifiche>
                             <app-trofei *ngIf="location=='trofei'"></app-trofei>
                             <app-punteggi *ngIf="location=='punteggi'"></app-punteggi>
                             <app-statistiche *ngIf="location=='statistiche'"></app-statistiche>
                             <app-about-us *ngIf="location=='about-us'"></app-about-us>
                             <app-assistenza *ngIf="location=='assistenza'"></app-assistenza>
+                        </div>
+                        <div class="w-100 border shadow-sm p-3 bg-light overflow-auto" *ngIf="isLoading">
+                            <app-spinner></app-spinner>
                         </div>
                     </div>
                 </div>
