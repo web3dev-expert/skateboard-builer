@@ -10,7 +10,7 @@
                     <div *ngIf="v == 'Impostazioni' && authService.getUser()!.id == visitedUser!.id">
                         <span>{{v.toUpperCase()}}</span>
                         <ul class="personalized-menu text-center" *ngIf="section=='Impostazioni'">
-                            <li *ngFor="let s of sottomenu" class="text-start">{{s.toUpperCase()}}</li>
+                            <li *ngFor="let s of sottomenu" class="text-start" (click)="setImpostazioniSection(s)">{{s.toUpperCase()}}</li>
                         </ul>
                     </div>
                 </li>
@@ -330,7 +330,7 @@
                 </div>
             </div>
             <div *ngIf="section=='Impostazioni' && authService.getUser()!.id == visitedUser!.id">
-                <app-impostazioni></app-impostazioni>
+                <app-impostazioni [section]="impostazioniSection"></app-impostazioni>
             </div>
         </div>
     </div>
