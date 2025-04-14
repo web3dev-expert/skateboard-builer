@@ -7,11 +7,12 @@ import { GamefieldService } from '../../services/gamefield.service';
 import { GiocoPreviewComponent } from '../../shared/components/gioco-preview/gioco-preview.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
+import { ImpostazioniComponent } from './components/impostazioni/impostazioni.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass],
+  imports: [NgFor, NgIf, NgClass, ImpostazioniComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
@@ -58,7 +59,7 @@ export class ProfileComponent implements OnInit {
 
   sizes: number[] = [2, 5, 10];
   windowWidth: number = 0;
-  menuVoices: string[] = ['Profilo', 'Recensioni', 'Giochi', 'Trofei', 'Classifiche', 'Partite'];
+  menuVoices: string[] = ['Profilo', 'Recensioni', 'Giochi', 'Trofei', 'Classifiche', 'Partite', 'Impostazioni'];
   section: string = 'Profilo';
   circles: number[] = [1, 2, 3, 4, 5];
   partitePage: number = 0;
@@ -81,12 +82,14 @@ export class ProfileComponent implements OnInit {
     public authService: AuthService) { }
 
   ngOnInit(): void {
+    this.user = this.authService.getUser()!;
     this.route.queryParams.subscribe(
       params => {
         if (params && params['user']) {
           this.authService.getUserById(params['user']).subscribe({
             next: (data: any) => {
               this.visitedUser = data;
+              console.log(this.authService.getUser()!.id, this.visitedUser?.id)
               this.getAllDatas();
               if (this.visitedUser != null && this.visitedUser != undefined) localStorage.setItem('visitedUser', JSON.stringify(this.visitedUser));
               else this.router.navigate(['/lobby']);
@@ -165,15 +168,6 @@ export class ProfileComponent implements OnInit {
 
   switchSection(value: string) {
     this.section = value;
-    this.recePage = 0;
-    this.receSize = 2;
-    this.receOrderBy = 'punteggio';
-    this.receSortOrder = 'ASC';
-    this.recensioni = null;
-    this.giochiPage = 0;
-    this.giochiSize = 2;
-    this.giochiOrderBy = 'id';
-    this.giochiSortOrder = 'ASC';
   }
 
   calculateEsito(esito: string): string {

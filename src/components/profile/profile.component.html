@@ -6,7 +6,8 @@
         <div class="col-md-3" *ngIf="windowWidth>699">
             <ul class="text-start">
                 <li *ngFor="let v of menuVoices" class="p-3" (click)="switchSection(v)">
-                    {{v.toUpperCase()}}
+                    <span *ngIf="v != 'Impostazioni'">{{v.toUpperCase()}}</span>
+                    <span *ngIf="v == 'Impostazioni' && authService.getUser()!.id == visitedUser!.id">{{v.toUpperCase()}}</span>
                 </li>
             </ul>
         </div>
@@ -167,9 +168,7 @@
                 <div class="px-2">
                     <div class="row text-center">
                         <div class="col-md-12 p-3">
-                            <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">I giochi a cui ha giocato
-                                {{visitedUser?.fullName}}</h2>
-                            <h2 *ngIf="authService.getUser()!.id == visitedUser?.id">I giochi a cui hai giocato</h2>
+                            <h2>Giochi </h2>
                         </div>
                         <div class="col-md-6"></div>
                         <div class="col-md-6">
@@ -325,6 +324,9 @@
                             (click)="partitePage=partite?.totalPages-1;getPartite();">Last</button>
                     </div>
                 </div>
+            </div>
+            <div *ngIf="section=='Impostazioni' && authService.getUser()!.id == visitedUser!.id">
+                <app-impostazioni></app-impostazioni>
             </div>
         </div>
     </div>
