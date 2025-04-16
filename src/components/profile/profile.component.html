@@ -7,7 +7,12 @@
             <ul class="text-start">
                 <li *ngFor="let v of menuVoices" class="p-3" (click)="switchSection(v)">
                     <span *ngIf="v != 'Impostazioni'">{{v.toUpperCase()}}</span>
-                    <span *ngIf="v == 'Impostazioni' && authService.getUser()!.id == visitedUser!.id">{{v.toUpperCase()}}</span>
+                    <div *ngIf="v == 'Impostazioni' && authService.getUser()!.id == visitedUser!.id">
+                        <span>{{v.toUpperCase()}}</span>
+                        <ul class="personalized-menu text-center" *ngIf="section=='Impostazioni'">
+                            <li *ngFor="let s of sottomenu" class="text-start">{{s.toUpperCase()}}</li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -277,8 +282,7 @@
                     <div class="col-md-12 py-3" *ngIf="partite && partite?.content && partite?.contet?.size>0">
                         <h2>Le tue partite</h2>
                     </div>
-                    <div class="col-md-12"
-                        *ngIf="!partite || !partite?.content || partite?.content?.length == 0">
+                    <div class="col-md-12" *ngIf="!partite || !partite?.content || partite?.content?.length == 0">
                         <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">{{visitedUser?.fullName}} non ha ancora
                             giocato!</h2>
                         <h2 *ngIf="authService.getUser()!.id == visitedUser?.id">Non hai ancora giocato!</h2>

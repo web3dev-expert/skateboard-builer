@@ -78,6 +78,7 @@ export class ProfileComponent implements OnInit {
   trofeiSortOrder: string = 'ASC';
   trofei: any = null;
   firstTimeReces: number = 0;
+  sottomenu: string[] = ['Cambia immagine del profilo', 'Cambia la password', 'Cambia altre informazioni', 'Richiedi assistenza']
   constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService: GamefieldService, private matDialog: MatDialog,
     public authService: AuthService) { }
 
