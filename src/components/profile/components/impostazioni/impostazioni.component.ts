@@ -1,9 +1,10 @@
+import { NgIf } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-impostazioni',
   standalone: true,
-  imports: [],
+  imports: [NgIf],
   templateUrl: './impostazioni.component.html',
   styleUrl: './impostazioni.component.scss'
 })
