@@ -330,7 +330,8 @@
                 </div>
             </div>
             <div *ngIf="section=='Impostazioni' && authService.getUser()!.id == visitedUser!.id">
-                <app-impostazioni [section]="impostazioniSection"></app-impostazioni>
+                <app-impostazioni [section]="impostazioniSection" 
+                [user]="visitedUser"></app-impostazioni>
             </div>
         </div>
     </div>
