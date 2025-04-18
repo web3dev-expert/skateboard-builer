@@ -9,7 +9,7 @@
             inserisci l'oggetto della tua richiesta
             e sotto inserisci la descrizione dettagliata. Il nostro team ti risponderà in 24 ore.
         </p>
-        <form class="w-75 m-auto row p-4 border-top" [formGroup]="assistenzaForm">
+        <form class="w-75 m-auto row p-4 assistenza-form" [formGroup]="assistenzaForm">
             <div class="col-md-12">
                 <label for="oggetto" class="p-3">
                     OGGETTO *
@@ -23,10 +23,14 @@
                 <textarea type="text" class="form-control p-2" id="descrizione" formControlName="descrizione" rows="3">
 </textarea>
             </div>
-            <button class="btn my-3" [matTooltip]="btn.disabled? 'Completa il form': 'Invia la richiesta'" #btn
-                [disabled]="assistenzaForm.invalid" (click)="inviaRichiesta()" matTooltipPosition="above">Invia richiesta</button>
-            <p class="py-3 text-start">* Campi obbligatori</p>
         </form>
+        <div class="w-75 m-auto">
+            <button class="btn my-3 btn-outline-success"
+                [matTooltip]="btn.disabled? 'Completa il form': 'Invia la richiesta'" #btn
+                [disabled]="assistenzaForm.invalid" (click)="inviaRichiesta()" matTooltipPosition="above">Invia
+                richiesta</button>
+            <p class="py-3 text-start">* Campi obbligatori</p>
+        </div>
     </div>
     <div class="col-md-12" *ngIf="section=='Cambia immagine del profilo'">
         <h2>Cambia immagine del profilo</h2>
