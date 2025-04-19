@@ -78,8 +78,8 @@ export class ProfileComponent implements OnInit {
   trofeiSortOrder: string = 'ASC';
   trofei: any = null;
   firstTimeReces: number = 0;
-  sottomenu: string[] = ['Cambia immagine del profilo', 'Cambia la password', 'Cambia altre informazioni', 'Richiedi assistenza'];
-  impostazioniSection:string = 'Richiedi assistenza';
+  sottomenu: string[] = ['Cambia immagine del profilo', 'Cambia la password', 'Cambia altre informazioni', 'Richiedi assistenza', 'Monitora le tue richieste'];
+  impostazioniSection: string = 'Richiedi assistenza';
   constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService: GamefieldService, private matDialog: MatDialog,
     public authService: AuthService) { }
 
@@ -199,7 +199,7 @@ export class ProfileComponent implements OnInit {
     this.router.navigate(['/lobby'], { queryParams: { classificaId: c?.id, section: 'classifiche' } });
   }
 
-  setImpostazioniSection(s:string){
+  setImpostazioniSection(s: string) {
     this.impostazioniSection = s;
   }
 }

@@ -25,12 +25,12 @@
             </div>
         </form>
         <div class="w-75 m-auto">
-            <button class="btn my-3 btn-outline-success"
-                [matTooltip]="btn.disabled? 'Completa il form': 'Invia la richiesta'" #btn
-                [disabled]="assistenzaForm.invalid" (click)="inviaRichiesta()" matTooltipPosition="above">Invia
+            <button class="btn my-3 btn-outline-success" [disabled]="assistenzaForm.invalid"
+                [matTooltip]="btn.disabled? 'Completa il form': 'Invia la richiesta'" #btn (click)="inviaRichiesta()"
+                matTooltipPosition="above">Invia
                 richiesta</button>
             <p class="py-3 text-start">* Campi obbligatori</p>
-        </div>
+        </div>-
     </div>
     <div class="col-md-12" *ngIf="section=='Cambia immagine del profilo'">
         <h2>Cambia immagine del profilo</h2>
@@ -40,5 +40,27 @@
     </div>
     <div class="col-md-12" *ngIf="section=='Cambia altre informazioni'">
         <h2>Cambia altre informazioni</h2>
+    </div>
+    <div class="col-md-12" *ngIf="section=='Monitora le tue richieste'">
+        <h2>Monitora le tue richieste</h2>
+        <p class="py-5 fs-3" *ngIf="richieste == null || richieste?.content?.length == 0">
+            Non ci sono richieste da visualizzare al momento.
+        </p>
+        <div class="row py-5" *ngIf="richieste?.content?.length > 0">
+            <div class="col-md-12 p-3" *ngFor="let r of richieste?.content">
+                <div class="p-2 border shadow-lg">
+                    <p class="d-flex justify-content-end">
+                        <button class="btn" matTooltip="Modifica" matTooltipPosition="above" (click)="modifyRichiesta(r)">
+                            <i class="bi bi-pencil-fill h4 text-primary"></i>
+                        </button>
+                    </p>
+                    <h2>{{r?.oggetto}}</h2>
+                    <p class="sub-title">Creata il <span class="fw-bold">{{format(r?.createdAt)}}</span></p>
+                    <p class="py-5 bg-light shadow-sm">
+                        {{r?.descrizione}}
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
