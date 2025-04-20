@@ -13,11 +13,12 @@
             <label for="descrizione" class="p-2">
                 Descrizione
             </label>
-            <textarea type="text" formControlName="descrizione" id="descrizione" class="form-control">
+            <textarea type="text" formControlName="descrizione" rows="5" id="descrizione" class="form-control">
 </textarea>
         </div>
     </form>
 </mat-dialog-content>
-<mat-dialog-actions>
-
+<mat-dialog-actions class="d-flex justify-content-around py-3 w-50">
+<button class="btn btn-outline-success m-1" matTooltip="Modifica" matTooltipPosition="above" (click)="put()">Modifica</button>
+<button class="btn btn-outline-danger m-1" matTooltip="Elimina" matTooltipPosition="above" (click)="delete()">Elimina</button>
 </mat-dialog-actions>

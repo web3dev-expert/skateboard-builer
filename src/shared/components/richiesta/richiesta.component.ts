@@ -6,11 +6,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../../../interfaces/interfaces';
 import { ProfileServive } from '../../../services/profile.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-richiesta',
   standalone: true,
-  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatMenuModule, NgClass, NgFor, MatDialogClose, NgIf, ReactiveFormsModule],
+  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatMenuModule, NgClass, NgFor, MatDialogClose, NgIf, ReactiveFormsModule, MatTooltipModule],
   templateUrl: './richiesta.component.html',
   styleUrl: './richiesta.component.scss'
 })
