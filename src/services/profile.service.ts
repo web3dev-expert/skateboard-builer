@@ -14,7 +14,11 @@ export class ProfileServive {
     private receId: string = '/receId';
     private richiesta: string = '/richiesta';
     private byParams: string = '/byParams';
-
+    private auth: string = '/auth';
+    private requestCode: string = '/requestCode';
+    private verifyPasswordCode: string = '/verifyPasswordCode';
+    private resetPasswordByCode: string = '/resetPasswordByCode';
+    private clear: string = '/clear';
     constructor(private http: HttpClient) { }
 
     getRecensioniByUserId(userId: number, page: number, size: number, orderBy: string, sortOrder: string) {
@@ -64,10 +68,22 @@ export class ProfileServive {
         if (from) params = params.set('from', from);
         if (to) params = params.set('to', to);
 
-        return this.http.get(environment.API_URL + this.richiesta + this.byParams , {params:params});
+        return this.http.get(environment.API_URL + this.richiesta + this.byParams, { params: params });
     }
 
-    putUser(user:any, userId:number){
-        return this.http.put(environment.API_URL+this.user+`/${userId}`,user);
+    putUser(user: any, userId: number) {
+        return this.http.put(environment.API_URL + this.user + `/${userId}`, user);
+    }
+    askCode(email: string, validation: boolean) {
+        return this.http.get(environment.API_URL + this.auth + this.requestCode + `/${email}/${validation}`);
+    }
+    verifyCode(email: string, code: string, validation: boolean) {
+        return this.http.get(environment.API_URL + this.auth + this.verifyPasswordCode + `/${email}/${code}/${validation}`);
+    }
+    changePassword(nuovaPassword: string, email: string, code: string) {
+        return this.http.get(environment.API_URL + this.auth + this.resetPasswordByCode + `/${nuovaPassword}/${email}/${code}`);
+    }
+    clearUserCode(email: string){
+        return this.http.get(environment.API_URL+this.auth+this.clear+`/${email}`)
     }
 }

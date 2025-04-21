@@ -37,17 +37,41 @@
     </div>
     <div class="col-md-12" *ngIf="section=='Cambia la password'">
         <h2>Cambia la password</h2>
+        <form [formGroup]="cambiaPassword" #form="ngForm" class="w-75 m-auto">
+            <label for="nuovaPassword" class="p-2 fs-4">Nuova password</label>
+            <input type="password" class="form-control m-2" id="nuovaPassword" formControlName="nuovaPassword"
+                name="nuovaPassword">
+            <p class="text-danger" *ngIf="cambiaPassword.get('nuovaPassword')?.invalid&&form.submitted">Lunghezza minima
+                : 8 caratteri.</p>
+            <label for="ripetiNuovaPassword" class="p-2 fs-4">Ripeti nuova password</label>
+            <input type="password" class="form-control m-2" id="ripetiNuovaPassword"
+                formControlName="ripetiNuovaPassword" name="ripetiNuovaPassword">
+            <p class="text-danger" *ngIf="cambiaPassword.get('ripetiNuovaPassword')?.invalid&&form.submitted">Lunghezza
+                minima : 8 caratteri.</p>
+            <button class="btn btn-outline-primary my-3" (click)="putPassword(form)">Cambia password</button>
+        </form>
+        <p *ngIf="isCodeRequeste && !isCodeVerified" class="text-success fw-bold fs-4 py-3">Inserisci qui sotto il
+            codice che ti abbiamo
+            mandato per mail. {{"- " + secondsToInterval}}</p>
+        <form [formGroup]="codeForm" *ngIf="isCodeRequeste && !isCodeVerified">
+            <label for="code" class="fs-4 py-2">Inserisci il codice</label>
+            <input type="text" class="form-control" formControlName="code" name="code" id="code">
+            <button class="btn my-3" (click)="putPassword()">Verifica il codice</button>
+        </form>
+        <p class="text-success fs-4 py-2" *ngIf="isCodeVerified">Perfetto! Cambia la password!</p>
     </div>
     <div class="col-md-12" *ngIf="section=='Cambia altre informazioni'">
         <h2>Cambia altre informazioni</h2>
-        <form [formGroup]="altreImpostazioniForm">
+        <form [formGroup]="altreImpostazioniForm" class="m-auto my-4 p-4 w-75">
             <label for="nome" class="p-2 fs-3">Nome</label>
-            <input type="text" class="form-control text-center" placeholder="Scrivi il tuo nome" id="nome" formControlName="nome">
+            <input type="text" class="form-control text-center w-75 m-auto" placeholder="Scrivi il tuo nome" id="nome"
+                formControlName="nome">
             <label for="cognome" class="p-2 fs-3">Cognome</label>
-            <input type="text" class="form-control text-center" placeholder="Scrivi il tuo cognome" id="cognome" formControlName="cognome">
+            <input type="text" class="form-control text-center w-75 m-auto" placeholder="Scrivi il tuo cognome"
+                id="cognome" formControlName="cognome">
             <label for="citta" class="p-2 fs-3">Città</label>
-            <select name="citta" id="citta" formControlName="citta" class="form-select text-center" placeholder="Scegli la città" onfocus="this.size=7"
-                onblur="this.size=1" onchange="this.blur()">
+            <select name="citta" id="citta" formControlName="citta" class="form-select text-center w-75 m-auto"
+                placeholder="Scegli la città" onfocus="this.size=7" onblur="this.size=1" onchange="this.blur()">
                 <option value="{{c.id}}" *ngFor="let c of citta">{{c.nome}}</option>
             </select>
             <button class="btn my-3 btn-outline-primary"

@@ -1,5 +1,5 @@
 import { DatePipe, NgFor, NgIf } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { User } from '../../../../interfaces/interfaces';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -17,7 +17,7 @@ import { AuthService } from '../../../../services/auth.service';
   templateUrl: './impostazioni.component.html',
   styleUrl: './impostazioni.component.scss'
 })
-export class ImpostazioniComponent implements OnInit {
+export class ImpostazioniComponent implements OnInit, OnDestroy, OnChanges {
   @Input() section: string = '';
   @Input() user: User | null = null;
   assistenzaForm: FormGroup = new FormGroup({});
@@ -29,8 +29,25 @@ export class ImpostazioniComponent implements OnInit {
   richiestaOrders: any[] = [['Dal primo all\'ultimo', 'ASC'], ['Dall\'ultimo al primo', 'DESC']];
   altreImpostazioniForm: FormGroup = new FormGroup({});
   citta: any[] = [];
-  constructor(private toastr: ToastrService, private profileService: ProfileServive, private datePipe: DatePipe, private matDialog: MatDialog, private formService: FormsService, private authService:AuthService) { }
+  cambiaPassword: FormGroup = new FormGroup({});
+  isCodeRequeste: boolean = false;
+  isCodeVerified: boolean = false;
+  codeForm: FormGroup = new FormGroup({});
+  codeInterval: any;
+  codeTimeout: any;
+  secondsToInterval: number = 30;
+  constructor(private toastr: ToastrService, private profileService: ProfileServive, private datePipe: DatePipe, private matDialog: MatDialog, private formService: FormsService, private authService: AuthService) { }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.section != 'Cambia la password') {
+      this.codeForm.reset();
+      this.cambiaPassword.reset();
+    }
+  }
+  ngOnDestroy(): void {
+    this.codeForm.reset();
+    this.cambiaPassword.reset();
+  }
   ngOnInit(): void {
     this.assistenzaForm = new FormGroup({
       oggetto: new FormControl('', Validators.required),
@@ -50,6 +67,13 @@ export class ImpostazioniComponent implements OnInit {
       cognome: new FormControl(this.user!.cognome, Validators.required),
       citta: new FormControl(this.user!.citta.id, Validators.required)
     });
+    this.cambiaPassword = new FormGroup({
+      nuovaPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      ripetiNuovaPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    })
+    this.codeForm = new FormGroup({
+      code: new FormControl('', [Validators.required, Validators.minLength(6)])
+    })
     this.getRichieste();
     this.getCitta();
   }
@@ -146,6 +170,71 @@ export class ImpostazioniComponent implements OnInit {
 
     } else {
       this.toastr.show("Completa correttamente il form");
+    }
+  }
+  putPassword(form?:any) {
+    if (this.cambiaPassword.valid) {
+      if (this.cambiaPassword.get('nuovaPassword')?.value == this.cambiaPassword.get('ripetiNuovaPassword')?.value) {
+        if (!this.isCodeRequeste) {
+          this.profileService.askCode(this.user!.email, false).subscribe((data: any) => {
+            if (data) {
+              this.isCodeRequeste = true;
+              this.toastr.show("Ti abbiamo mandato un codice via mail, inseriscilo nel riquadro.")
+              this.codeInterval = setInterval(() => {
+                if (this.secondsToInterval > 0) this.secondsToInterval -= 1;
+              }, 1000);
+              this.codeTimeout = setTimeout(() => {
+                clearInterval(this.codeInterval);
+                this.secondsToInterval = 30;
+                this.isCodeRequeste = false;
+                this.profileService.clearUserCode(this.user!.email).subscribe({
+                  next: (data: any) => {
+                    this.codeForm.reset();
+                    this.toastr.show("Richiedi un altro codice.");
+                  }
+                })
+              }, 30000);
+            }
+          });
+        } else {
+          if (this.isCodeVerified) {
+            this.profileService.changePassword(this.cambiaPassword.get('nuovaPassword')?.value, this.user!.email, this.codeForm.get('code')?.value).subscribe({
+              next: (data: any) => {
+                this.toastr.success("Password cambiata.");
+                this.isCodeRequeste = false;
+                this.isCodeVerified = false;
+                this.codeForm.reset();
+                this.cambiaPassword.reset();
+                this.cambiaPassword.updateValueAndValidity();
+                form.submitted = false;
+                this.profileService.clearUserCode(this.user!.email).subscribe({
+                  next: (data: any) => {}});
+              }
+            })
+          } else {
+            if (this.codeForm.valid) {
+              this.profileService.verifyCode(this.user!.email, this.codeForm.get('code')?.value, false).subscribe({
+                next: (data: any) => {
+                  if (data) {
+                    this.isCodeVerified = true;
+                  } else {
+                    this.isCodeVerified = false;
+                    this.toastr.error("Il codice non è giusto");
+                  }
+                }
+              })
+            } else {
+              this.isCodeVerified = false;
+              if (!this.codeForm.get('code')?.value) this.toastr.error("Non hai inserito il codice!");
+              else this.toastr.error("Il codice deve contenere 6 lettere/caratteri.")
+            }
+          }
+        }
+      } else {
+        this.toastr.error("Le nuove password che hai inserito non coincidono");
+      }
+    } else {
+      this.toastr.error("Assicurati di inserire la tua vecchia password e la password nuova.");
     }
   }
 }

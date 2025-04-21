@@ -68,7 +68,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                   this.authService.authenticateUser(false);
                   this.authService.setUser(null);
                   this.authService.setToken('');
-                  this.router.navigate(['home']);
+                  if(err?.error?.message != "La password è errata.") this.router.navigate(['/home']);
                 }
               } else if (
                 err.error &&
