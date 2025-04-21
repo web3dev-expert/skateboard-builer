@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { User } from '../../interfaces/interfaces';
 import { ProfileServive } from '../../services/profile.service';
@@ -81,10 +81,17 @@ export class ProfileComponent implements OnInit {
   sottomenu: string[] = ['Cambia immagine del profilo', 'Cambia la password', 'Cambia altre informazioni', 'Richiedi assistenza', 'Monitora le tue richieste'];
   impostazioniSection: string = 'Richiedi assistenza';
   constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService: GamefieldService, private matDialog: MatDialog,
-    public authService: AuthService) { }
+    public authService: AuthService, private changeDetectorRef: ChangeDetectorRef) {
+    this.authService.isAuthenticatedUser.subscribe((bool: boolean) => {
+      this.user = this.authService.getUser()!;
+      if (this.visitedUser?.id == this.user?.id) {
+        this.visitedUser = this.authService.getUser()!;
+        localStorage.setItem('visitedUser', JSON.stringify(this.visitedUser));
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this.user = this.authService.getUser()!;
     this.route.queryParams.subscribe(
       params => {
         if (params && params['user']) {

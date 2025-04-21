@@ -19,6 +19,8 @@ export class RichiestaComponent implements OnInit {
   user: User | null = null;
   richiesta: any = null;
   assistenzaForm: FormGroup = new FormGroup({});
+  showConfirmDelete: boolean = false;
+  confirmDelete: boolean = false;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private profiloService: ProfileServive, private toastr: ToastrService,
     private dialog: MatDialog, private dialogRef: MatDialogRef<RichiestaComponent>) {
     this.richiesta = data[0];
@@ -30,5 +32,41 @@ export class RichiestaComponent implements OnInit {
       oggetto: new FormControl(this.richiesta?.oggetto, Validators.required),
       descrizione: new FormControl(this.richiesta?.descrizione, Validators.required)
     })
+  }
+  delete() {
+    this.showConfirmDelete = true;
+    if (this.confirmDelete == true) {
+      this.profiloService.deletRichiesta(this.richiesta?.id).subscribe({
+        next: (data: any) => {
+          if(!data) return;
+          this.toastr.show("Richiesta eliminata correttamente");
+          this.showConfirmDelete = false;
+          this.confirmDelete = false;
+          setTimeout(() => {
+            this.dialogRef.close(true);
+          }, 1500)
+        }
+      })
+    }
+  }
+
+  put() {
+    if (this.assistenzaForm.valid) {
+      let richiesta = {
+        userId: this.user!.id,
+        oggetto: this.assistenzaForm.get('oggetto')?.value,
+        descrizione: this.assistenzaForm.get('descrizione')?.value
+      }
+      this.profiloService.putRichiesta(richiesta, this.richiesta?.id).subscribe({
+        next: (data: any) => {
+          this.toastr.success("Richiesta modificata correttamente");
+          setTimeout(() => {
+            this.dialogRef.close(true);
+          }, 1500)
+        }
+      })
+    } else {
+      this.toastr.error("Completa correttamente il form prima.");
+    }
   }
 }

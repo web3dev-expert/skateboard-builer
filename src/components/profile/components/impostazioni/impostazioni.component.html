@@ -40,17 +40,83 @@
     </div>
     <div class="col-md-12" *ngIf="section=='Cambia altre informazioni'">
         <h2>Cambia altre informazioni</h2>
+        <form [formGroup]="altreImpostazioniForm">
+            <label for="nome" class="p-2 fs-3">Nome</label>
+            <input type="text" class="form-control text-center" placeholder="Scrivi il tuo nome" id="nome" formControlName="nome">
+            <label for="cognome" class="p-2 fs-3">Cognome</label>
+            <input type="text" class="form-control text-center" placeholder="Scrivi il tuo cognome" id="cognome" formControlName="cognome">
+            <label for="citta" class="p-2 fs-3">Città</label>
+            <select name="citta" id="citta" formControlName="citta" class="form-select text-center" placeholder="Scegli la città" onfocus="this.size=7"
+                onblur="this.size=1" onchange="this.blur()">
+                <option value="{{c.id}}" *ngFor="let c of citta">{{c.nome}}</option>
+            </select>
+            <button class="btn my-3 btn-outline-primary"
+                [disabled]="
+            !altreImpostazioniForm.touched
+            ||
+            altreImpostazioniForm.invalid
+            ||
+            (user!.nome == altreImpostazioniForm.get('nome')?.value && user!.cognome == altreImpostazioniForm.get('cognome')?.value && user!.citta!.id == altreImpostazioniForm.get('citta')?.value)"
+                (click)="updateProfile()">Modifica profilo</button>
+        </form>
     </div>
     <div class="col-md-12" *ngIf="section=='Monitora le tue richieste'">
         <h2>Monitora le tue richieste</h2>
         <p class="py-5 fs-3" *ngIf="richieste == null || richieste?.content?.length == 0">
             Non ci sono richieste da visualizzare al momento.
         </p>
-        <div class="row py-5" *ngIf="richieste?.content?.length > 0">
+        <form [formGroup]="richiestaParametersForm" class="row py-5">
+            <div class="col-md-6">
+                <label for="size">Numero di elementi per pagina</label>
+                <select name="size" id="size" class="form-select" formControlName="size">
+                    <option value="{{s}}" *ngFor="let s of richiestaSizes">{{s}}</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="sort">Ordina per</label>
+                <select name="sort" id="sort" class="form-select" formControlName="sort">
+                    <option value="{{s=='data di caricamento'?'createdAt':s}}" *ngFor="let s of richiestaSorts">{{s}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="order">Ordine </label>
+                <select name="order" id="order" class="form-select" formControlName="order">
+                    <option [value]="s[1]" *ngFor="let s of richiestaOrders">{{s[0]}}</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="oggetto">Oggetto contenente</label>
+                <input type="text" class="form-control" id="oggetto" name="oggetto" formControlName="oggetto">
+            </div>
+            <div class="col-md-12">
+                <label for="descrizione">Descrizione contenente</label>
+                <textarea type="text" class="form-control" id="descrizione" rows="3" name="descrizione"
+                    formControlName="descrizione">
+                </textarea>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="from" class="p-1">Da</label>
+                        <input type="date" name="from" formControlName="from" id="from" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="to" class="p-1">A</label>
+                        <input type="date" name="to" formControlName="to" id="to" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 text-center py-3">
+                <button class="btn btn-outline-primary" (click)="getRichiesteByParams();">Cerca</button>
+            </div>
+        </form>
+        <div *ngIf="richieste?.content?.length > 0">
             <div class="col-md-12 p-3" *ngFor="let r of richieste?.content">
                 <div class="p-2 border shadow-lg">
                     <p class="d-flex justify-content-end">
-                        <button class="btn" matTooltip="Modifica" matTooltipPosition="above" (click)="modifyRichiesta(r)">
+                        <button class="btn" matTooltip="Modifica" matTooltipPosition="above"
+                            (click)="modifyRichiesta(r)">
                             <i class="bi bi-pencil-fill h4 text-primary"></i>
                         </button>
                     </p>
@@ -60,6 +126,16 @@
                         {{r?.descrizionePreview}}
                     </p>
                 </div>
+            </div>
+            <div class="d-flex justify-content-around py-3">
+                <button class="btn" (click)="richiestaPage= richiestaPage-1;getRichiesteByParams();"
+                    *ngIf="!richieste?.first">
+                    <i class="bi bi-arrow-left-circle-fill h4"></i>
+                </button>
+                <button class="btn" (click)="richiestaPage= richiestaPage+1;getRichiesteByParams();"
+                    *ngIf="!richieste?.last">
+                    <i class="bi bi-arrow-right-circle-fill h4"></i>
+                </button>
             </div>
         </div>
     </div>

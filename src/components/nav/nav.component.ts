@@ -15,7 +15,7 @@ import { SharedModule } from '../../shared/modules/shared.module';
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.scss'
 })
-export class NavComponent {
+export class NavComponent{
   isAuthenticatedUser: boolean = false;
   mode: string = 'light';
   user: User | null = null;
@@ -27,7 +27,7 @@ export class NavComponent {
     })
     this.modeService.mode.subscribe((mood: string) => {
       this.mode = mood;
-    })
+    });
   }
   logout() {
     this.isLoadingLogoutOrRoute = true;
@@ -50,4 +50,5 @@ export class NavComponent {
       this.router.navigate([`/${route}`], { queryParams: { user: this.user!.id } })
     }, 1000)
   }
+  
 }

@@ -18,7 +18,16 @@
         </div>
     </form>
 </mat-dialog-content>
-<mat-dialog-actions class="d-flex justify-content-around py-3 w-50">
-<button class="btn btn-outline-success m-1" matTooltip="Modifica" matTooltipPosition="above" (click)="put()">Modifica</button>
-<button class="btn btn-outline-danger m-1" matTooltip="Elimina" matTooltipPosition="above" (click)="delete()">Elimina</button>
+<mat-dialog-actions>
+    <div class="d-flex justify-content-around py-3 w-50 m-auto">
+        <button class="btn btn-outline-success m-2" matTooltip="Modifica" matTooltipPosition="above"
+            (click)="put()">Modifica</button>
+        <button class="btn btn-outline-danger m-2" matTooltip="Elimina" matTooltipPosition="above"
+            (click)="delete()">Elimina</button>
+    </div>
+    <div *ngIf="showConfirmDelete" class="w-100 text-center">
+        <p class="fs-4 text-danger fw-bold">Vuoi davvero eliminare questa richiesta?</p>
+        <button class="btn btn-success m-2" (click)="showConfirmDelete=false;confirmDelete=true; delete();">Elimina</button>
+        <button class="btn btn-danger m-2" (click)="showConfirmDelete=false;confirmDelete=false;">Annulla</button>
+    </div>
 </mat-dialog-actions>
