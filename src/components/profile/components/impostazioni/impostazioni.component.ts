@@ -260,7 +260,15 @@ export class ImpostazioniComponent implements OnInit, OnDestroy, OnChanges {
 
   putImage(){
     if(this.selectedImage){
-
+    this.profileService.putImage(this.selectedImage).subscribe({
+      next:(data:any)=>{
+        this.authService.setUser(data);
+        this.authService.isAuthenticatedUser.next(true);
+        this.toastr.success("Immagine cambiata con successo.");
+        this.selectedImage = null;
+        this.url = '';
+      }
+    })
     }else{
       this.toastr.error("Non hai caricato nessuna nuova immagine.");
     }
