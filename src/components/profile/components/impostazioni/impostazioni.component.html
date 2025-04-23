@@ -34,6 +34,20 @@
     </div>
     <div class="col-md-12" *ngIf="section=='Cambia immagine del profilo'">
         <h2>Cambia immagine del profilo</h2>
+        <label for="immagine" class="to-point fs-4 pb-3" (click)="immagine.click();">Cambia immagine del profilo</label>
+        <input type="file" id="immagine" name="immagine" #immagine class="d-none" (change)="changeImage($event);"
+            accept="image/png, image/gif, image/jpeg, image/jpg">
+        <div class="rounded-circle shadow to-point profile-pic m-auto" (click)="immagine.click();"
+            style.backgroundImage="url('{{user!.immagineProfilo}}')" *ngIf="url==''"></div>
+        <div class="rounded-circle shadow to-point profile-pic m-auto" (click)="immagine.click();"
+            style.backgroundImage="url('{{url}}')" *ngIf="url!=''"></div>
+        <div *ngIf="selectedImage">
+            <button class="btn pt-3 btn-outline-success m-2" matTooltip="Carica" matTooltipPosition="above" (click)="putImage()">
+                <i class="bi bi-upload fw-bold h4"></i>
+            </button>
+            <button class="btn pt-3 btn-outline-danger m-2" matTooltip="Elimina" matTooltipPosition="above" (click)="url='';selectedImage=null;immagine.value='';"><i
+                    class="bi bi-x-lg fw-bold h4"></i></button>
+        </div>
     </div>
     <div class="col-md-12" *ngIf="section=='Cambia la password'">
         <h2>Cambia la password</h2>

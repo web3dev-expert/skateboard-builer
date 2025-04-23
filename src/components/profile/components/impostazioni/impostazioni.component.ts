@@ -36,6 +36,9 @@ export class ImpostazioniComponent implements OnInit, OnDestroy, OnChanges {
   codeInterval: any;
   codeTimeout: any;
   secondsToInterval: number = 30;
+  immagineForm: FormGroup = new FormGroup({});
+  selectedImage: any = null;
+  url: string = '';
   constructor(private toastr: ToastrService, private profileService: ProfileServive, private datePipe: DatePipe, private matDialog: MatDialog, private formService: FormsService, private authService: AuthService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -172,7 +175,7 @@ export class ImpostazioniComponent implements OnInit, OnDestroy, OnChanges {
       this.toastr.show("Completa correttamente il form");
     }
   }
-  putPassword(form?:any) {
+  putPassword(form?: any) {
     if (this.cambiaPassword.valid) {
       if (this.cambiaPassword.get('nuovaPassword')?.value == this.cambiaPassword.get('ripetiNuovaPassword')?.value) {
         if (!this.isCodeRequeste) {
@@ -208,7 +211,8 @@ export class ImpostazioniComponent implements OnInit, OnDestroy, OnChanges {
                 this.cambiaPassword.updateValueAndValidity();
                 form.submitted = false;
                 this.profileService.clearUserCode(this.user!.email).subscribe({
-                  next: (data: any) => {}});
+                  next: (data: any) => { }
+                });
               }
             })
           } else {
@@ -235,6 +239,30 @@ export class ImpostazioniComponent implements OnInit, OnDestroy, OnChanges {
       }
     } else {
       this.toastr.error("Assicurati di inserire la tua vecchia password e la password nuova.");
+    }
+  }
+
+  changeImage(event: any) {
+    if (event && event?.target?.files && event?.target?.files[0]) {
+      this.selectedImage = event.target.files[0];
+      var reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]);
+
+      reader.onload = (eventR: any) => {
+        this.url = eventR.target.result;
+      };
+    } else {
+      this.url = '';
+      this.selectedImage = null;
+    }
+  }
+
+  putImage(){
+    if(this.selectedImage){
+
+    }else{
+      this.toastr.error("Non hai caricato nessuna nuova immagine.");
     }
   }
 }

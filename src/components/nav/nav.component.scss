@@ -43,9 +43,13 @@ h2,
 .bg-personal-opposite{
     background-image: linear-gradient(black, gray);
 }
-.immagine-profilo{
-    height: 50px!important;
-    width: 50px!important;
+.profile-pic {
+    width: 50px;
+    min-height: 50px!important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: linear-gradient(black, gray);
 }
 .mat-trigger{
     cursor: pointer;

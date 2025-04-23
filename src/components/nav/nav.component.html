@@ -27,8 +27,8 @@
                         *ngIf="(null&&undefined)!=user">
                         <div class="w-auto d-flex flex-column justify-content-center align-items-center"
                             *ngIf="!isLoadingLogoutOrRoute else isLoading">
-                            <img src="{{user.immagineProfilo}}" alt="immagine_profilo"
-                                class="border rounded-circle immagine-profilo mat-trigger" (click)="p.click()">
+                            <div class="rounded-circle shadow to-point profile-pic m-auto mat-trigger"
+                                (click)="p.click()" style.backgroundImage="url('{{user!.immagineProfilo}}')"></div>
                             <button class="btn text-dark" [matMenuTriggerFor]="appMenu" #p>{{user.fullName}}</button>
                         </div>
                         <ng-template #isLoading>
@@ -41,7 +41,7 @@
                         <div>
                             <button mat-menu-item [ngClass]="mode!='light'?'text-light':'text-dark'" class="btn fs-4"
                                 (click)="goToRoute('lobby/profile')">Profile</button>
-                                <button mat-menu-item [ngClass]="mode!='light'?'text-light':'text-dark'" class="btn fs-4"
+                            <button mat-menu-item [ngClass]="mode!='light'?'text-light':'text-dark'" class="btn fs-4"
                                 (click)="goToRoute('lobby/preferiti')">Preferiti</button>
                             <button mat-menu-item class="btn fs-4" (click)="logout()"
                                 [ngClass]="mode!='light'?'text-light':'text-dark'"
