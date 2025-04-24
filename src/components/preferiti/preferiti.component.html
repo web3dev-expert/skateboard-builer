@@ -24,6 +24,16 @@
                     {{p?.gioco?.difficolta}}</p>
             </div>
         </div>
+        <div class="col-md-12 p-3 d-flex justify-content-center align-items-center" *ngIf="preferiti?.content?.lenght>0">
+            <button class="btn" *ngIf="!preferiti?.first"
+                (click)="preferitiPage=preferitiPage-1;getPreferiti();">
+                <i class="bi bi-arrow-left-circle-fill h4"></i>
+            </button>
+            <button class="btn fs-5" *ngIf="!preferiti?.last"
+                (click)="preferitiPage=preferitiPage+1;getPreferiti();">
+                <i class="bi bi-arrow-right-circle-fill h4"></i>
+            </button>
+        </div>
         <div class="col-md-12 p-5" *ngIf="!preferiti || preferiti?.content?.length ==0 || !preferiti?.content">
             <h2 *ngIf="user?.id == visitedUser?.id">Non hai ancora nessun gioco nei tuoi preferiti!</h2>
             <button class="btn m-auto my-5" *ngIf="user?.id == visitedUser?.id"> <a routerLink="/lobby" class="text-dark">Aggiungine

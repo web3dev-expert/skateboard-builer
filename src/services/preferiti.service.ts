@@ -11,7 +11,7 @@ export class PreferitiServive {
 
     constructor(private http: HttpClient) { }
 
-    getPreferiti(userId: number) {
+    getPreferiti(userId: number, page: number, size: number, orderBy: string, sortOrder: string, nomeGioco: string, difficoltaGioco: string) {
         return this.http.get(environment.API_URL + this.preferito + this.user + `/ ${userId}`);
     }
     deletePreferito(preferitoId: number) {
