@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, HostListener, OnChanges, OnInit, SimpleCh
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { User } from '../../interfaces/interfaces';
 import { ProfileServive } from '../../services/profile.service';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { GamefieldService } from '../../services/gamefield.service';
 import { GiocoPreviewComponent } from '../../shared/components/gioco-preview/gioco-preview.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,7 +12,7 @@ import { ImpostazioniComponent } from './components/impostazioni/impostazioni.co
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, ImpostazioniComponent],
+  imports: [NgFor, NgIf, NgClass, ImpostazioniComponent, NgStyle],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
@@ -59,7 +59,7 @@ export class ProfileComponent implements OnInit {
 
   sizes: number[] = [2, 5, 10];
   windowWidth: number = 0;
-  menuVoices: string[] = ['Profilo', 'Recensioni', 'Giochi', 'Trofei', 'Classifiche', 'Partite', 'Impostazioni'];
+  menuVoices: string[] = ['Profilo', 'Recensioni', 'Giochi', 'Trofei', 'Classifiche', 'Partite', 'Preferiti'];
   section: string = 'Profilo';
   circles: number[] = [1, 2, 3, 4, 5];
   partitePage: number = 0;
@@ -86,6 +86,8 @@ export class ProfileComponent implements OnInit {
       this.user = this.authService.getUser()!;
       if (this.visitedUser?.id == this.user?.id) {
         this.visitedUser = this.authService.getUser()!;
+        this.menuVoices.push('Impostazioni');
+        this.menuVoices = this.menuVoices.filter((items: string) => { return items != 'Preferiti' });
         localStorage.setItem('visitedUser', JSON.stringify(this.visitedUser));
       }
     });
@@ -98,7 +100,10 @@ export class ProfileComponent implements OnInit {
           this.authService.getUserById(params['user']).subscribe({
             next: (data: any) => {
               this.visitedUser = data;
-              console.log(this.authService.getUser()!.id, this.visitedUser?.id)
+              if (this.user?.id == this.visitedUser?.id) {
+                this.menuVoices.push('Impostazioni');
+                this.menuVoices = this.menuVoices.filter((items: string) => { return items != 'Preferiti' });
+              }
               this.getAllDatas();
               if (this.visitedUser != null && this.visitedUser != undefined) localStorage.setItem('visitedUser', JSON.stringify(this.visitedUser));
               else this.router.navigate(['/lobby']);
@@ -106,7 +111,14 @@ export class ProfileComponent implements OnInit {
           })
         } else {
           if (!localStorage.getItem('visitedUser')) this.router.navigate(['/lobby']);
-          else { this.visitedUser = JSON.parse(localStorage.getItem('visitedUser')!); this.getAllDatas(); }
+          else {
+            this.visitedUser = JSON.parse(localStorage.getItem('visitedUser')!);
+            if (this.user?.id == this.visitedUser?.id) {
+              this.menuVoices.push('Impostazioni');
+              this.menuVoices = this.menuVoices.filter((items: string) => { return items != 'Preferiti' });
+            }
+            this.getAllDatas();
+          }
         }
       }
     )
