@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-statistiche',
@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrl: './statistiche.component.scss'
 })
 export class StatisticheComponent {
+@Input() mode:string = 'light';
 
 }

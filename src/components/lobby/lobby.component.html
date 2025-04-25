@@ -48,7 +48,7 @@
             </div>
             <div class="col-md-12 pt-5 mt-5 px-3 text-start">
                 <div class="row">
-                    <div class="col-md-12 scrollable-container d-flex bg-light">
+                    <div class="col-md-12 scrollable-container d-flex" [ngClass]="mode=='light'?'bg-light':'bg-secondary'">
                         <div class="p-2 lobby-nav-button text-center" [ngClass]="location=='giochi'? 'bg-warning':''">
                             <button class="btn" (click)="changeLocation('giochi')">
                                 Giochi disponibili
@@ -83,13 +83,13 @@
                         </div>
                     </div>
                     <div class="col-md-12 p-2">
-                        <div class="w-100 border shadow-sm p-3 bg-light overflow-auto" *ngIf="!isLoading">
-                            <app-giochi *ngIf="location=='giochi'" [user]="user" (canSwitchLocation)="onReceiveSwitchLocation($event)"></app-giochi>
-                            <app-classifiche *ngIf="location=='classifiche'"
+                        <div class="w-100 border shadow-sm p-3 overflow-auto" [ngClass]="mode=='light'?'bg-light':'bg-secondary text-light'" *ngIf="!isLoading">
+                            <app-giochi *ngIf="location=='giochi'" [user]="user" (canSwitchLocation)="onReceiveSwitchLocation($event)" [mode]="mode"></app-giochi>
+                            <app-classifiche *ngIf="location=='classifiche'" [mode]="mode"
                                 [classificaId]="classificaId"></app-classifiche>
-                            <app-statistiche *ngIf="location=='statistiche'"></app-statistiche>
-                            <app-about-us *ngIf="location=='about-us'"></app-about-us>
-                            <app-assistenza *ngIf="location=='assistenza'"></app-assistenza>
+                            <app-statistiche *ngIf="location=='statistiche'" [mode]="mode"></app-statistiche>
+                            <app-about-us *ngIf="location=='about-us'" [mode]="mode"></app-about-us>
+                            <app-assistenza *ngIf="location=='assistenza'" [mode]="mode"></app-assistenza>
                         </div>
                         <div class="w-100 border shadow-sm p-3 bg-light overflow-auto" *ngIf="isLoading">
                             <app-spinner></app-spinner>

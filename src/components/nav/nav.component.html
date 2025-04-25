@@ -39,12 +39,11 @@
                 <mat-menu #appMenu="matMenu" class="overflow-hidden">
                     <ng-template matMenuContent>
                         <div>
-                            <button mat-menu-item [ngClass]="mode!='light'?'text-light':'text-dark'" class="btn fs-4"
+                            <button mat-menu-item class="btn fs-4 text-dark"
                                 (click)="goToRoute('lobby/profile')">Profile</button>
-                            <button mat-menu-item [ngClass]="mode!='light'?'text-light':'text-dark'" class="btn fs-4"
+                            <button mat-menu-item class="btn fs-4 text-dark"
                                 (click)="goToRoute('lobby/preferiti')">Preferiti</button>
-                            <button mat-menu-item class="btn fs-4" (click)="logout()"
-                                [ngClass]="mode!='light'?'text-light':'text-dark'"
+                            <button mat-menu-item class="btn fs-4 text-dark" (click)="logout()"
                                 [routerLink]="'/home'">Logout</button>
                         </div>
                     </ng-template>

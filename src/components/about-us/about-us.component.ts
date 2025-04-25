@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-about-us',
@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrl: './about-us.component.scss'
 })
 export class AboutUsComponent {
+@Input() mode:string = 'light';
 
 }

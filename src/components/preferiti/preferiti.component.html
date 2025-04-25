@@ -1,8 +1,9 @@
-<div class="container py-5 my-5 text-center">
-    <div class="row py-5 my-5">
+<div class="container text-center" [ngClass]="userInput!=null?'pb-5':'py-5 my-5'">
+    <div class="row" [ngClass]="userInput!=null?'pb-5':'py-5 my-5'">
         <div class="col-md-12 py-5">
             <h1 *ngIf="user?.id == visitedUser?.id">Benvenuto nei tuoi preferiti!</h1>
-            <h1 *ngIf="(user?.id != visitedUser?.id) && visitedUser">I preferiti di {{visitedUser!.fullName}}!</h1>
+            <h1 *ngIf="(user?.id != visitedUser?.id) && visitedUser && userInput==null">I preferiti di {{visitedUser!.fullName}}!</h1>
+            <h2 *ngIf="(user?.id != visitedUser?.id) && visitedUser && userInput!=null">Cerca fra i preferiti</h2>
         </div>
         <div class="col-md-12 p-5">
             <form [formGroup]="searchPreferitiForm" class="w-75 row m-auto">

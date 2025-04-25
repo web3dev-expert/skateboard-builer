@@ -1,4 +1,4 @@
-<div class="container py-5 my-5 text-center">
+<div class="py-5 w-100 text-center" [ngClass]="mode=='light'?'bg-white':'bg-personal text-light'">
     <div class="row py-5 my-5 align-items-stretch">
         <div class="col-md-12 py-3">
             <h1>{{visitedUser?.fullName}}</h1>
@@ -332,6 +332,9 @@
             <div *ngIf="section=='Impostazioni' && authService.getUser()!.id == visitedUser!.id">
                 <app-impostazioni [section]="impostazioniSection" 
                 [user]="visitedUser"></app-impostazioni>
+            </div>
+            <div *ngIf="section== 'Preferiti'">
+                <app-preferiti [userInput]="visitedUser"></app-preferiti>
             </div>
         </div>
     </div>

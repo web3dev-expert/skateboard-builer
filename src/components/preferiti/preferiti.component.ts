@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { User } from '../../interfaces/interfaces';
 import { AuthService } from '../../services/auth.service';
@@ -25,38 +25,47 @@ export class PreferitiComponent implements OnInit, OnDestroy {
   orderBys: string[] = ["Id", "Nome gioco", "Data di creazione del gioco", "Data di aggiunta ai preferiti"];
   sortOrders: string[] = ["Ascendente", "Discendente"];
   difficulties: number[] = [1, 2, 3, 4, 5];
+  @Input() userInput: User | null = null;
   constructor(private route: ActivatedRoute, private authService: AuthService, private preferitiService: PreferitiServive,
     private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
-    this.route.queryParams.subscribe(
-      params => {
-        if (params['user']) {
-          this.authService.getUserById(params['user']).subscribe({
-            next: (data: any) => {
-              if (data) {
-                this.visitedUser = data;
-                localStorage.setItem('visitedUser', JSON.stringify(this.visitedUser));
-                this.getPreferiti();
-
-              } else {
-                if (localStorage.getItem('visitedUser')) {
-                  this.visitedUser = JSON.parse(localStorage.getItem('visitedUser')!);
+    if (this.userInput == null) {
+    localStorage.setItem('location', 'lobby/preferiti')
+      this.route.queryParams.subscribe(
+        params => {
+          if (params['user']) {
+            this.authService.getUserById(params['user']).subscribe({
+              next: (data: any) => {
+                if (data) {
+                  this.visitedUser = data;
+                  localStorage.setItem('visitedUser', JSON.stringify(this.visitedUser));
                   this.getPreferiti();
+
+                } else {
+                  if (localStorage.getItem('visitedUser')) {
+                    this.visitedUser = JSON.parse(localStorage.getItem('visitedUser')!);
+                    this.getPreferiti();
+                  }
                 }
               }
-            }
-          })
+            })
+          }
         }
-      }
-    )
+      )
+    } else {
+      localStorage.setItem('location', 'lobby/profile')
+      this.visitedUser = this.userInput;
+      localStorage.setItem('visitedUser', JSON.stringify(this.visitedUser));
+      this.getPreferiti();
+    }
+
     if (localStorage.getItem('visitedUser')) {
       this.visitedUser = JSON.parse(localStorage.getItem('visitedUser')!);
       this.getPreferiti();
     }
-    localStorage.setItem('location', 'lobby/preferiti')
     this.searchPreferitiForm = new FormGroup({
       size: new FormControl(5),
       orderBy: new FormControl('Id'),
@@ -80,7 +89,7 @@ export class PreferitiComponent implements OnInit, OnDestroy {
 
     this.preferitiService.getPreferiti(this.visitedUser!.id,
       this.preferitiPage,
-      this.searchPreferitiForm.get('size')?.value||5,
+      this.searchPreferitiForm.get('size')?.value || 5,
       orderBy,
       sortOrder,
       this.searchPreferitiForm.get('nomeGioco')?.value,

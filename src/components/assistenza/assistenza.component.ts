@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-assistenza',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './assistenza.component.scss'
 })
 export class AssistenzaComponent {
-
+@Input() mode:string = 'light';
 }

@@ -1,17 +1,6 @@
 @import url("home-animations.scss");
 @import url("starred-background.scss");
-
-h1,
-h2,
-* {
-  font-family: "Just Me Again Down Here", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-h1 {
-  font-size: 80px;
-}
+@import url("../../shared/style/style.scss");
 
 .personal-height-p {
   height: 200px;
@@ -540,9 +529,6 @@ h1 {
   padding: 30px;
 }
 
-.bg-personal {
-  background-color: gray;
-}
 
 .icon {
   width: 60px;

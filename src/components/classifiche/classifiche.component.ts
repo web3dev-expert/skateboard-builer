@@ -10,6 +10,7 @@ import { ShowClassificaComponent } from '../../shared/components/show-classifica
 })
 export class ClassificheComponent implements OnInit {
   @Input() classificaId: number = 0;
+  @Input() mode:string = 'light';
   classifica: any;
   isLoading: boolean = false;
   classifiche: any = null;

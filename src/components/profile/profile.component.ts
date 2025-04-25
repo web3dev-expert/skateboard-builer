@@ -8,11 +8,13 @@ import { GiocoPreviewComponent } from '../../shared/components/gioco-preview/gio
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
 import { ImpostazioniComponent } from './components/impostazioni/impostazioni.component';
+import { PreferitiComponent } from '../preferiti/preferiti.component';
+import { ModeService } from '../../services/mode.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, ImpostazioniComponent, NgStyle],
+  imports: [NgFor, NgIf, NgClass, ImpostazioniComponent, NgStyle,PreferitiComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
@@ -80,8 +82,9 @@ export class ProfileComponent implements OnInit {
   firstTimeReces: number = 0;
   sottomenu: string[] = ['Cambia immagine del profilo', 'Cambia la password', 'Cambia altre informazioni', 'Richiedi assistenza', 'Monitora le tue richieste'];
   impostazioniSection: string = 'Richiedi assistenza';
+  mode:string = 'light';
   constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService: GamefieldService, private matDialog: MatDialog,
-    public authService: AuthService, private changeDetectorRef: ChangeDetectorRef) {
+    public authService: AuthService, private modeService: ModeService) {
     this.authService.isAuthenticatedUser.subscribe((bool: boolean) => {
       this.user = this.authService.getUser()!;
       if (this.visitedUser?.id == this.user?.id) {
@@ -91,6 +94,9 @@ export class ProfileComponent implements OnInit {
         localStorage.setItem('visitedUser', JSON.stringify(this.visitedUser));
       }
     });
+    this.modeService.mode.subscribe((data:string)=>{
+      this.mode=data;
+    })
   }
 
   ngOnInit(): void {

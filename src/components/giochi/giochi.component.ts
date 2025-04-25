@@ -37,6 +37,7 @@ export class GiochiComponent implements OnInit, OnDestroy {
   @Input() user: User | null = null;
   timeout: any = null;
   @Output() canSwitchLocation: EventEmitter<boolean> = new EventEmitter<boolean>(false);
+  @Input() mode:string = 'light';
   constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router, private recensioniService: RecensioneService) { }
 
   ngOnInit(): void {
