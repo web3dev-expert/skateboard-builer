@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
     let accessToken: string = localStorage.getItem('accessToken')!;
     let location: string = localStorage.getItem('location')!;
     let gioco: string = localStorage.getItem('game')!;
-
+    let mode: string = localStorage.getItem('mode')!;
     if (accessToken) {
       this.authService.verifyAccessToken(accessToken).subscribe({
         next: (user: any) => {
@@ -60,6 +60,9 @@ export class AppComponent implements OnInit {
     }
     else {
       localStorage.clear()
+    }
+    if(mode){
+      this.modeService.updateMode(mode);
     }
   }
 

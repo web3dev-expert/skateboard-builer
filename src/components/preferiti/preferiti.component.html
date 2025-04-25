@@ -1,5 +1,5 @@
-<div class="container text-center" [ngClass]="userInput!=null?'pb-5':'py-5 my-5'">
-    <div class="row" [ngClass]="userInput!=null?'pb-5':'py-5 my-5'">
+<div class="w-100 text-center" [ngClass]="mode=='light'?'bg-light':'bg-personal text-light'">
+    <div class="row p-5">
         <div class="col-md-12 py-5">
             <h1 *ngIf="user?.id == visitedUser?.id">Benvenuto nei tuoi preferiti!</h1>
             <h1 *ngIf="(user?.id != visitedUser?.id) && visitedUser && userInput==null">I preferiti di {{visitedUser!.fullName}}!</h1>

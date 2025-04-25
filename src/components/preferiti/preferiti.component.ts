@@ -7,6 +7,7 @@ import { PreferitiServive } from '../../services/preferiti.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ModeService } from '../../services/mode.service';
 
 @Component({
   selector: 'app-preferiti',
@@ -26,14 +27,19 @@ export class PreferitiComponent implements OnInit, OnDestroy {
   sortOrders: string[] = ["Ascendente", "Discendente"];
   difficulties: number[] = [1, 2, 3, 4, 5];
   @Input() userInput: User | null = null;
+  mode: string = 'light';
   constructor(private route: ActivatedRoute, private authService: AuthService, private preferitiService: PreferitiServive,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService, private modeService: ModeService
+  ) {
+    this.modeService.mode.subscribe((data: string) => {
+      this.mode = data;
+    })
+  }
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
     if (this.userInput == null) {
-    localStorage.setItem('location', 'lobby/preferiti')
+      localStorage.setItem('location', 'lobby/preferiti')
       this.route.queryParams.subscribe(
         params => {
           if (params['user']) {

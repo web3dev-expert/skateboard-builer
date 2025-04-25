@@ -76,16 +76,16 @@
                     <div class="col-md-12" *ngIf="recensioni?.content?.length>0">
                         <div class="row">
                             <div class="col-md-6 p-2 text-center" *ngFor="let r of recensioni?.content">
-                                <div class="bg-light border rounded shadow-sm">
+                                <div class="border rounded shadow-sm">
                                     <div
-                                        class="w-100 text-center bg-light d-flex justify-content-center pt-2 rounded-top">
+                                        class="w-100 text-center d-flex justify-content-center pt-2 rounded-top" [ngClass]="mode=='light'?'bg-light':'bg-personal text-light'">
                                         <img src="{{'data:image/png;base64,'+r?.giocoImage}}" class="gioco-image"
                                             alt="immagine gioco">
                                         <p class="p-2 fs-4">
                                             {{r?.giocoName}}
                                         </p>
                                     </div>
-                                    <div class="pt-4 pb-2 bg-white">
+                                    <div class="pt-4 pb-2" [ngClass]="mode=='light'?'bg-light':'bg-personal text-light'">
                                         <div class="d-flex justify-content-center">
                                             <i class="bi bi-star-fill text-warning h3"
                                                 *ngFor="let vp of validationPoints, index as i"
@@ -185,7 +185,7 @@
                             </select>
                         </div>
                         <div class="col-md-6 p-3" *ngFor="let g of giochi?.content, index as i">
-                            <div class="p-3 game-card bg-white border shadow">
+                            <div class="p-3 game-card border shadow" [ngClass]="mode=='light'?'bg-light':'bg-personal text-light'">
                                 <div class="w-100 text-center position-relative">
                                     <img src="{{'data:image/png;base64,'+g?.image}}" class="w-50 m-auto"
                                         alt="gioco_image">
@@ -194,7 +194,7 @@
                                     <h2>{{g.nomeGioco}}</h2>
                                 </div>
                                 <div class="border my-2">
-                                    <p class="bg-light border-bottom p-2 fs-4">Livello di difficoltà : {{g.difficolta
+                                    <p class="border-bottom p-2 fs-4" [ngClass]="mode=='light'?'bg-light':'bg-personal text-light'">Livello di difficoltà : {{g.difficolta
                                         <=2?'FACILE':g.difficolta>2&&g.difficolta
                                             <=4?'MEDIO':'DIFFICILE'}} </p>
                                                 <div class="d-flex justify-content-around difficult-points-container">
