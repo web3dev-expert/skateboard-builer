@@ -1,16 +1,5 @@
 @import url("signup-animations.scss");
-
-.h1,
-h2,
-* {
-  font-family: "Just Me Again Down Here", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-h1 {
-  font-size: 80px;
-}
+@import url("../../../../shared/style/style.scss");
 
 .w-auto {
   max-width: 130px;

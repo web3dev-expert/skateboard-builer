@@ -1,17 +1,5 @@
 @import url("forms-animations.scss");
-
-.h1,
-h2,
-* {
-  font-family: "Just Me Again Down Here", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-
-.bg-personal {
-  background-color: gray;
-}
+@import url("../../shared/style/style.scss");
 
 .background-forms-image {
   height: 100vh;
