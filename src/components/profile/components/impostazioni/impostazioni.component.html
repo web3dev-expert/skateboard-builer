@@ -25,7 +25,7 @@
             </div>
         </form>
         <div class="w-75 m-auto">
-            <button class="btn my-3 btn-outline-success" [disabled]="assistenzaForm.invalid"
+            <button class="btn my-3 btn-outline-success fw-bold" [disabled]="assistenzaForm.invalid"
                 [matTooltip]="btn.disabled? 'Completa il form': 'Invia la richiesta'" #btn (click)="inviaRichiesta()"
                 matTooltipPosition="above">Invia
                 richiesta</button>
@@ -42,10 +42,10 @@
         <div class="rounded-circle shadow to-point profile-pic m-auto" (click)="immagine.click();"
             style.backgroundImage="url('{{url}}')" *ngIf="url!=''"></div>
         <div *ngIf="selectedImage">
-            <button class="btn pt-3 btn-outline-success m-2" matTooltip="Carica" matTooltipPosition="above" (click)="putImage()">
+            <button class="btn pt-3 btn-outline-success fw-bold m-2" matTooltip="Carica" matTooltipPosition="above" (click)="putImage()">
                 <i class="bi bi-upload fw-bold h4"></i>
             </button>
-            <button class="btn pt-3 btn-outline-danger m-2" matTooltip="Elimina" matTooltipPosition="above" (click)="url='';selectedImage=null;immagine.value='';"><i
+            <button class="btn pt-3 btn-outline-danger fw-bold m-2" matTooltip="Elimina" matTooltipPosition="above" (click)="url='';selectedImage=null;immagine.value='';"><i
                     class="bi bi-x-lg fw-bold h4"></i></button>
         </div>
     </div>
@@ -62,7 +62,7 @@
                 formControlName="ripetiNuovaPassword" name="ripetiNuovaPassword">
             <p class="text-danger" *ngIf="cambiaPassword.get('ripetiNuovaPassword')?.invalid&&form.submitted">Lunghezza
                 minima : 8 caratteri.</p>
-            <button class="btn btn-outline-primary my-3" (click)="putPassword(form)">Cambia password</button>
+            <button class="btn btn-outline-primary fw-bold my-3" (click)="putPassword(form)">Cambia password</button>
         </form>
         <p *ngIf="isCodeRequeste && !isCodeVerified" class="text-success fw-bold fs-4 py-3">Inserisci qui sotto il
             codice che ti abbiamo
@@ -88,7 +88,7 @@
                 placeholder="Scegli la città" onfocus="this.size=7" onblur="this.size=1" onchange="this.blur()">
                 <option value="{{c.id}}" *ngFor="let c of citta">{{c.nome}}</option>
             </select>
-            <button class="btn my-3 btn-outline-primary"
+            <button class="btn my-3 btn-outline-primary fw-bold"
                 [disabled]="
             !altreImpostazioniForm.touched
             ||
@@ -146,7 +146,7 @@
                 </div>
             </div>
             <div class="col-md-12 text-center py-3">
-                <button class="btn btn-outline-primary" (click)="getRichiesteByParams();">Cerca</button>
+                <button class="btn btn-outline-primary fw-bold" (click)="getRichiesteByParams();">Cerca</button>
             </div>
         </form>
         <div *ngIf="richieste?.content?.length > 0">
@@ -160,7 +160,7 @@
                     </p>
                     <h2>{{r?.oggetto}}</h2>
                     <p class="sub-title">Creata il <span class="fw-bold">{{format(r?.createdAt)}}</span></p>
-                    <p class="py-5 bg-light shadow-sm">
+                    <p class="py-5 bg-light shadow-sm text-dark">
                         {{r?.descrizionePreview}}
                     </p>
                 </div>

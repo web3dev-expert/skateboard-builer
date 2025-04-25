@@ -80,7 +80,7 @@
                                 <div class="col-md-6 p-2 text-center" *ngFor="let r of recensioni?.content">
                                     <div class="border rounded shadow-sm">
                                         <div class="w-100 text-center d-flex justify-content-center pt-2 rounded-top"
-                                            [ngClass]="mode=='light'?'bg-light':'bg-personal text-light'">
+                                            [ngClass]="mode=='light'?'bg-light':'bg-secondary text-light'">
                                             <img src="{{'data:image/png;base64,'+r?.giocoImage}}" class="gioco-image"
                                                 alt="immagine gioco">
                                             <p class="p-2 fs-4">
@@ -148,12 +148,13 @@
                                     <h2>I tuoi trofei</h2>
                                 </div>
                                 <div class="col-md-4 p-2" *ngFor="let t of trofei?.content">
-                                    <div class="border shadow p-2">
-                                        <p class="fs-5">
+                                    <div class="border shadow">
+                                        <p class="fs-5 p-2"
+                                            [ngClass]="mode=='light'?'bg-light':'bg-secondary text-light'">
                                             {{t?.gioco?.nomeGioco}}
                                         </p>
-                                        <img src="assets/profilo/trofeo_vittoria.png" alt="trofeo" class="w-100">
-                                        <p>
+                                        <img src="assets/profilo/trofeo_vittoria.png" alt="trofeo" class="w-100 p-2">
+                                        <p class=" p-2">
                                             {{t?.createdAt}}
                                         </p>
                                     </div>
@@ -202,7 +203,7 @@
                                     </div>
                                     <div class="border my-2">
                                         <p class="border-bottom p-2 fs-4"
-                                            [ngClass]="mode=='light'?'bg-light':'bg-personal text-light'">Livello di
+                                            [ngClass]="mode=='light'?'bg-light':'bg-secondary text-light'">Livello di
                                             difficoltà : {{g.difficolta
                                             <=2?'FACILE':g.difficolta>2&&g.difficolta
                                                 <=4?'MEDIO':'DIFFICILE'}} </p>
@@ -261,12 +262,12 @@
                             *ngIf="classifiche&&classifiche?.content&&classifiche?.content?.length>0">
                             <div class="row">
                                 <div class="col-md-4 p-3" *ngFor="let c of classifiche?.content">
-                                    <div class="border shadow p-2">
-                                        <p class="fs-1 py-2">Classifica</p>
-                                        <p class="py-4 fs-4">
+                                    <div class="border shadow">
+                                        <p class="fs-1 p-3 py-4" [ngClass]="mode=='light'?'bg-light':'bg-secondary text-light'">Classifica</p>
+                                        <p class="p-4 fs-4">
                                             {{c?.gioco?.nomeGioco}}
                                         </p>
-                                        <p class="text-end">
+                                        <p class="text-end p-2">
                                             <button class="btn" title="Vai alla classifica" (click)="goToRanking(c)">
                                                 <i class="bi bi-box-arrow-up-right h4"></i>
                                             </button>
@@ -312,18 +313,18 @@
                             </select>
                         </div>
                         <div class="col-md-6 p-3" *ngFor="let p of partite?.content">
-                            <div class="p-2 border shadow">
-                                <p>{{p.id + " - " + p.createdAt}}</p>
-                                <div class="d-flex justify-content-around">
+                            <div class="border shadow">
+                                <p [ngClass]="mode=='light'?'bg-light p-2':'bg-secondary text-light p-2'">{{p.id + " - " + p.createdAt}}</p>
+                                <div class="d-flex justify-content-around p-2">
                                     <img src="{{'data:image/png;base64,' + p?.gioco?.image}}" alt="immagine_gioco"
                                         class="w-25">
                                     <p class="fs-4"> - {{p?.gioco?.nomeGioco}}</p>
                                 </div>
-                                <div>
+                                <div class="p-2">
                                     <p>Esito partita : <span [ngClass]="calculateEsito(p?.esito)"
                                             class="fw-bold">{{p?.esito}}</span></p>
                                 </div>
-                                <div>
+                                <div class="p-2">
                                     <p *ngIf="!p?.punteggio">La partita non prevede punteggio.</p>
                                     <p *ngIf="p?.punteggio!=null">Punteggio : {{p?.punteggio?.punteggio}} </p>
                                 </div>
