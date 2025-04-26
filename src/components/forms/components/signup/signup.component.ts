@@ -6,6 +6,8 @@ import { ModeService } from '../../../../services/mode.service';
 import { SignupUser } from '../../../../interfaces/interfaces';
 import { FormsService } from '../../../../services/forms.service';
 import { ShowErrorService } from '../../../../services/show-error.service';
+import { secret } from '../../../../secret/secret';
+declare var google: any;
 
 @Component({
   selector: 'app-signup',
@@ -164,6 +166,7 @@ export class SignupComponent implements OnInit {
       }
     }
   }
-
+  ngAfterViewInit() {
+  }
 
 }

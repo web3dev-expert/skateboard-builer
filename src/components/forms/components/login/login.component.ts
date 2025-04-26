@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -7,13 +7,14 @@ import { FormsService } from '../../../../services/forms.service';
 import { ShowErrorService } from '../../../../services/show-error.service';
 import { AuthService } from '../../../../services/auth.service';
 import { AuthGuard } from '../../../../core/auth.guard';
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
 
   loginForm: FormGroup = new FormGroup({});
   isLoginFormSubmitted: boolean = false;
@@ -26,6 +27,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   interval: ReturnType<typeof setTimeout> = setTimeout(() => { });
   codeDeleted: boolean = false;
   codeForm: FormGroup = new FormGroup({});
+  private gAuthService = inject(SocialAuthService);
+  user: SocialUser | null = null;
+
   constructor(private toastr: ToastrService, private router: Router, private modeService: ModeService, private formsService: FormsService,
     private authService: AuthService, private authGuard: AuthGuard, private errorService: ShowErrorService
   ) {
@@ -51,6 +55,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.showInsertCode = false;
       }
     })
+    this.gAuthService.authState.subscribe((user) => {
+      this.user = user;
+      if (user) this.sendTokenToBackend(user.idToken);
+    });
   }
 
   ngOnInit(): void {
@@ -252,5 +260,22 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.codeForm.get('sixthLetter')?.value.length > 1) this.codeForm.get('sixthLetter')?.setValue(this.codeForm.get('sixthLetter')?.value.substring(0, 1));
 
     this.codeForm.updateValueAndValidity();
+  }
+
+  ngAfterViewInit() {
+  }
+  signInWithGoogle(): void {
+    this.gAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).catch((err:any) => console.error('Errore login:', err));
+  }
+
+  signOut(): void {
+    this.gAuthService.signOut().then(() => (this.user = null));
+  }
+
+  sendTokenToBackend(idToken: string): void {
+    // this.http.post('http://localhost:8080/api/auth/google', { token: idToken }).subscribe({
+    //   next: (response:any) => console.log('Backend:', response),
+    //   error: (err:any) => console.error('Errore:', err)
+    // });
   }
 }
