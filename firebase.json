@@ -1,7 +1,7 @@
 {
   "hosting": {
     "site": "game-front-b9072-88e08",
-    "public": "public/browser",
+    "public": "public/dist/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

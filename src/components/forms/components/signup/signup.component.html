@@ -3,10 +3,8 @@
         <div class="row py-5">
             <div class="col-md-12 d-flex justify-content-end">
                 <div class="w-auto text-center">
-                    <button class="btn" (click)="toggleMenu(!isOpen)"><svg xmlns="http://www.w3.org/2000/svg"
-                            height="24px" viewBox="0 -960 960 960" width="24px" fill="black">
-                            <path d="M480-360 280-560h400L480-360Z" />
-                        </svg>
+                    <button class="btn" (click)="toggleMenu(!isOpen)">
+                        <i class="bi bi-list h2"></i>
                     </button>
                     <div class="menu text-center overflow-hidden" [style.height]="isOpen?'100px':'0px'"
                         [ngClass]="[isOpen ? 'border rounded shadow' : '' , mode=='light'?'bg-light':'bg-dark']">
