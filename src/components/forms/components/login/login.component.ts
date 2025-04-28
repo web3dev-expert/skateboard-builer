@@ -7,7 +7,11 @@ import { FormsService } from '../../../../services/forms.service';
 import { ShowErrorService } from '../../../../services/show-error.service';
 import { AuthService } from '../../../../services/auth.service';
 import { AuthGuard } from '../../../../core/auth.guard';
-import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Auth } from '@angular/fire/auth';
+import { browserPopupRedirectResolver, getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { secretEnvironment } from '../../../../app/app.config';
 
 @Component({
   selector: 'app-login',
@@ -27,8 +31,6 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
   interval: ReturnType<typeof setTimeout> = setTimeout(() => { });
   codeDeleted: boolean = false;
   codeForm: FormGroup = new FormGroup({});
-  private gAuthService = inject(SocialAuthService);
-  user: SocialUser | null = null;
 
   constructor(private toastr: ToastrService, private router: Router, private modeService: ModeService, private formsService: FormsService,
     private authService: AuthService, private authGuard: AuthGuard, private errorService: ShowErrorService
@@ -55,10 +57,6 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
         this.showInsertCode = false;
       }
     })
-    this.gAuthService.authState.subscribe((user) => {
-      this.user = user;
-      if (user) this.sendTokenToBackend(user.idToken);
-    });
   }
 
   ngOnInit(): void {
@@ -264,18 +262,43 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
   }
-  signInWithGoogle(): void {
-    this.gAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).catch((err:any) => console.error('Errore login:', err));
+  // auth = inject(Auth);
+  router1 = inject(Router);
+
+  async loginWithGoogle() {
+    try{
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(this.auth, provider,browserPopupRedirectResolver).then((result:any)=>{
+        const name = result?.user.displayName;
+        const email = result?.user.email;
+        const profilepic = result?.user.photoURL;
+        console.log(name,email,profilepic)
+      })
+    }catch(error:any){
+      console.log(error)
+    }
+   
+  }
+  app = initializeApp(secretEnvironment);
+  auth = getAuth(this.app);
+  provider = new GoogleAuthProvider();
+  async signInWithGoogle() { 
+    try {
+      const result = await signInWithPopup(this.auth, this.provider); 
+      const user = result.user;
+     
+      if(user && user.emailVerified == true){
+        console.log("Let's authenticate!", user);
+      }
+    } catch (error: any) { 
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      if (errorCode === 'auth/network-request-failed') {
+        this.toastr.warning('C\'è stato un problema di rete. Per favore verifica la tua connessione.');
+      } else {
+        this.toastr.error('Si è verificato il seguente errore : ' + errorMessage);
+      }
+    }
   }
 
-  signOut(): void {
-    this.gAuthService.signOut().then(() => (this.user = null));
-  }
-
-  sendTokenToBackend(idToken: string): void {
-    // this.http.post('http://localhost:8080/api/auth/google', { token: idToken }).subscribe({
-    //   next: (response:any) => console.log('Backend:', response),
-    //   error: (err:any) => console.error('Errore:', err)
-    // });
-  }
 }

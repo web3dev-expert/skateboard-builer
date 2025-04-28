@@ -6,8 +6,6 @@ import { NgClass, NgIf } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { ModeService } from '../services/mode.service';
 import { Subscription } from 'rxjs';
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 export let browserRefresh = false;
 
 @Component({
@@ -22,18 +20,7 @@ export class AppComponent implements OnInit {
   showGoTop: boolean = false;
   mode: string = 'light';
   subscription: Subscription;
-  firebaseConfig = {
-    apiKey: "AIzaSyAZord6tXK6CmSFodMhHMW45KQgkgU5axA",
-    authDomain: "game-front-b9072.firebaseapp.com",
-    projectId: "game-front-b9072",
-    storageBucket: "game-front-b9072.firebasestorage.app",
-    messagingSenderId: "683870065983",
-    appId: "1:683870065983:web:4d0271b0161176591caf8a",
-    measurementId: "G-689TW05V3N"
-  };
-  
-  app = initializeApp(this.firebaseConfig);
-  analytics = getAnalytics(this.app);
+
   constructor(private modeService: ModeService, private authService: AuthService, private router: Router) {
     this.subscription = router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {

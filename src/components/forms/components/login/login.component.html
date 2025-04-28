@@ -67,8 +67,9 @@
                         <div class="text-center p-3">
                             <p>OR</p>
                             <hr>
-                            <div id="buttonDiv">
-                                <button class="btn btn-light">Accedi con Google <img src="assets/forms/login/google.svg" alt="google_icon"></button>
+                            <div id="buttonDiv" class="text-center">
+                                <p class="py-3">Accedi con </p>
+                                <button type="button" class="btn btn-light" (click)="signInWithGoogle()"><img src="assets/forms/login/google.svg" alt="google_icon"></button>
                             </div>
                         </div>
                         <p class="fs-4 py-3" *ngIf="showInsertCode">Inserisci qui sotto il codice inviato per mail</p>
