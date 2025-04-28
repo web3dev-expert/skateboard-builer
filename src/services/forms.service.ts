@@ -15,6 +15,7 @@ export class FormsService {
     private cities: string = '/cities';
     private clear: string = '/clear';
     private verifyPasswordCode: string = '/verifyPasswordCode';
+    private googleUser: string = '/googleUser';
 
     public requestLoginCode:BehaviorSubject<String> = new BehaviorSubject<String>('');
 
@@ -53,5 +54,9 @@ export class FormsService {
     
     verifyCode(email:string, code:string, validation?:boolean){
         return this.http.get(environment.API_URL+this.auth+this.verifyPasswordCode+`/${email}/${code}/${validation||false}`)
+    }
+
+    signupGoogleUser(user:any){
+        return this.http.post(environment.API_URL + this.auth + this.googleUser, user)
     }
 }

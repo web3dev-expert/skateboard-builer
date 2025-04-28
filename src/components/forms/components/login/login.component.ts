@@ -7,11 +7,9 @@ import { FormsService } from '../../../../services/forms.service';
 import { ShowErrorService } from '../../../../services/show-error.service';
 import { AuthService } from '../../../../services/auth.service';
 import { AuthGuard } from '../../../../core/auth.guard';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Auth } from '@angular/fire/auth';
-import { browserPopupRedirectResolver, getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
-import { secretEnvironment } from '../../../../app/app.config';
+import { secretEnvironment } from '../../../../secret/secret';
 
 @Component({
   selector: 'app-login',
@@ -262,23 +260,10 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
   }
-  // auth = inject(Auth);
-  router1 = inject(Router);
 
-  async loginWithGoogle() {
-    try{
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(this.auth, provider,browserPopupRedirectResolver).then((result:any)=>{
-        const name = result?.user.displayName;
-        const email = result?.user.email;
-        const profilepic = result?.user.photoURL;
-        console.log(name,email,profilepic)
-      })
-    }catch(error:any){
-      console.log(error)
-    }
-   
-  }
+  //FOLLOWED THIS TUTORIAL https://danielk.tech/home/angular-firebase-authentication-with-google
+  // + Gemini 
+
   app = initializeApp(secretEnvironment);
   auth = getAuth(this.app);
   provider = new GoogleAuthProvider();
