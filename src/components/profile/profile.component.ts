@@ -10,11 +10,12 @@ import { AuthService } from '../../services/auth.service';
 import { ImpostazioniComponent } from './components/impostazioni/impostazioni.component';
 import { PreferitiComponent } from '../preferiti/preferiti.component';
 import { ModeService } from '../../services/mode.service';
+import { LeafletComponent } from '../../shared/components/leaflet/leaflet.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, ImpostazioniComponent, NgStyle,PreferitiComponent],
+  imports: [NgFor, NgIf, NgClass, ImpostazioniComponent, NgStyle,PreferitiComponent,LeafletComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
@@ -83,6 +84,8 @@ export class ProfileComponent implements OnInit {
   sottomenu: string[] = ['Cambia immagine del profilo', 'Cambia la password', 'Cambia altre informazioni', 'Richiedi assistenza', 'Monitora le tue richieste'];
   impostazioniSection: string = 'Richiedi assistenza';
   mode:string = 'light';
+  cityX:number = 0;
+  cityY:number = 0;
   constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService: GamefieldService, private matDialog: MatDialog,
     public authService: AuthService, private modeService: ModeService) {
     this.authService.isAuthenticatedUser.subscribe((bool: boolean) => {

@@ -271,9 +271,18 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
     try {
       const result = await signInWithPopup(this.auth, this.provider); 
       const user = result.user;
-     
       if(user && user.emailVerified == true){
         console.log("Let's authenticate!", user);
+        let googleUser = {
+          fullname: user.displayName,
+          email: user.email,
+          immagineProfilo: user.photoURL
+        }
+        this.formsService.signupGoogleUser(googleUser).subscribe({
+          next:(data:any)=>{
+            this.toastr.show("Registrazione avvenuta  con successo!");
+          }
+        })
       }
     } catch (error: any) { 
       const errorCode = error.code;

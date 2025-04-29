@@ -51,6 +51,9 @@
                                 <p class="fs-4 text-danger">Profilo creato in data</p>
                                 {{visitedUser?.createdAt}}
                             </div>
+                            <div class="col-md-12 py-5">
+                                <app-leaflet [x]="cityX" [y]="cityY"></app-leaflet>
+                            </div>
                         </div>
                     </div>
                 </div>
