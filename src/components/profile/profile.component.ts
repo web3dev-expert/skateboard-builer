@@ -11,11 +11,13 @@ import { ImpostazioniComponent } from './components/impostazioni/impostazioni.co
 import { PreferitiComponent } from '../preferiti/preferiti.component';
 import { ModeService } from '../../services/mode.service';
 import { LeafletComponent } from '../../shared/components/leaflet/leaflet.component';
+import { HttpClient } from '@angular/common/http';
+import { GoogleMap, MapAdvancedMarker, MapMarker } from '@angular/google-maps';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, ImpostazioniComponent, NgStyle,PreferitiComponent,LeafletComponent],
+  imports: [NgFor, NgIf, NgClass, ImpostazioniComponent, NgStyle, PreferitiComponent, LeafletComponent, GoogleMap, MapMarker, MapAdvancedMarker],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
@@ -83,22 +85,32 @@ export class ProfileComponent implements OnInit {
   firstTimeReces: number = 0;
   sottomenu: string[] = ['Cambia immagine del profilo', 'Cambia la password', 'Cambia altre informazioni', 'Richiedi assistenza', 'Monitora le tue richieste'];
   impostazioniSection: string = 'Richiedi assistenza';
-  mode:string = 'light';
-  cityX:number = 0;
-  cityY:number = 0;
+  mode: string = 'light';
+  cityX: number = 0;
+  cityY: number = 0;
+  mapOptions: google.maps.MapOptions = {
+    mapId: "DEMO_MAP_ID",
+    center: { lat: this.cityX, lng: this.cityY },
+    zoom: 4
+  };
+  markers = [
+    { lat: 40.73061, lng: -73.935242 },
+    { lat: 40.74988, lng: -73.968285 }
+  ];
   constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService: GamefieldService, private matDialog: MatDialog,
-    public authService: AuthService, private modeService: ModeService) {
+    public authService: AuthService, private modeService: ModeService, private httpClient: HttpClient) {
     this.authService.isAuthenticatedUser.subscribe((bool: boolean) => {
       this.user = this.authService.getUser()!;
       if (this.visitedUser?.id == this.user?.id) {
         this.visitedUser = this.authService.getUser()!;
+        this.getCoordinates();
         this.menuVoices.push('Impostazioni');
         this.menuVoices = this.menuVoices.filter((items: string) => { return items != 'Preferiti' });
         localStorage.setItem('visitedUser', JSON.stringify(this.visitedUser));
       }
     });
-    this.modeService.mode.subscribe((data:string)=>{
-      this.mode=data;
+    this.modeService.mode.subscribe((data: string) => {
+      this.mode = data;
     })
   }
 
@@ -109,6 +121,7 @@ export class ProfileComponent implements OnInit {
           this.authService.getUserById(params['user']).subscribe({
             next: (data: any) => {
               this.visitedUser = data;
+              this.getCoordinates();
               if (this.user?.id == this.visitedUser?.id) {
                 this.menuVoices.push('Impostazioni');
                 this.menuVoices = this.menuVoices.filter((items: string) => { return items != 'Preferiti' });
@@ -122,6 +135,7 @@ export class ProfileComponent implements OnInit {
           if (!localStorage.getItem('visitedUser')) this.router.navigate(['/lobby']);
           else {
             this.visitedUser = JSON.parse(localStorage.getItem('visitedUser')!);
+            this.getCoordinates();
             if (this.user?.id == this.visitedUser?.id) {
               this.menuVoices.push('Impostazioni');
               this.menuVoices = this.menuVoices.filter((items: string) => { return items != 'Preferiti' });
@@ -229,5 +243,27 @@ export class ProfileComponent implements OnInit {
 
   setImpostazioniSection(s: string) {
     this.impostazioniSection = s;
+  }
+  getCoordinates() {
+    if (this.visitedUser?.completed) {
+      const countryName = this.visitedUser.citta.nome;
+      const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
+        countryName
+      )}&key=${'9ea660b591574bbcb9e3530619d63fff'}`;
+
+      this.httpClient.get(url).subscribe({
+        next: (response: any) => {
+          const result = response.results[0];
+
+          if (result) {
+            const { lat, lng } = result.geometry;
+
+            this.cityX = lat;
+            this.cityY = lng;
+            this.mapOptions.center = { lat: lat, lng: lng }
+          }
+        }
+      })
+    }
   }
 }

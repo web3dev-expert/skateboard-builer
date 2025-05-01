@@ -41,5 +41,6 @@ export interface User {
         createdAtDate: string,
         modifiedAt: string,
         deletedAt: string
-    }[]
+    }[],
+    completed:boolean
 }

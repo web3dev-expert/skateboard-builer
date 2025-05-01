@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import * as  L from 'leaflet';
 
 @Component({
@@ -8,13 +8,11 @@ import * as  L from 'leaflet';
   templateUrl: './leaflet.component.html',
   styleUrl: './leaflet.component.scss'
 })
-export class LeafletComponent implements OnInit,AfterViewInit{
+export class LeafletComponent implements OnInit,AfterViewInit, OnChanges{
   private map!: L.Map
-  @Input() x: number = 0;
-  @Input() y: number = 0;
-  markers: L.Marker[] = [
-    L.marker([this.x,this.y]) 
-  ];
+  @Input() x!: number;
+  @Input() y!: number;
+  markers!: L.Marker[]; 
 
   constructor() { }
 
@@ -25,7 +23,12 @@ export class LeafletComponent implements OnInit,AfterViewInit{
     this.initMap();
     this.centerMap();
   }
-
+  ngOnChanges(changes: SimpleChanges): void {
+    this.markers = [
+      L.marker([this.x,this.y]) 
+    ];
+    this.centerMap();
+  }
 
   private initMap() {
     const baseMapURl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
@@ -35,10 +38,14 @@ export class LeafletComponent implements OnInit,AfterViewInit{
 
 
   private centerMap() {
+     this.markers = [
+      L.marker([this.x,this.y]) 
+    ];
     // Create a boundary based on the markers
     const bounds = L.latLngBounds(this.markers.map(marker => marker.getLatLng()));
     
     // Fit the map into the boundary
     this.map.fitBounds(bounds);
+    this.map.setZoom(16);
   }
 }

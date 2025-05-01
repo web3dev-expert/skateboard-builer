@@ -7,8 +7,6 @@ import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./components/signup/signup.component";
 import { FormsLabelComponent } from "./components/forms-label/forms-label.component";
 import { SharedModule } from "../../shared/modules/shared.module";
-import { secretEnvironment } from "../../core/secret/environment-secret";
-import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 @NgModule({
   declarations: [

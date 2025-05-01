@@ -51,8 +51,13 @@
                                 <p class="fs-4 text-danger">Profilo creato in data</p>
                                 {{visitedUser?.createdAt}}
                             </div>
-                            <div class="col-md-12 py-5">
-                                <app-leaflet [x]="cityX" [y]="cityY"></app-leaflet>
+                            <!-- <div class="col-md-12 py-5">
+                                <app-leaflet [x]="cityX" [y]="cityY" *ngIf="cityX!=0&&cityY!=0"></app-leaflet>
+                            </div> -->
+                            <div class="map-container">
+                                <google-map [options]="mapOptions" [width]="'100%'">
+                                    <map-advanced-marker *ngFor="let marker of markers" [position]="marker"></map-advanced-marker>
+                                </google-map>
                             </div>
                         </div>
                     </div>
@@ -266,7 +271,9 @@
                             <div class="row">
                                 <div class="col-md-4 p-3" *ngFor="let c of classifiche?.content">
                                     <div class="border shadow">
-                                        <p class="fs-1 p-3 py-4" [ngClass]="mode=='light'?'bg-light':'bg-secondary text-light'">Classifica</p>
+                                        <p class="fs-1 p-3 py-4"
+                                            [ngClass]="mode=='light'?'bg-light':'bg-secondary text-light'">Classifica
+                                        </p>
                                         <p class="p-4 fs-4">
                                             {{c?.gioco?.nomeGioco}}
                                         </p>
@@ -317,7 +324,8 @@
                         </div>
                         <div class="col-md-6 p-3" *ngFor="let p of partite?.content">
                             <div class="border shadow">
-                                <p [ngClass]="mode=='light'?'bg-light p-2':'bg-secondary text-light p-2'">{{p.id + " - " + p.createdAt}}</p>
+                                <p [ngClass]="mode=='light'?'bg-light p-2':'bg-secondary text-light p-2'">{{p.id + " - "
+                                    + p.createdAt}}</p>
                                 <div class="d-flex justify-content-around p-2">
                                     <img src="{{'data:image/png;base64,' + p?.gioco?.image}}" alt="immagine_gioco"
                                         class="w-25">
