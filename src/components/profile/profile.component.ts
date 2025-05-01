@@ -13,6 +13,7 @@ import { ModeService } from '../../services/mode.service';
 import { LeafletComponent } from '../../shared/components/leaflet/leaflet.component';
 import { HttpClient } from '@angular/common/http';
 import { GoogleMap, MapAdvancedMarker, MapMarker } from '@angular/google-maps';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile',
@@ -88,17 +89,13 @@ export class ProfileComponent implements OnInit {
   mode: string = 'light';
   cityX: number = 0;
   cityY: number = 0;
-  mapOptions: google.maps.MapOptions = {
-    mapId: "DEMO_MAP_ID",
-    center: { lat: this.cityX, lng: this.cityY },
-    zoom: 4
-  };
+  mapOptions!: google.maps.MapOptions;
   markers = [
     { lat: 40.73061, lng: -73.935242 },
     { lat: 40.74988, lng: -73.968285 }
   ];
   constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService: GamefieldService, private matDialog: MatDialog,
-    public authService: AuthService, private modeService: ModeService, private httpClient: HttpClient) {
+    public authService: AuthService, private modeService: ModeService, private httpClient: HttpClient, private toastr: ToastrService) {
     this.authService.isAuthenticatedUser.subscribe((bool: boolean) => {
       this.user = this.authService.getUser()!;
       if (this.visitedUser?.id == this.user?.id) {
@@ -250,20 +247,32 @@ export class ProfileComponent implements OnInit {
       const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
         countryName
       )}&key=${'9ea660b591574bbcb9e3530619d63fff'}`;
+      try {
+        this.httpClient.get(url).subscribe({
+          next: (response: any) => {
+            const result = response.results[0];
 
-      this.httpClient.get(url).subscribe({
-        next: (response: any) => {
-          const result = response.results[0];
+            if (result) {
+              const { lat, lng } = result.geometry;
 
-          if (result) {
-            const { lat, lng } = result.geometry;
-
-            this.cityX = lat;
-            this.cityY = lng;
-            this.mapOptions.center = { lat: lat, lng: lng }
+              this.cityX = lat;
+              this.cityY = lng;
+              this.mapOptions = {
+                mapId: "DEMO_MAP_ID",
+                center: { lat: this.cityX, lng: this.cityY },
+                zoom: 7
+              };
+            }
           }
-        }
-      })
+        })
+      } catch (error: any) {
+        this.toastr.warning("Non siamo riusciti a recuperare le tue coordinate.");
+        this.mapOptions = {
+          mapId: "DEMO_MAP_ID",
+          zoom: 7
+        };
+      }
+
     }
   }
 }

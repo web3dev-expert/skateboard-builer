@@ -54,7 +54,7 @@
                             <!-- <div class="col-md-12 py-5">
                                 <app-leaflet [x]="cityX" [y]="cityY" *ngIf="cityX!=0&&cityY!=0"></app-leaflet>
                             </div> -->
-                            <div class="map-container">
+                            <div class="map-container" *ngIf="mapOptions">
                                 <google-map [options]="mapOptions" [width]="'100%'">
                                     <map-advanced-marker *ngFor="let marker of markers" [position]="marker"></map-advanced-marker>
                                 </google-map>
