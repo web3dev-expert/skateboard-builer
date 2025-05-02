@@ -14,11 +14,13 @@ import { LeafletComponent } from '../../shared/components/leaflet/leaflet.compon
 import { HttpClient } from '@angular/common/http';
 import { GoogleMap, MapAdvancedMarker, MapMarker } from '@angular/google-maps';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../core/environment';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, ImpostazioniComponent, NgStyle, PreferitiComponent, LeafletComponent, GoogleMap, MapMarker, MapAdvancedMarker],
+  imports: [NgFor, NgIf, NgClass, ImpostazioniComponent, NgStyle, PreferitiComponent, LeafletComponent, GoogleMap, MapMarker, MapAdvancedMarker, ReactiveFormsModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
@@ -94,6 +96,9 @@ export class ProfileComponent implements OnInit {
     { lat: 40.73061, lng: -73.935242 },
     { lat: 40.74988, lng: -73.968285 }
   ];
+  descrizioneForm: FormGroup = new FormGroup({});
+  remainingCharacters:number = 5000;
+
   constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService: GamefieldService, private matDialog: MatDialog,
     public authService: AuthService, private modeService: ModeService, private httpClient: HttpClient, private toastr: ToastrService) {
     this.authService.isAuthenticatedUser.subscribe((bool: boolean) => {
@@ -112,6 +117,9 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.descrizioneForm = new FormGroup({
+      descrizione : new FormControl('',[Validators.required,Validators.maxLength(5000)])
+    })
     this.route.queryParams.subscribe(
       params => {
         if (params && params['user']) {
@@ -273,6 +281,20 @@ export class ProfileComponent implements OnInit {
         };
       }
 
+    }
+  }
+
+  calculateRemainingCharacters(){
+    let descrizioneLength = this.descrizioneForm.get('descrizione')?.value?.length;
+    if(this.descrizioneForm.get('descrizione')?.value?.length<=5000){
+      this.remainingCharacters = 5000 - descrizioneLength;
+    }else{
+      this.remainingCharacters=0;
+      this.descrizioneForm.get('descrizione')?.setValue(this.descrizioneForm.get('descrizione')?.value.substring(0,5000));
+      this.descrizioneForm.updateValueAndValidity();
+      if(this.descrizioneForm.get('descrizione')?.value?.length<5000){
+        this.remainingCharacters = 5000 - descrizioneLength;
+      }
     }
   }
 }

@@ -54,9 +54,23 @@
                             <!-- <div class="col-md-12 py-5">
                                 <app-leaflet [x]="cityX" [y]="cityY" *ngIf="cityX!=0&&cityY!=0"></app-leaflet>
                             </div> -->
-                            <div class="map-container" *ngIf="mapOptions">
+                            <div class="col-md-12 py-5" *ngIf="visitedUser?.descrizione else noDescrizione">
+                                <p>{{visitedUser?.descrizione}}</p>
+                            </div>
+                            <ng-template #noDescrizione>
+                                <form [formGroup]="descrizioneForm" class="row p-3">
+                                    <div class="col-md-12">
+                                        <label for="descrizione" class="form-label fs-4 text-danger">Scrivi una descrizione</label>
+                                        <p class="text-end">{{remainingCharacters}}</p>
+                                        <textarea name="descrizione" id="descrizione" class="form-control" rows="4" placeholder="max 5000 caratteri ...."
+                                        formControlName="descrizione" (input)="calculateRemainingCharacters()"></textarea>
+                                    </div>
+                                </form>
+                            </ng-template>
+                            <div class="map-container pt-5 mt-5" *ngIf="mapOptions">
                                 <google-map [options]="mapOptions" [width]="'100%'">
-                                    <map-advanced-marker *ngFor="let marker of markers" [position]="marker"></map-advanced-marker>
+                                    <map-advanced-marker *ngFor="let marker of markers"
+                                        [position]="marker"></map-advanced-marker>
                                 </google-map>
                             </div>
                         </div>

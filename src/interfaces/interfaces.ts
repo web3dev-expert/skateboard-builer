@@ -42,5 +42,6 @@ export interface User {
         modifiedAt: string,
         deletedAt: string
     }[],
-    completed:boolean
+    completed: boolean,
+    descrizione: string
 }
