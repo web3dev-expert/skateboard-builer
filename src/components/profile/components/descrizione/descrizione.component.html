@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form [formGroup]="descrizioneForm" class="row p-3 text-center">
+                <div class="col-md-12">
+                    <label for="descrizione" class="form-label fs-4 text-danger">Scrivi una descrizione</label>
+                    <p class="text-end">Caratteri a disposizione : <span class="fw-bold" [ngClass]="remainingCharacters>3000? 'text-success': remainingCharacters>1000 && remainingCharacters <= 3000? 'text-warning':'text-danger'">{{remainingCharacters}}</span></p>
+                    <textarea name="descrizione" id="descrizione" class="form-control" rows="4" placeholder="max 5000 caratteri ...."
+                    formControlName="descrizione" (input)="calculateRemainingCharacters()"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <button class="btn mt-2" type="button" [disabled]="descrizioneForm.controls['descrizione'].value.length>5000 || descrizioneForm.invalid"
+                        (click)="aggiungiDescrizione()">Aggiungi descrizione</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
