@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, HostListener, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../interfaces/interfaces';
 import { ProfileServive } from '../../services/profile.service';
 import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
@@ -14,7 +14,6 @@ import { LeafletComponent } from '../../shared/components/leaflet/leaflet.compon
 import { HttpClient } from '@angular/common/http';
 import { GoogleMap, MapAdvancedMarker, MapMarker } from '@angular/google-maps';
 import { ToastrService } from 'ngx-toastr';
-import { environment } from '../../core/environment';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -67,7 +66,7 @@ export class ProfileComponent implements OnInit {
 
   sizes: number[] = [2, 5, 10];
   windowWidth: number = 0;
-  menuVoices: string[] = ['Profilo', 'Recensioni', 'Giochi', 'Trofei', 'Classifiche', 'Partite', 'Preferiti'];
+  menuVoices: Set<string> = new Set(['Profilo', 'Recensioni', 'Giochi', 'Trofei', 'Classifiche', 'Partite', 'Preferiti']);
   section: string = 'Profilo';
   circles: number[] = [1, 2, 3, 4, 5];
   partitePage: number = 0;
@@ -106,8 +105,8 @@ export class ProfileComponent implements OnInit {
       if (this.visitedUser?.id == this.user?.id) {
         this.visitedUser = this.authService.getUser()!;
         this.getCoordinates();
-        this.menuVoices.push('Impostazioni');
-        this.menuVoices = this.menuVoices.filter((items: string) => { return items != 'Preferiti' });
+        this.menuVoices.add('Impostazioni');
+        this.menuVoices.delete('Preferiti');
         localStorage.setItem('visitedUser', JSON.stringify(this.visitedUser));
       }
     });
@@ -128,8 +127,8 @@ export class ProfileComponent implements OnInit {
               this.visitedUser = data;
               this.getCoordinates();
               if (this.user?.id == this.visitedUser?.id) {
-                this.menuVoices.push('Impostazioni');
-                this.menuVoices = this.menuVoices.filter((items: string) => { return items != 'Preferiti' });
+                this.menuVoices.add('Impostazioni');
+                this.menuVoices.delete('Preferiti');
               }
               this.getAllDatas();
               if (this.visitedUser != null && this.visitedUser != undefined) localStorage.setItem('visitedUser', JSON.stringify(this.visitedUser));
@@ -142,8 +141,8 @@ export class ProfileComponent implements OnInit {
             this.visitedUser = JSON.parse(localStorage.getItem('visitedUser')!);
             this.getCoordinates();
             if (this.user?.id == this.visitedUser?.id) {
-              this.menuVoices.push('Impostazioni');
-              this.menuVoices = this.menuVoices.filter((items: string) => { return items != 'Preferiti' });
+              this.menuVoices.add('Impostazioni');
+              this.menuVoices.delete('Preferiti');
             }
             this.getAllDatas();
           }
@@ -296,5 +295,20 @@ export class ProfileComponent implements OnInit {
         this.remainingCharacters = 5000 - descrizioneLength;
       }
     }
+  }
+
+  aggiungiDescrizione(){
+  if(this.descrizioneForm.valid){
+this.profiloService.updateDescrizione(this.descrizioneForm.get('descrizione')?.value).subscribe({
+  next:(resp:any)=>{
+    this.authService.setUser(resp);
+    this.authService.authenticateUser(true);
+    this.visitedUser= resp;
+    localStorage.setItem('visitedUser', JSON.stringify(resp));
+  }
+})
+  }else{
+    this.toastr.warning("Aggiungi una descrizione valida. Ricordati : \n "+ " più di 0 caratteri, meno di 5000.")
+  }
   }
 }

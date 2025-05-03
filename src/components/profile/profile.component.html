@@ -55,15 +55,20 @@
                                 <app-leaflet [x]="cityX" [y]="cityY" *ngIf="cityX!=0&&cityY!=0"></app-leaflet>
                             </div> -->
                             <div class="col-md-12 py-5" *ngIf="visitedUser?.descrizione else noDescrizione">
-                                <p>{{visitedUser?.descrizione}}</p>
+                                <p class="form-label fs-4 text-danger">Descrizione</p>
+                                <p class="fs-2 p-4">{{visitedUser?.descrizione}}</p>
                             </div>
                             <ng-template #noDescrizione>
-                                <form [formGroup]="descrizioneForm" class="row p-3">
+                                <form [formGroup]="descrizioneForm" class="row p-3 text-center">
                                     <div class="col-md-12">
                                         <label for="descrizione" class="form-label fs-4 text-danger">Scrivi una descrizione</label>
                                         <p class="text-end">{{remainingCharacters}}</p>
                                         <textarea name="descrizione" id="descrizione" class="form-control" rows="4" placeholder="max 5000 caratteri ...."
                                         formControlName="descrizione" (input)="calculateRemainingCharacters()"></textarea>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button class="btn mt-2" type="button" [disabled]="descrizioneForm.controls['descrizione'].value.length>5000 || descrizioneForm.invalid"
+                                            (click)="aggiungiDescrizione()">Aggiungi descrizione</button>
                                     </div>
                                 </form>
                             </ng-template>

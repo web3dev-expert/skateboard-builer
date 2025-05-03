@@ -68,7 +68,8 @@ export class ImpostazioniComponent implements OnInit, OnDestroy, OnChanges {
     this.altreImpostazioniForm = new FormGroup({
       nome: new FormControl(this.user!.nome, Validators.required),
       cognome: new FormControl(this.user!.cognome, Validators.required),
-      citta: new FormControl(this.user!.citta.id, Validators.required)
+      citta: new FormControl(this.user!.citta.id, Validators.required),
+      descrizione: new FormControl(this.user!.descrizione, Validators.maxLength(5000))
     });
     this.cambiaPassword = new FormGroup({
       nuovaPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
@@ -161,6 +162,7 @@ export class ImpostazioniComponent implements OnInit, OnDestroy, OnChanges {
         nome: this.altreImpostazioniForm.get('nome')?.value,
         cognome: this.altreImpostazioniForm.get('cognome')?.value,
         cittaId: this.altreImpostazioniForm.get('citta')?.value,
+        descrizione: this.altreImpostazioniForm.get('descrizione')?.value,
       }
 
       this.profileService.putUser(user, this.user!.id).subscribe({
@@ -168,6 +170,7 @@ export class ImpostazioniComponent implements OnInit, OnDestroy, OnChanges {
           this.user = user;
           this.authService.setUser(user);
           this.authService.isAuthenticatedUser.next(true);
+          this.toastr.success("Profilo aggiornato!");
         }
       })
 

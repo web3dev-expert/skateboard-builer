@@ -19,7 +19,7 @@ export class ProfileServive {
     private verifyPasswordCode: string = '/verifyPasswordCode';
     private resetPasswordByCode: string = '/resetPasswordByCode';
     private clear: string = '/clear';
-    private profileImage:string = '/profileImage'
+    private profileImage: string = '/profileImage'
     constructor(private http: HttpClient) { }
 
     getRecensioniByUserId(userId: number, page: number, size: number, orderBy: string, sortOrder: string) {
@@ -84,12 +84,16 @@ export class ProfileServive {
     changePassword(nuovaPassword: string, email: string, code: string) {
         return this.http.get(environment.API_URL + this.auth + this.resetPasswordByCode + `/${nuovaPassword}/${email}/${code}`);
     }
-    clearUserCode(email: string){
-        return this.http.get(environment.API_URL+this.auth+this.clear+`/${email}`)
+    clearUserCode(email: string) {
+        return this.http.get(environment.API_URL + this.auth + this.clear + `/${email}`)
     }
-    putImage(image:File){
+    putImage(image: File) {
         let formData = new FormData();
         formData.append('profile_image', image);
         return this.http.put(environment.API_URL + this.user + this.profileImage, formData);
+    }
+
+    updateDescrizione(descrizione: string) {
+        return this.http.put(environment.API_URL + this.user + "/descrizione", { descrizione: descrizione })
     }
 }
