@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { EmojiComponent } from '../emoji/emoji.component';
-import { TextEditorComponent } from '../text-editor/text-editor.component';
+import { EmojiComponent } from '../../../../shared/components/emoji/emoji.component';
+import { TextEditorComponent } from '../../../../shared/components/text-editor/text-editor.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ProfileServive } from '../../../../services/profile.service';
 import { AuthService } from '../../../../services/auth.service';
@@ -11,7 +11,7 @@ import { NgClass } from '@angular/common';
 @Component({
   selector: 'app-descrizione',
   standalone: true,
-  imports: [EmojiComponent,TextEditorComponent, ReactiveFormsModule, NgClass],
+  imports: [EmojiComponent,TextEditorComponent, ReactiveFormsModule, NgClass, EmojiComponent, TextEditorComponent],
   templateUrl: './descrizione.component.html',
   styleUrl: './descrizione.component.scss'
 })
