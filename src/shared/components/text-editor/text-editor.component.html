@@ -1,1 +1,6 @@
-<p>text-editor works!</p>
+<div class="row text-start">
+    <div class="col-md-12">
+        <button class="btn shadow-none border-0" *ngFor="let i of icons" (click)="selectItems(i)">
+            <i class="bi bi {{i}} h2" [ngClass]="selectedItems==i?'text-dark':'text-white'"></i></button>
+    </div>
+</div>
