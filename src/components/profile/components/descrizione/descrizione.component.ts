@@ -19,7 +19,7 @@ export class DescrizioneComponent implements OnInit{
 descrizioneForm:FormGroup = new FormGroup({});
 remainingCharacters: number = 5000;
 @Input() visitedUser: User | null = null;
-
+descrizioneInnerHTML:string = '';
 constructor(private profiloService:ProfileServive, private authService: AuthService, private toastr: ToastrService){
 }
 
@@ -56,5 +56,8 @@ next:(resp:any)=>{
 }else{
   this.toastr.warning("Aggiungi una descrizione valida. Ricordati : \n "+ " più di 0 caratteri, meno di 5000.")
 }
+}
+writeText(descrizione: HTMLDivElement){
+ console.log(descrizione)
 }
 }
