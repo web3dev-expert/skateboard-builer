@@ -1,5 +1,5 @@
 import { NgClass, NgFor } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-text-editor',
@@ -38,17 +38,19 @@ export class TextEditorComponent {
   ]);
   selectedItems: string = '';
   @Input() textareaInnerHTML:string = '';
-
+  @Output() sendUpdates: EventEmitter<string> = new EventEmitter<string>();
 
   selectItems(items: string) {
     if (this.selectedItems == items) {
       this.selectedItems = ''
+      this.update('');
     } else {
       this.selectedItems = items
-      this.checkTextAndItem()
+      this.update(items);
     }
   }
-  checkTextAndItem() {
-console.log(this.textareaInnerHTML)
+
+  update(value:string){
+    this.sendUpdates.emit(value);
   }
 }

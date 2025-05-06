@@ -1,28 +1,25 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <form [formGroup]="descrizioneForm" class="row p-3 text-center">
-                <div class="col-md-12">
-                    <label for="descrizione" class="form-label fs-4 text-danger">Scrivi una descrizione</label>
-                    <div class="d-flex justify-content-around">
-                        <app-text-editor [textareaInnerHTML]="descrizioneInnerHTML"></app-text-editor>
-                        <app-emoji></app-emoji>
-                    </div>
-                    <textarea name="descrizione" id="descrizione"  class="form-control d-none" rows="4"
-                         formControlName="descrizione">      
-            </textarea>
-            <div class="p-5 border border-secondary shadow bg-white text-dark rounded shadow" placeholder="max 5000 caratteri ...." contenteditable="true" (input)="calculateRemainingCharacters(descrizione)" #descrizione>
+            <div class="col-md-12">
+                <label class="form-label fs-4 text-danger">Scrivi una descrizione</label>
+                <div class="d-flex justify-content-around">
+                    <app-text-editor [textareaInnerHTML]="descrizioneInnerHTML" (sendUpdates)="onReceiveUpdatesFromTextEditor($event)"></app-text-editor>
+                    <app-emoji></app-emoji>
+                </div>
+                <div class="p-5 border border-secondary shadow bg-white text-dark rounded shadow"
+                    placeholder="max 5000 caratteri ...." contenteditable="true"
+                    (input)="calculateRemainingCharacters(descrizione)" #descrizione>
+                </div>
+                <p class="text-end">Caratteri a disposizione : <span class="fw-bold"
+                        [ngClass]="remainingCharacters>3000? 'text-success': remainingCharacters>1000 && remainingCharacters <= 3000? 'text-warning':'text-danger'">{{remainingCharacters}}</span>
+                </p>
             </div>
-                    <p class="text-end">Caratteri a disposizione : <span class="fw-bold"
-                            [ngClass]="remainingCharacters>3000? 'text-success': remainingCharacters>1000 && remainingCharacters <= 3000? 'text-warning':'text-danger'">{{remainingCharacters}}</span>
-                    </p>
+            <div class="col-md-12">
+                <button class="btn mt-2" type="button"
+                    [disabled]='descrizione.innerHTML.length>5000 || (descrizione?.innerHTML === "<br>"&&descrizione.innerHTML.length === 4) || descrizione.innerHTML.length==0'
+                    (click)="aggiungiDescrizione(descrizione)" >Aggiungi descrizione</button>
+            </div>
                 </div>
-                <div class="col-md-12">
-                    <button class="btn mt-2" type="button"
-                        [disabled]="descrizioneForm.controls['descrizione'].value.length>5000 || descrizioneForm.invalid"
-                        (click)="aggiungiDescrizione()">Aggiungi descrizione</button>
-                </div>
-            </form>
-        </div>
     </div>
 </div>
