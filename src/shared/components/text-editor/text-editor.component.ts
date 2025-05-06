@@ -34,7 +34,7 @@ export class TextEditorComponent {
     { value: 'fs-4', label: 'medium small' },
     { value: 'fs-3', label: 'medium big' },
     { value: 'fs-2', label: 'big' },
-    { value: 'fs-1', label: 'bigger' },
+    { value: 'fs-1', label: 'bigger' }
   ]);
   selectedItems: string[] = [];
   @Input() textareaInnerHTML: string = '';
@@ -42,15 +42,37 @@ export class TextEditorComponent {
 
   selectItems(items: string) {
     if (this.selectedItems.includes(items)) {
-      this.selectedItems = this.selectedItems.filter((a: string) => a != items);
+      this.clearSelectedItems(items);
       this.update(items);
     } else {
-      this.selectedItems.push(items);
+      if (items != 'text-center' && items != 'text-start' && items != 'text-end') {
+        this.selectedItems.push(items);
+      } else {
+        debugger
+        if (items == 'text-center' && (this.selectedItems.includes('text-start') || this.selectedItems.includes('text-end'))) {
+          this.selectedItems.includes('text-start') ? this.clearSelectedItems('text-start') : this.selectedItems.includes('text-end') ?
+            this.clearSelectedItems('text-end') : ""
+          this.selectedItems.push(items);
+        } else if (items == 'text-end' && (this.selectedItems.includes('text-start') || this.selectedItems.includes('text-center'))) {
+          this.selectedItems.includes('text-start') ? this.clearSelectedItems('text-start') : this.selectedItems.includes('text-center') ?
+            this.clearSelectedItems('text-center') : ""
+          this.selectedItems.push(items);
+        } else if (items == 'text-start' && (this.selectedItems.includes('text-end') || this.selectedItems.includes('text-center'))) {
+          this.selectedItems.includes('text-end') ? this.clearSelectedItems('text-end') : this.selectedItems.includes('text-center') ?
+            this.clearSelectedItems('text-center') : ""
+          this.selectedItems.push(items);
+        }else{
+          this.selectedItems.push(items);
+        }
+      }
       this.update(items);
     }
   }
 
   update(value: string) {
     this.sendUpdates.emit(value);
+  }
+  clearSelectedItems(item: string) {
+    return this.selectedItems = this.selectedItems.filter((a: string) => a != item);
   }
 }

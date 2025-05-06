@@ -5,13 +5,15 @@
     </div>
     <div class="col-md-6 d-flex justify-content-start align-items-end">
         <label for="colors" class="p-2 fs-4">Color </label>
-        <select name="colors" id="colors" class="form-select w-50">
+        <select name="colors" id="colors" class="form-select w-50" onfocus="this.size=5" onblur="this.size=1"
+        onchange="this.blur()">
             <option value="{{c.value}}" *ngFor="let c of colors" class="{{c.value}} text-start fs-4">{{c.label}}</option>
         </select>
     </div>
     <div class="col-md-6 d-flex justify-content-start align-items-end">
         <label for="sizes" class="p-2 fs-4">Size </label>
-        <select name="sizes" id="sizes" class="form-select text-start w-50">
+        <select name="sizes" id="sizes" class="form-select text-start w-50" onfocus="this.size=3" onblur="this.size=1"
+        onchange="this.blur()">
             <option value="{{c.value}}" *ngFor="let c of sizes" class="{{c.value}} text-start">{{c.label}}</option>
         </select>
     </div>

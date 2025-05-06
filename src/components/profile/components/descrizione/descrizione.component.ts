@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { EmojiComponent } from '../../../../shared/components/emoji/emoji.component';
 import { TextEditorComponent } from '../../../../shared/components/text-editor/text-editor.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -21,12 +21,14 @@ export class DescrizioneComponent implements OnInit {
   
   descrizioneInnerHTML: string = '';
   addedOptions : string[] = [];
+  @ViewChild('descrizione') descrizione!:any;
   constructor(private profiloService: ProfileServive, private authService: AuthService, private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
   
   }
+
 
   calculateRemainingCharacters(descrizione: HTMLDivElement) {
     let checkTrick = descrizione?.innerHTML === "<br>"&&descrizione.innerHTML.length === 4;
@@ -45,6 +47,10 @@ export class DescrizioneComponent implements OnInit {
     }
   }
 
+  scrivi(descrizione:HTMLDivElement,event:Event){
+   
+  }
+
   aggiungiDescrizione(descrizione:HTMLDivElement) {
     if (!descrizione.innerHTML.trim()) {
       this.profiloService.updateDescrizione(descrizione.innerHTML).subscribe({
@@ -61,11 +67,38 @@ export class DescrizioneComponent implements OnInit {
   }
 
   onReceiveUpdatesFromTextEditor(event:any){
-     if(this.addedOptions.includes(event)){
+    if(event!='text-center' && event!='text-start' && event!='text-end'){
+       if(this.addedOptions.includes(event)){
         this.addedOptions = this.addedOptions.filter(a=> a!=event);
      }else{
       this.addedOptions.push(event);
      }
-     console.log(this.addedOptions);
+    }else{
+      this.descrizione?.nativeElement?.classList?.contains(event)? this.descrizione?.nativeElement?.classList?.remove(event):this.checkWhatToRemoveIfRemove(event);
+    }
+    
+     this.checkTextAreaElements();
+  }
+
+  checkTextAreaElements(){
+ 
+  }
+
+  checkWhatToRemoveIfRemove(event:string){
+    if(event=='text-center' && (this.descrizione?.nativeElement?.classList?.contains('text-start')||this.descrizione?.nativeElement?.classList?.contains('text-end'))){
+      this.descrizione?.nativeElement?.classList?.contains('text-start')?this.descrizione?.nativeElement?.classList?.remove('text-start'):this.descrizione?.nativeElement?.classList?.contains('text-end')?
+      this.descrizione?.nativeElement?.classList?.remove('text-end'):""
+      return this.descrizione?.nativeElement?.classList?.add(event);
+    } else if(event=='text-end' && (this.descrizione?.nativeElement?.classList?.contains('text-start')||this.descrizione?.nativeElement?.classList?.contains('text-center'))){
+      this.descrizione?.nativeElement?.classList?.contains('text-start')?this.descrizione?.nativeElement?.classList?.remove('text-start'):this.descrizione?.nativeElement?.classList?.contains('text-center')?
+      this.descrizione?.nativeElement?.classList?.remove('text-center'):""
+      return this.descrizione?.nativeElement?.classList?.add(event);
+    }else if(event=='text-start' && (this.descrizione?.nativeElement?.classList?.contains('text-end')||this.descrizione?.nativeElement?.classList?.contains('text-center'))){
+      this.descrizione?.nativeElement?.classList?.contains('text-end')?this.descrizione?.nativeElement?.classList?.remove('text-end'):this.descrizione?.nativeElement?.classList?.contains('text-center')?
+      this.descrizione?.nativeElement?.classList?.remove('text-center'):""
+      return this.descrizione?.nativeElement?.classList?.add(event);
+    }else{
+      return this.descrizione?.nativeElement?.classList?.add(event);
+    }
   }
 }
