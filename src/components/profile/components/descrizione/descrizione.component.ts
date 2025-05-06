@@ -20,6 +20,7 @@ export class DescrizioneComponent implements OnInit {
   @Input() visitedUser: User | null = null;
   
   descrizioneInnerHTML: string = '';
+  addedOptions : string[] = [];
   constructor(private profiloService: ProfileServive, private authService: AuthService, private toastr: ToastrService) {
   }
 
@@ -60,6 +61,11 @@ export class DescrizioneComponent implements OnInit {
   }
 
   onReceiveUpdatesFromTextEditor(event:any){
-        console.log(event)
+     if(this.addedOptions.includes(event)){
+        this.addedOptions = this.addedOptions.filter(a=> a!=event);
+     }else{
+      this.addedOptions.push(event);
+     }
+     console.log(this.addedOptions);
   }
 }

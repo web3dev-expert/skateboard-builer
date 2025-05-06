@@ -1,7 +1,7 @@
 <div class="row text-start p-2">
     <div class="col-md-12">
         <button class="btn shadow-none border-0" *ngFor="let i of icons" (click)="selectItems(i.value)">
-            <i class="bi bi {{i.label}} h2" [ngClass]="selectedItems==i.value?'text-dark':'text-white'"></i></button>
+            <i class="bi bi {{i.label}} h2" [ngClass]="selectedItems.includes(i.value)?'text-dark':'text-white'"></i></button>
     </div>
     <div class="col-md-6 d-flex justify-content-start align-items-end">
         <label for="colors" class="p-2 fs-4">Color </label>
