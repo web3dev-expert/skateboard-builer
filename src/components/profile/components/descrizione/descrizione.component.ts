@@ -11,53 +11,54 @@ import { NgClass } from '@angular/common';
 @Component({
   selector: 'app-descrizione',
   standalone: true,
-  imports: [EmojiComponent,TextEditorComponent, ReactiveFormsModule, NgClass, EmojiComponent, TextEditorComponent],
+  imports: [EmojiComponent, TextEditorComponent, ReactiveFormsModule, NgClass, EmojiComponent, TextEditorComponent],
   templateUrl: './descrizione.component.html',
   styleUrl: './descrizione.component.scss'
 })
-export class DescrizioneComponent implements OnInit{
-descrizioneForm:FormGroup = new FormGroup({});
-remainingCharacters: number = 5000;
-@Input() visitedUser: User | null = null;
-descrizioneInnerHTML:string = '';
-constructor(private profiloService:ProfileServive, private authService: AuthService, private toastr: ToastrService){
-}
+export class DescrizioneComponent implements OnInit {
+  descrizioneForm: FormGroup = new FormGroup({});
+  remainingCharacters: number = 5000;
+  @Input() visitedUser: User | null = null;
+  descrizioneInnerHTML: string = '';
+  constructor(private profiloService: ProfileServive, private authService: AuthService, private toastr: ToastrService) {
+  }
 
-ngOnInit(): void {
-  this.descrizioneForm = new FormGroup({
-    descrizione : new FormControl(this.visitedUser!.descrizione)
-  })
-}
+  ngOnInit(): void {
+    this.descrizioneForm = new FormGroup({
+      descrizione: new FormControl(this.visitedUser!.descrizione)
+    })
+  }
 
-calculateRemainingCharacters(){
-  let descrizioneLength = this.descrizioneForm.get('descrizione')?.value?.length;
-  if(this.descrizioneForm.get('descrizione')?.value?.length<=5000){
-    this.remainingCharacters = 5000 - descrizioneLength;
-  }else{
-    this.remainingCharacters=0;
-    this.descrizioneForm.get('descrizione')?.setValue(this.descrizioneForm.get('descrizione')?.value.substring(0,5000));
-    this.descrizioneForm.updateValueAndValidity();
-    if(this.descrizioneForm.get('descrizione')?.value?.length<5000){
+  calculateRemainingCharacters(descrizione: HTMLDivElement) {
+    console.log(descrizione?.innerText == "",descrizione?.innerText === "",descrizione?.innerText == " ", descrizione?.innerText == '', descrizione?.innerText === '')
+    let descrizioneLength = descrizione?.innerText == "" ? 0 : descrizione?.innerText?.length;
+    if (descrizione?.innerText?.length <= 5000) {
       this.remainingCharacters = 5000 - descrizioneLength;
+    } else {
+      this.remainingCharacters = 0;
+      descrizione.innerText = descrizione?.innerText?.substring(0, 5000);
+      this.descrizioneForm.updateValueAndValidity();
+      if (descrizione?.innerText?.length < 5000) {
+        this.remainingCharacters = 5000 - descrizioneLength;
+      }
     }
   }
-}
 
-aggiungiDescrizione(){
-if(this.descrizioneForm.valid){
-this.profiloService.updateDescrizione(this.descrizioneForm.get('descrizione')?.value).subscribe({
-next:(resp:any)=>{
-  this.authService.setUser(resp);
-  this.authService.authenticateUser(true);
-  this.visitedUser= resp;
-  localStorage.setItem('visitedUser', JSON.stringify(resp));
-}
-})
-}else{
-  this.toastr.warning("Aggiungi una descrizione valida. Ricordati : \n "+ " più di 0 caratteri, meno di 5000.")
-}
-}
-writeText(descrizione: HTMLDivElement){
- console.log(descrizione)
-}
+  aggiungiDescrizione() {
+    if (this.descrizioneForm.valid) {
+      this.profiloService.updateDescrizione(this.descrizioneForm.get('descrizione')?.value).subscribe({
+        next: (resp: any) => {
+          this.authService.setUser(resp);
+          this.authService.authenticateUser(true);
+          this.visitedUser = resp;
+          localStorage.setItem('visitedUser', JSON.stringify(resp));
+        }
+      })
+    } else {
+      this.toastr.warning("Aggiungi una descrizione valida. Ricordati : \n " + " più di 0 caratteri, meno di 5000.")
+    }
+  }
+  writeText(descrizione: HTMLDivElement) {
+    console.log(descrizione)
+  }
 }

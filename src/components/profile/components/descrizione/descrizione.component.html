@@ -8,11 +8,10 @@
                         <app-text-editor [textareaInnerHTML]="descrizioneInnerHTML"></app-text-editor>
                         <app-emoji></app-emoji>
                     </div>
-                    <textarea name="descrizione" id="descrizione"  class="form-control" rows="4"
-                        placeholder="max 5000 caratteri ...." formControlName="descrizione"
-                        (input)="calculateRemainingCharacters()">      
+                    <textarea name="descrizione" id="descrizione"  class="form-control d-none" rows="4"
+                         formControlName="descrizione">      
             </textarea>
-            <div class=" p-5 border rounded shadow" contenteditable="true" (input)="writeText(descrizione)" #descrizione>
+            <div class="p-5 border border-secondary shadow bg-white text-dark rounded shadow" placeholder="max 5000 caratteri ...." contenteditable="true" (input)="calculateRemainingCharacters(descrizione)" #descrizione>
             </div>
                     <p class="text-end">Caratteri a disposizione : <span class="fw-bold"
                             [ngClass]="remainingCharacters>3000? 'text-success': remainingCharacters>1000 && remainingCharacters <= 3000? 'text-warning':'text-danger'">{{remainingCharacters}}</span>
