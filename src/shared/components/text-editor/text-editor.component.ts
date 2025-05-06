@@ -12,8 +12,8 @@ export class TextEditorComponent {
   icons: Set<{ value: string, label: string }> = new Set([
     { value: 'fw-bold', label: 'bi-type-bold' },
     { value: 'fst-italic', label: 'bi-type-italic' },
-    { value: '<u>', label: 'bi-type-underline' },
-    { value: '<del>', label: 'bi-type-strikethrough' },
+    { value: '<u></u>', label: 'bi-type-underline' },
+    { value: '<del></del>', label: 'bi-type-strikethrough' },
     { value: 'text-center', label: 'bi-text-center' },
     { value: 'text-start', label: 'bi-text-left' },
     { value: 'text-end', label: 'bi-text-right' }

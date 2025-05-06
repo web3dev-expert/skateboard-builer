@@ -18,20 +18,20 @@ import { NgClass } from '@angular/common';
 export class DescrizioneComponent implements OnInit {
   remainingCharacters: number = 5000;
   @Input() visitedUser: User | null = null;
-  
+
   descrizioneInnerHTML: string = '';
-  addedOptions : string[] = [];
-  @ViewChild('descrizione') descrizione!:any;
+  addedOptions: string[] = [];
+  @ViewChild('descrizione') descrizione!: any;
   constructor(private profiloService: ProfileServive, private authService: AuthService, private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
-  
+
   }
 
 
   calculateRemainingCharacters(descrizione: HTMLDivElement) {
-    let checkTrick = descrizione?.innerHTML === "<br>"&&descrizione.innerHTML.length === 4;
+    let checkTrick = (descrizione?.innerHTML === "<br>" && descrizione.innerHTML.length === 4) || descrizione.innerHTML.length == 0;
     let descrizioneLength = checkTrick ? 0 : descrizione?.innerText?.length;
     if (descrizione?.innerText?.length <= 5000) {
       this.remainingCharacters = 5000 - descrizioneLength;
@@ -42,17 +42,32 @@ export class DescrizioneComponent implements OnInit {
         this.remainingCharacters = 5000 - descrizioneLength;
       }
     }
-    if(checkTrick){
+    if (checkTrick) {
       descrizione.innerHTML = '';
     }
   }
 
-  scrivi(descrizione:HTMLDivElement,event:Event){
-   
+  scrivi(event: Event) {
+    if (this.descrizione?.nativeElement?.children && event instanceof FocusEvent) {
+      this.descrizione.nativeElement.children.focus = true;
+    }else if(event instanceof InputEvent){
+      if (!this.descrizione?.nativeElement?.children||this.descrizione?.nativeElement?.children.length==0){
+        let div = document.createElement('div');
+        div!.textContent! += event.data
+        this.descrizione?.nativeElement.appendChild(div)
+      }else{
+        console.log(this.descrizione?.nativeElement?.children, this.descrizione?.nativeElement?.children.length)
+
+        let div =this.descrizione?.nativeElement?.children[this.descrizione?.nativeElement?.children.length-1];
+        console.log(div)
+        div.textContent += event.data
+      }
+    }
   }
 
-  aggiungiDescrizione(descrizione:HTMLDivElement) {
-    if (!descrizione.innerHTML.trim()) {
+  aggiungiDescrizione(descrizione: HTMLDivElement) {
+    let checkTrick = (descrizione?.innerHTML === "<br>" && descrizione.innerHTML.length === 4) || descrizione.innerHTML.length == 0;
+    if (!checkTrick) {
       this.profiloService.updateDescrizione(descrizione.innerHTML).subscribe({
         next: (resp: any) => {
           this.authService.setUser(resp);
@@ -66,38 +81,58 @@ export class DescrizioneComponent implements OnInit {
     }
   }
 
-  onReceiveUpdatesFromTextEditor(event:any){
-    if(event!='text-center' && event!='text-start' && event!='text-end'){
-       if(this.addedOptions.includes(event)){
-        this.addedOptions = this.addedOptions.filter(a=> a!=event);
-     }else{
-      this.addedOptions.push(event);
-     }
-    }else{
-      this.descrizione?.nativeElement?.classList?.contains(event)? this.descrizione?.nativeElement?.classList?.remove(event):this.checkWhatToRemoveIfRemove(event);
+  onReceiveUpdatesFromTextEditor(event: any) {
+    if (event != 'text-center' && event != 'text-start' && event != 'text-end') {
+      if (this.addedOptions.includes(event)) {
+        this.addedOptions = this.addedOptions.filter(a => a != event);
+      } else {
+        this.addedOptions.push(event);
+      }
+    } else {
+      this.descrizione?.nativeElement?.classList?.contains(event) ? this.descrizione?.nativeElement?.classList?.remove(event) : this.checkWhatToRemoveIfRemove(event);
     }
-    
-     this.checkTextAreaElements();
+
+    this.checkTextAreaElements();
   }
 
-  checkTextAreaElements(){
- 
+  checkTextAreaElements() {
+    let span = document.createElement('span');
+    this.addedOptions.forEach((opt: string) => {
+      if (opt.startsWith('<')) {
+        if (this.descrizione?.nativeElement?.children && this.descrizione?.nativeElement?.children[this.descrizione?.nativeElement?.children.length - 1].innerText.length == 0) {
+          this.descrizione?.nativeElement?.children[this.descrizione?.nativeElement?.children.length - 1].append(opt)
+        } else {
+          span.append(opt)
+        }
+      } else {
+        if (this.descrizione?.nativeElement?.children && this.descrizione?.nativeElement?.children[this.descrizione?.nativeElement?.children.length - 1].innerText.length == 0) {
+          this.descrizione?.nativeElement?.children[this.descrizione?.nativeElement?.children.length - 1].classList.add(opt)
+        } else {
+          span.classList.add(opt)
+        }
+      }
+    })
+    if (!(this.descrizione?.nativeElement?.children && this.descrizione?.nativeElement?.children[this.descrizione?.nativeElement?.children.length - 1].innerText.length == 0) ||
+      (this.descrizione?.nativeElement?.children && this.descrizione?.nativeElement?.children[this.descrizione?.nativeElement?.children.length - 1].innerText.length != 0)) {
+      this.descrizione?.nativeElement.appendChild(span)
+      console.log(this.descrizione)
+    }
   }
 
-  checkWhatToRemoveIfRemove(event:string){
-    if(event=='text-center' && (this.descrizione?.nativeElement?.classList?.contains('text-start')||this.descrizione?.nativeElement?.classList?.contains('text-end'))){
-      this.descrizione?.nativeElement?.classList?.contains('text-start')?this.descrizione?.nativeElement?.classList?.remove('text-start'):this.descrizione?.nativeElement?.classList?.contains('text-end')?
-      this.descrizione?.nativeElement?.classList?.remove('text-end'):""
+  checkWhatToRemoveIfRemove(event: string) {
+    if (event == 'text-center' && (this.descrizione?.nativeElement?.classList?.contains('text-start') || this.descrizione?.nativeElement?.classList?.contains('text-end'))) {
+      this.descrizione?.nativeElement?.classList?.contains('text-start') ? this.descrizione?.nativeElement?.classList?.remove('text-start') : this.descrizione?.nativeElement?.classList?.contains('text-end') ?
+        this.descrizione?.nativeElement?.classList?.remove('text-end') : ""
       return this.descrizione?.nativeElement?.classList?.add(event);
-    } else if(event=='text-end' && (this.descrizione?.nativeElement?.classList?.contains('text-start')||this.descrizione?.nativeElement?.classList?.contains('text-center'))){
-      this.descrizione?.nativeElement?.classList?.contains('text-start')?this.descrizione?.nativeElement?.classList?.remove('text-start'):this.descrizione?.nativeElement?.classList?.contains('text-center')?
-      this.descrizione?.nativeElement?.classList?.remove('text-center'):""
+    } else if (event == 'text-end' && (this.descrizione?.nativeElement?.classList?.contains('text-start') || this.descrizione?.nativeElement?.classList?.contains('text-center'))) {
+      this.descrizione?.nativeElement?.classList?.contains('text-start') ? this.descrizione?.nativeElement?.classList?.remove('text-start') : this.descrizione?.nativeElement?.classList?.contains('text-center') ?
+        this.descrizione?.nativeElement?.classList?.remove('text-center') : ""
       return this.descrizione?.nativeElement?.classList?.add(event);
-    }else if(event=='text-start' && (this.descrizione?.nativeElement?.classList?.contains('text-end')||this.descrizione?.nativeElement?.classList?.contains('text-center'))){
-      this.descrizione?.nativeElement?.classList?.contains('text-end')?this.descrizione?.nativeElement?.classList?.remove('text-end'):this.descrizione?.nativeElement?.classList?.contains('text-center')?
-      this.descrizione?.nativeElement?.classList?.remove('text-center'):""
+    } else if (event == 'text-start' && (this.descrizione?.nativeElement?.classList?.contains('text-end') || this.descrizione?.nativeElement?.classList?.contains('text-center'))) {
+      this.descrizione?.nativeElement?.classList?.contains('text-end') ? this.descrizione?.nativeElement?.classList?.remove('text-end') : this.descrizione?.nativeElement?.classList?.contains('text-center') ?
+        this.descrizione?.nativeElement?.classList?.remove('text-center') : ""
       return this.descrizione?.nativeElement?.classList?.add(event);
-    }else{
+    } else {
       return this.descrizione?.nativeElement?.classList?.add(event);
     }
   }
