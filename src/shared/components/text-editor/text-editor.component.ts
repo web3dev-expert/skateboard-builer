@@ -1,5 +1,9 @@
 import { NgClass, NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ModeService } from '../../../services/mode.service';
+import { isEarlyEventType } from '@angular/core/primitives/event-dispatch';
+import { MatDialog } from '@angular/material/dialog';
+import { InsertTextComponent } from './components/insert-text/insert-text.component';
 
 @Component({
   selector: 'app-text-editor',
@@ -9,6 +13,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './text-editor.component.scss'
 })
 export class TextEditorComponent {
+  mode: string = 'light';
   icons: Set<{ value: string, label: string }> = new Set([
     { value: 'fw-bold', label: 'bi-type-bold' },
     { value: 'fst-italic', label: 'bi-type-italic' },
@@ -40,33 +45,38 @@ export class TextEditorComponent {
   @Input() textareaInnerHTML: string = '';
   @Output() sendUpdates: EventEmitter<string> = new EventEmitter<string>();
 
-  selectItems(items: string) {
-    if (this.selectedItems.includes(items)) {
-      this.clearSelectedItems(items);
-      this.update(items);
-    } else {
-      if (items != 'text-center' && items != 'text-start' && items != 'text-end') {
-        this.selectedItems.push(items);
-      } else {
-        debugger
-        if (items == 'text-center' && (this.selectedItems.includes('text-start') || this.selectedItems.includes('text-end'))) {
-          this.selectedItems.includes('text-start') ? this.clearSelectedItems('text-start') : this.selectedItems.includes('text-end') ?
-            this.clearSelectedItems('text-end') : ""
-          this.selectedItems.push(items);
-        } else if (items == 'text-end' && (this.selectedItems.includes('text-start') || this.selectedItems.includes('text-center'))) {
-          this.selectedItems.includes('text-start') ? this.clearSelectedItems('text-start') : this.selectedItems.includes('text-center') ?
-            this.clearSelectedItems('text-center') : ""
-          this.selectedItems.push(items);
-        } else if (items == 'text-start' && (this.selectedItems.includes('text-end') || this.selectedItems.includes('text-center'))) {
-          this.selectedItems.includes('text-end') ? this.clearSelectedItems('text-end') : this.selectedItems.includes('text-center') ?
-            this.clearSelectedItems('text-center') : ""
-          this.selectedItems.push(items);
-        }else{
-          this.selectedItems.push(items);
-        }
+  constructor(private modeService: ModeService, private matDialog: MatDialog) {
+    this.modeService.mode.subscribe((data: string) => {
+      this.mode = data;
+    })
+  }
+
+  selectItems(item: string) {
+    let items: any[] = [];
+    this.icons.forEach((icon: any) => {
+      if (icon.value != item) {
+        items.push(icon);
       }
-      this.update(items);
-    }
+    });
+    let colors: any[] = [];
+    this.colors.forEach((color: any) => {
+      if (color.value != item) {
+        colors.push(color);
+      }
+    })
+    let sizes: any[] = [];
+    this.sizes.forEach((size: any) => {
+      if (size.value != item) {
+        sizes.push(size);
+      }
+    })
+    const dialogRef = this.matDialog.open(InsertTextComponent, { data: [item, items,colors,sizes] });
+    dialogRef.afterClosed().subscribe((data: any) => {
+      if (data) {
+        let element = data;
+        this.update(data);
+      }
+    })
   }
 
   update(value: string) {

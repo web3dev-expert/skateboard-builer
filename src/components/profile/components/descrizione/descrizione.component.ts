@@ -48,7 +48,9 @@ export class DescrizioneComponent implements OnInit {
   }
 
   scrivi(event: Event) {
-    if (this.descrizione?.nativeElement?.children && event instanceof FocusEvent) {
+    this.descrizione.nativeElement.innerHTML = this.descrizione.nativeElement.innerHTML.substring('<')
+    console.log(this.descrizione.nativeElement.innerHTML.substring('<'))
+      if (this.descrizione?.nativeElement?.children && event instanceof FocusEvent) {
       this.descrizione.nativeElement.children.focus = true;
     }else if(event instanceof InputEvent){
       if (!this.descrizione?.nativeElement?.children||this.descrizione?.nativeElement?.children.length==0){
@@ -56,10 +58,7 @@ export class DescrizioneComponent implements OnInit {
         div!.textContent! += event.data
         this.descrizione?.nativeElement.appendChild(div)
       }else{
-        console.log(this.descrizione?.nativeElement?.children, this.descrizione?.nativeElement?.children.length)
-
         let div =this.descrizione?.nativeElement?.children[this.descrizione?.nativeElement?.children.length-1];
-        console.log(div)
         div.textContent += event.data
       }
     }

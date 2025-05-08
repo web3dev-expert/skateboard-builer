@@ -4,7 +4,7 @@
             <div class="col-md-12 py-3">
                 <h1>{{visitedUser?.fullName}}</h1>
             </div>
-            <div class="col-md-3" *ngIf="windowWidth>699">
+            <div class="col-md-3" *ngIf="windowWidth>699 else reducedMenu">
                 <ul class="text-start">
                     <li *ngFor="let v of menuVoices" class="p-3" (click)="switchSection(v)">
                         <span *ngIf="v != 'Impostazioni'">{{v.toUpperCase()}}</span>
@@ -18,6 +18,29 @@
                     </li>
                 </ul>
             </div>
+            <ng-template #reducedMenu>
+                <div class="col-md-12 text-start">
+                    <button class="btn" (click)="showMenu=!showMenu">
+                        <i class="bi bi-list h1" [ngClass]="mode=='light'?'text-dark':'text-light'"></i>
+                    </button>
+                </div>
+                <div class="col-6 p-3 position-relative" *ngIf="showMenu">
+                    <div class="ml-5 mt-5 p-3 border rounded" [ngClass]="mode=='light'?'text-dark bg-light':'text-light bg-secondary'">
+                        <ul class="text-start">
+                            <li *ngFor="let v of menuVoices" class="p-3" (click)="switchSection(v)">
+                                <span *ngIf="v != 'Impostazioni'">{{v.toUpperCase()}}</span>
+                                <div *ngIf="v == 'Impostazioni' && authService.getUser()!.id == visitedUser!.id">
+                                    <span>{{v.toUpperCase()}}</span>
+                                    <ul class="personalized-menu text-center" *ngIf="section=='Impostazioni'">
+                                        <li *ngFor="let s of sottomenu" class="text-start" (click)="setImpostazioniSection(s)">
+                                            {{s.toUpperCase()}}</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </ng-template>
             <div class="col-md-9">
                 <div *ngIf="section=='Profilo'">
                     <div class="col-12 p-3 d-flex align-items-end justify-content-center">

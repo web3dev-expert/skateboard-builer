@@ -97,7 +97,7 @@ export class ProfileComponent implements OnInit {
     { lat: 40.74988, lng: -73.968285 }
   ];
   descrizioneForm: FormGroup = new FormGroup({});
-
+  showMenu: boolean = false;
   constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService: GamefieldService, private matDialog: MatDialog,
     public authService: AuthService, private modeService: ModeService, private httpClient: HttpClient, private toastr: ToastrService) {
     this.authService.isAuthenticatedUser.subscribe((bool: boolean) => {
@@ -117,7 +117,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.descrizioneForm = new FormGroup({
-      descrizione : new FormControl('',[Validators.required,Validators.maxLength(5000)])
+      descrizione: new FormControl('', [Validators.required, Validators.maxLength(5000)])
     })
     this.route.queryParams.subscribe(
       params => {
@@ -203,6 +203,7 @@ export class ProfileComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.windowWidth = window.innerWidth;
+    if (this.windowWidth > 699) this.showMenu = false
   }
 
   openGameDialog(gioco: any) {
