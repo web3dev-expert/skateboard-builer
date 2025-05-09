@@ -4,12 +4,12 @@ import { ProfileServive } from '../../../../../services/profile.service';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { ModeService } from '../../../../../services/mode.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-insert-text',
   standalone: true,
-  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, NgFor, NgIf, NgClass, MatDialogClose],
+  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, NgFor, NgIf, NgClass, MatDialogClose,ReactiveFormsModule],
   templateUrl: './insert-text.component.html',
   styleUrl: './insert-text.component.scss'
 })
