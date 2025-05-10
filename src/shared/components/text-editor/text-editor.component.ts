@@ -45,8 +45,8 @@ export class TextEditorComponent {
   selectedItems: string[] = [];
   @Input() textareaInnerHTML: string = '';
   @Output() sendUpdates: EventEmitter<string> = new EventEmitter<string>();
-
-  constructor(private modeService: ModeService, private matDialog: MatDialog, private toastr:ToastrService) {
+  @Input() remainingCharacters: number = 0;
+  constructor(private modeService: ModeService, private matDialog: MatDialog, private toastr: ToastrService) {
     this.modeService.mode.subscribe((data: string) => {
       this.mode = data;
     })
@@ -71,12 +71,12 @@ export class TextEditorComponent {
         sizes.push(size);
       }
     })
-    const dialogRef = this.matDialog.open(InsertTextComponent, { data: [item, items,colors,sizes] });
+    const dialogRef = this.matDialog.open(InsertTextComponent, { data: [item, items, colors, sizes, this.remainingCharacters] });
     dialogRef.afterClosed().subscribe((data: any) => {
       if (data) {
         let element = data;
         this.update(data);
-      }else{
+      } else {
         this.toastr.warning("Non hai aggiunto niente");
       }
     })

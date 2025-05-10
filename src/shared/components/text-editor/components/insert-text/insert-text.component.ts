@@ -21,6 +21,7 @@ export class InsertTextComponent implements OnInit {
   mode: string = 'light';
   insertTextForm : FormGroup = new FormGroup({});
   @ViewChild('testo') testo:any;
+  remainingCharacters: number = 0;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private profiloService: ProfileServive, private toastr: ToastrService,
     private modeService: ModeService, private matDialogRef: MatDialogRef<InsertTextComponent>) {
     this.modeService.mode.subscribe((data: string) => {
@@ -33,6 +34,7 @@ export class InsertTextComponent implements OnInit {
     this.icons = this.data[1];
     this.colors = this.data[2];
     this.sizes = this.data[3];
+    this.remainingCharacters = this.data[4];
     this.initializeForm();
   }
 

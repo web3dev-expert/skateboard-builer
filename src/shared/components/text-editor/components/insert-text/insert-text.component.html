@@ -17,7 +17,11 @@
             <option value="{{c.value}}" *ngFor="let c of sizes" class="{{c.value}} text-start">{{c.label}}</option>
         </select>
     </div>
-    <div class="col-md-12">
-        <form [formGroup]="insertTextForm"></form>
+    <div class="col-md-12 text-center">
+        <form [formGroup]="insertTextForm">
+            <div name="testo" #testo id="testo" formControlName="testo" class="testo form-control py-5 my-5" contenteditable="true" placeholder="Inserisci il tuo testo ..."></div>
+        <div class="text-end pr-4">{{remainingCharacters}}</div>
+        </form>
+        <button class="btn">Aggiungi</button>
     </div>
 </div>

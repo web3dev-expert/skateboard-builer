@@ -47,23 +47,6 @@ export class DescrizioneComponent implements OnInit {
     }
   }
 
-  scrivi(event: Event) {
-    this.descrizione.nativeElement.innerHTML = this.descrizione.nativeElement.innerHTML.substring('<')
-    console.log(this.descrizione.nativeElement.innerHTML.substring('<'))
-      if (this.descrizione?.nativeElement?.children && event instanceof FocusEvent) {
-      this.descrizione.nativeElement.children.focus = true;
-    }else if(event instanceof InputEvent){
-      if (!this.descrizione?.nativeElement?.children||this.descrizione?.nativeElement?.children.length==0){
-        let div = document.createElement('div');
-        div!.textContent! += event.data
-        this.descrizione?.nativeElement.appendChild(div)
-      }else{
-        let div =this.descrizione?.nativeElement?.children[this.descrizione?.nativeElement?.children.length-1];
-        div.textContent += event.data
-      }
-    }
-  }
-
   aggiungiDescrizione(descrizione: HTMLDivElement) {
     let checkTrick = (descrizione?.innerHTML === "<br>" && descrizione.innerHTML.length === 4) || descrizione.innerHTML.length == 0;
     if (!checkTrick) {
@@ -81,58 +64,10 @@ export class DescrizioneComponent implements OnInit {
   }
 
   onReceiveUpdatesFromTextEditor(event: any) {
-    if (event != 'text-center' && event != 'text-start' && event != 'text-end') {
-      if (this.addedOptions.includes(event)) {
-        this.addedOptions = this.addedOptions.filter(a => a != event);
-      } else {
-        this.addedOptions.push(event);
-      }
-    } else {
-      this.descrizione?.nativeElement?.classList?.contains(event) ? this.descrizione?.nativeElement?.classList?.remove(event) : this.checkWhatToRemoveIfRemove(event);
-    }
-
-    this.checkTextAreaElements();
+ 
   }
 
   checkTextAreaElements() {
-    let span = document.createElement('span');
-    this.addedOptions.forEach((opt: string) => {
-      if (opt.startsWith('<')) {
-        if (this.descrizione?.nativeElement?.children && this.descrizione?.nativeElement?.children[this.descrizione?.nativeElement?.children.length - 1].innerText.length == 0) {
-          this.descrizione?.nativeElement?.children[this.descrizione?.nativeElement?.children.length - 1].append(opt)
-        } else {
-          span.append(opt)
-        }
-      } else {
-        if (this.descrizione?.nativeElement?.children && this.descrizione?.nativeElement?.children[this.descrizione?.nativeElement?.children.length - 1].innerText.length == 0) {
-          this.descrizione?.nativeElement?.children[this.descrizione?.nativeElement?.children.length - 1].classList.add(opt)
-        } else {
-          span.classList.add(opt)
-        }
-      }
-    })
-    if (!(this.descrizione?.nativeElement?.children && this.descrizione?.nativeElement?.children[this.descrizione?.nativeElement?.children.length - 1].innerText.length == 0) ||
-      (this.descrizione?.nativeElement?.children && this.descrizione?.nativeElement?.children[this.descrizione?.nativeElement?.children.length - 1].innerText.length != 0)) {
-      this.descrizione?.nativeElement.appendChild(span)
-      console.log(this.descrizione)
-    }
   }
 
-  checkWhatToRemoveIfRemove(event: string) {
-    if (event == 'text-center' && (this.descrizione?.nativeElement?.classList?.contains('text-start') || this.descrizione?.nativeElement?.classList?.contains('text-end'))) {
-      this.descrizione?.nativeElement?.classList?.contains('text-start') ? this.descrizione?.nativeElement?.classList?.remove('text-start') : this.descrizione?.nativeElement?.classList?.contains('text-end') ?
-        this.descrizione?.nativeElement?.classList?.remove('text-end') : ""
-      return this.descrizione?.nativeElement?.classList?.add(event);
-    } else if (event == 'text-end' && (this.descrizione?.nativeElement?.classList?.contains('text-start') || this.descrizione?.nativeElement?.classList?.contains('text-center'))) {
-      this.descrizione?.nativeElement?.classList?.contains('text-start') ? this.descrizione?.nativeElement?.classList?.remove('text-start') : this.descrizione?.nativeElement?.classList?.contains('text-center') ?
-        this.descrizione?.nativeElement?.classList?.remove('text-center') : ""
-      return this.descrizione?.nativeElement?.classList?.add(event);
-    } else if (event == 'text-start' && (this.descrizione?.nativeElement?.classList?.contains('text-end') || this.descrizione?.nativeElement?.classList?.contains('text-center'))) {
-      this.descrizione?.nativeElement?.classList?.contains('text-end') ? this.descrizione?.nativeElement?.classList?.remove('text-end') : this.descrizione?.nativeElement?.classList?.contains('text-center') ?
-        this.descrizione?.nativeElement?.classList?.remove('text-center') : ""
-      return this.descrizione?.nativeElement?.classList?.add(event);
-    } else {
-      return this.descrizione?.nativeElement?.classList?.add(event);
-    }
-  }
 }

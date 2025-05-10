@@ -4,12 +4,13 @@
             <div class="col-md-12">
                 <label class="form-label fs-4 text-danger">Scrivi una descrizione</label>
                 <div class="d-flex justify-content-around">
-                    <app-text-editor [textareaInnerHTML]="descrizioneInnerHTML" (sendUpdates)="onReceiveUpdatesFromTextEditor($event)"></app-text-editor>
+                    <app-text-editor [textareaInnerHTML]="descrizioneInnerHTML" (sendUpdates)="onReceiveUpdatesFromTextEditor($event)"
+                    [remainingCharacters]="remainingCharacters"></app-text-editor>
                     <app-emoji></app-emoji>
                 </div>
                 <div class="p-5 border border-secondary shadow bg-white text-dark rounded shadow"
                     placeholder="max 5000 caratteri ...." contenteditable="true"
-                    (input)="calculateRemainingCharacters(descrizione);scrivi($event)" (focus)="scrivi($event)" #descrizione>
+                    (input)="calculateRemainingCharacters(descrizione);" #descrizione>
                 </div>
                 <p class="text-end">Caratteri a disposizione : <span class="fw-bold"
                         [ngClass]="remainingCharacters>3000? 'text-success': remainingCharacters>1000 && remainingCharacters <= 3000? 'text-warning':'text-danger'">{{remainingCharacters}}</span>
