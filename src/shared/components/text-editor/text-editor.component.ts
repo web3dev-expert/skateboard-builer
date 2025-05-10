@@ -4,6 +4,7 @@ import { ModeService } from '../../../services/mode.service';
 import { isEarlyEventType } from '@angular/core/primitives/event-dispatch';
 import { MatDialog } from '@angular/material/dialog';
 import { InsertTextComponent } from './components/insert-text/insert-text.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-text-editor',
@@ -45,7 +46,7 @@ export class TextEditorComponent {
   @Input() textareaInnerHTML: string = '';
   @Output() sendUpdates: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private modeService: ModeService, private matDialog: MatDialog) {
+  constructor(private modeService: ModeService, private matDialog: MatDialog, private toastr:ToastrService) {
     this.modeService.mode.subscribe((data: string) => {
       this.mode = data;
     })
@@ -75,6 +76,8 @@ export class TextEditorComponent {
       if (data) {
         let element = data;
         this.update(data);
+      }else{
+        this.toastr.warning("Non hai aggiunto niente");
       }
     })
   }
