@@ -53,25 +53,8 @@ export class TextEditorComponent {
   }
 
   selectItems(item: string) {
-    let items: any[] = [];
-    this.icons.forEach((icon: any) => {
-      if (icon.value != item) {
-        items.push(icon);
-      }
-    });
-    let colors: any[] = [];
-    this.colors.forEach((color: any) => {
-      if (color.value != item) {
-        colors.push(color);
-      }
-    })
-    let sizes: any[] = [];
-    this.sizes.forEach((size: any) => {
-      if (size.value != item) {
-        sizes.push(size);
-      }
-    })
-    const dialogRef = this.matDialog.open(InsertTextComponent, { data: [item, items, colors, sizes, this.remainingCharacters] });
+    
+    const dialogRef = this.matDialog.open(InsertTextComponent, { data: [item, this.icons, this.colors, this.sizes, this.remainingCharacters] });
     dialogRef.afterClosed().subscribe((data: any) => {
       if (data) {
         let element = data;

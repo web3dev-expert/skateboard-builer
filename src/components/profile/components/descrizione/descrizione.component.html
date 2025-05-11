@@ -12,7 +12,7 @@
                     placeholder="max 5000 caratteri ...." contenteditable="true"
                     (input)="calculateRemainingCharacters(descrizione);" #descrizione>
                 </div>
-                <p class="text-end">Caratteri a disposizione : <span class="fw-bold"
+                <p class="text-end">Caratteri a disposizione : <span class="fw-bolder fs-5"
                         [ngClass]="remainingCharacters>3000? 'text-success': remainingCharacters>1000 && remainingCharacters <= 3000? 'text-warning':'text-danger'">{{remainingCharacters}}</span>
                 </p>
             </div>

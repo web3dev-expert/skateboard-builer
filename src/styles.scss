@@ -66,3 +66,7 @@ background-color: rgba(255,255,255,.5);
 .btn{
   border:none!important;
 }
+[mat-dialog-content] {
+  max-height: 700px !important;
+  overflow: auto;
+}
