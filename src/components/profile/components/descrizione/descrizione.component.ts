@@ -64,7 +64,7 @@ export class DescrizioneComponent implements OnInit {
   }
 
   onReceiveUpdatesFromTextEditor(event: any) {
- 
+ console.log(event);
   }
 
   checkTextAreaElements() {

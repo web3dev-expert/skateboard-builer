@@ -74,6 +74,8 @@ export class InsertTextComponent implements OnInit {
   close(value?: boolean) {
     if (!value) {
       this.matDialogRef.close(false);
+    }else{
+      this.matDialogRef.close(this.testo?.nativeElement?.innerHTML);
     }
   }
   calculateRemainingCharacters(descrizione: HTMLDivElement) {

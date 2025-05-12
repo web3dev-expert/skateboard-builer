@@ -66,6 +66,7 @@ export class TextEditorComponent {
   }
 
   update(value: string) {
+    console.log(value)
     this.sendUpdates.emit(value);
   }
   clearSelectedItems(item: string) {
