@@ -51,15 +51,12 @@ export class InsertTextComponent implements OnInit {
 
   selectItems(item: string) {
     if ((item as String).startsWith('<')) {
-      if (this.testo!.nativeElement!.innerHTML.includes(item.substring(0,item.indexOf('>')+1))) {
-        this.testo!.nativeElement!.innerHTML = this.testo!.nativeElement!.innerHTML.replace(item.substring(0,item.indexOf('>')+1),'');
+      if (this.testo!.nativeElement!.innerHTML.includes(item.substring(0, item.indexOf('>') + 1))) {
+        this.testo!.nativeElement!.innerHTML = this.testo!.nativeElement!.innerHTML.replace(item.substring(0, item.indexOf('>') + 1), '');
         this.testo!.nativeElement!.innerHTML = this.testo!.nativeElement!.innerHTML.replace(item.substring(item.lastIndexOf('<')));
-        console.log('if' + this.testo!.nativeElement!.innerHTML)
         return;
       }
-      console.log(item.substring(0, item.indexOf('>')+1))
-      this.testo!.nativeElement!.innerHTML = item.substring(0, item.indexOf('>')+1) + this.testo!.nativeElement!.innerHTML + item.substring(item.lastIndexOf('<'));
-      console.log('else' + this.testo!.nativeElement!.innerHTML)
+      this.testo!.nativeElement!.innerHTML = item.substring(0, item.indexOf('>') + 1) + this.testo!.nativeElement!.innerHTML + item.substring(item.lastIndexOf('<'));
     } else {
       if (this.separatedClasses.includes(item)) {
         this.separatedClasses = this.separatedClasses.replace(item, '');
@@ -74,10 +71,11 @@ export class InsertTextComponent implements OnInit {
 
 
 
-  close() {
-    this.matDialogRef.close(false);
+  close(value?: boolean) {
+    if (!value) {
+      this.matDialogRef.close(false);
+    }
   }
-
   calculateRemainingCharacters(descrizione: HTMLDivElement) {
     if (descrizione.innerHTML.includes('<del>')) {
       if (!descrizione.innerHTML.startsWith('<del>')) {
