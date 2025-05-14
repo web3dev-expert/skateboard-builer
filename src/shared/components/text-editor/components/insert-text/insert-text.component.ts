@@ -4,8 +4,7 @@ import { ProfileServive } from '../../../../../services/profile.service';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { ModeService } from '../../../../../services/mode.service';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { tick } from '@angular/core/testing';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-insert-text',
@@ -24,6 +23,7 @@ export class InsertTextComponent implements OnInit {
   @ViewChild('testo') testo: any;
   remainingCharacters: number = 0;
   initialRemainingCharacters: number = 0;
+  selectsForm: FormGroup = new FormGroup({});
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private profiloService: ProfileServive, private toastr: ToastrService,
     private modeService: ModeService, private matDialogRef: MatDialogRef<InsertTextComponent>) {
     this.modeService.mode.subscribe((data: string) => {
@@ -47,6 +47,7 @@ export class InsertTextComponent implements OnInit {
     this.sizes = this.data[3];
     this.remainingCharacters = this.data[4];
     this.initialRemainingCharacters = this.data[4];
+    this.initializeForm();
   }
 
   selectItems(item: string) {
@@ -109,5 +110,23 @@ export class InsertTextComponent implements OnInit {
 
   selectedClasses() {
     return this.separatedClasses;
+  }
+  initializeForm(){
+    this.selectsForm =  new FormGroup({
+    colors : new FormControl(''),
+    sizes: new FormControl('')
+    });
+
+    this.colors.forEach(c=> {
+      if(c.value == this.data[0]){
+        this.selectsForm.get('colors')?.setValue(this.data[0]);
+      }
+    });
+    this.sizes.forEach(s=> {
+      if(s.value == this.data[0]){
+        this.selectsForm.get('sizes')?.setValue(this.data[0]);
+      }
+    });
+    this.selectsForm.updateValueAndValidity();
   }
 }

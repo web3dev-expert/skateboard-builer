@@ -1,7 +1,6 @@
 import { NgClass, NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ModeService } from '../../../services/mode.service';
-import { isEarlyEventType } from '@angular/core/primitives/event-dispatch';
 import { MatDialog } from '@angular/material/dialog';
 import { InsertTextComponent } from './components/insert-text/insert-text.component';
 import { ToastrService } from 'ngx-toastr';
@@ -46,6 +45,8 @@ export class TextEditorComponent {
   @Input() textareaInnerHTML: string = '';
   @Output() sendUpdates: EventEmitter<string> = new EventEmitter<string>();
   @Input() remainingCharacters: number = 0;
+  previousValueC:string = 'text-dark';
+  previousValueS:string = 'fs-6';
   constructor(private modeService: ModeService, private matDialog: MatDialog, private toastr: ToastrService) {
     this.modeService.mode.subscribe((data: string) => {
       this.mode = data;
@@ -56,6 +57,9 @@ export class TextEditorComponent {
     
     const dialogRef = this.matDialog.open(InsertTextComponent, { data: [item, this.icons, this.colors, this.sizes, this.remainingCharacters] });
     dialogRef.afterClosed().subscribe((data: any) => {
+      this.previousValueC = (document.getElementById('colors') as HTMLSelectElement).value
+      this.previousValueS = (document.getElementById('sizes') as HTMLSelectElement).value
+
       if (data) {
         let element = data;
         this.update(data);
@@ -71,5 +75,16 @@ export class TextEditorComponent {
   }
   clearSelectedItems(item: string) {
     return this.selectedItems = this.selectedItems.filter((a: string) => a != item);
+  }
+  checkValue(value:string,section:string){
+    if(section=='color'){
+      let color = document.getElementById('colors') as HTMLSelectElement;
+      console.log(color.value,this.previousValueC)
+    }else if(section=='size'){
+      let size = document.getElementById('sizes') as HTMLSelectElement;
+      console.log(size.value, this.previousValueS)
+    }else{
+      this.toastr.warning("What did you selected?");
+    }
   }
 }
