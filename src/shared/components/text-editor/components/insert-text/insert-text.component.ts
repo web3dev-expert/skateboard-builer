@@ -1,4 +1,4 @@
-import { AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ProfileServive } from '../../../../../services/profile.service';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
@@ -13,14 +13,14 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './insert-text.component.html',
   styleUrl: './insert-text.component.scss'
 })
-export class InsertTextComponent implements OnInit, AfterContentChecked {
+export class InsertTextComponent implements AfterContentChecked, AfterViewChecked, OnInit {
 
   icons: any[] = [];
   colors: any[] = [];
   sizes: any[] = [];
   mode: string = 'light';
   separatedClasses: string = '';
-  @ViewChild('testo') testo: any;
+  @ViewChild('testo', { static: false }) testo: any;
   remainingCharacters: number = 0;
   initialRemainingCharacters: number = 0;
   selectsForm: FormGroup = new FormGroup({});
@@ -29,25 +29,6 @@ export class InsertTextComponent implements OnInit, AfterContentChecked {
     this.modeService.mode.subscribe((data: string) => {
       this.mode = data;
     })
-  }
-
-  ngOnInit() {
-    if ((this.data[0] as String).startsWith('<')) {
-      setTimeout(() => {
-        this.testo!.nativeElement!.innerHTML += this.data[0];
-      }, 1000)
-    } else {
-      this.separatedClasses += this.data[0];
-      setTimeout(() => {
-        this.testo.nativeElement.classList.add(this.data[0]);
-      }, 1000)
-    }
-    this.icons = this.data[1];
-    this.colors = this.data[2];
-    this.sizes = this.data[3];
-    this.remainingCharacters = this.data[4];
-    this.initialRemainingCharacters = this.data[4];
-    this.initializeForm();
   }
 
   selectItems(item: string) {
@@ -81,18 +62,18 @@ export class InsertTextComponent implements OnInit, AfterContentChecked {
   }
   calculateRemainingCharacters(descrizione: HTMLDivElement) {
     debugger
-    if (descrizione.innerHTML.includes('<del>')) {
-      if (!descrizione.innerHTML.startsWith('<del>')) {
-        descrizione.innerHTML = descrizione.innerHTML.replace('<del>', '');
-        descrizione.innerHTML = '<del>' + descrizione.innerHTML;
-      }
+    if (descrizione.innerHTML.includes('<del>') && descrizione.innerHTML.includes('<ul>')) {
+      descrizione.innerHTML = descrizione.innerHTML.replace('<del>', '');
+      descrizione.innerHTML = descrizione.innerHTML.replace('<ul>', '');
+      descrizione.innerHTML = '<del><ul>' + descrizione.innerHTML;
+    } else if (descrizione.innerHTML.includes('<del>')) {
+      descrizione.innerHTML = descrizione.innerHTML.replace('<del>', '');
+      descrizione.innerHTML = '<del>' + descrizione.innerHTML;
+    } else if (descrizione.innerHTML.includes('<u>')) {
+      descrizione.innerHTML = descrizione.innerHTML.replace('<u>', '');
+      descrizione.innerHTML = '<u>' + descrizione.innerHTML;
     }
-    if (descrizione.innerHTML.includes('<u>')) {
-      if (!descrizione.innerHTML.startsWith('<u>')) {
-        descrizione.innerHTML = descrizione.innerHTML.replace('<u>', '');
-        descrizione.innerHTML = '<u>' + descrizione.innerHTML;
-      }
-    }
+
     let checkTrick = (descrizione?.innerHTML === "<br>" && descrizione.innerHTML.length === 4) || descrizione.innerHTML.length == 0;
     let descrizioneLength = checkTrick ? 0 : descrizione?.innerText?.length;
     if (descrizione?.innerText?.length <= this.initialRemainingCharacters) {
@@ -130,7 +111,28 @@ export class InsertTextComponent implements OnInit, AfterContentChecked {
     });
     this.selectsForm.updateValueAndValidity();
   }
+  ngOnInit(): void {
+    this.initializeForm();
+    if ((this.data[0] as String).startsWith('<')) {
+      setTimeout(() => {
+        this.testo!.nativeElement!.innerHTML += this.data[0];
+      }, 1000)
+    } else {
+      this.separatedClasses += this.data[0];
+      setTimeout(() => {
+        this.testo.nativeElement.classList.add(this.data[0]);
+      }, 1000)
+    }
+    this.icons = this.data[1];
+    this.colors = this.data[2];
+    this.sizes = this.data[3];
+    this.remainingCharacters = this.data[4];
+    this.initialRemainingCharacters = this.data[4];
+  }
   ngAfterContentChecked(): void {
     this.cdr.detectChanges();
+  }
+  ngAfterViewChecked(): void {
+
   }
 }
