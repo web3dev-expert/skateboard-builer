@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ProfileServive } from '../../../../../services/profile.service';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
@@ -13,7 +13,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './insert-text.component.html',
   styleUrl: './insert-text.component.scss'
 })
-export class InsertTextComponent implements OnInit {
+export class InsertTextComponent implements OnInit, AfterContentChecked {
 
   icons: any[] = [];
   colors: any[] = [];
@@ -25,7 +25,7 @@ export class InsertTextComponent implements OnInit {
   initialRemainingCharacters: number = 0;
   selectsForm: FormGroup = new FormGroup({});
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private profiloService: ProfileServive, private toastr: ToastrService,
-    private modeService: ModeService, private matDialogRef: MatDialogRef<InsertTextComponent>) {
+    private modeService: ModeService, private matDialogRef: MatDialogRef<InsertTextComponent>, private cdr: ChangeDetectorRef) {
     this.modeService.mode.subscribe((data: string) => {
       this.mode = data;
     })
@@ -76,10 +76,11 @@ export class InsertTextComponent implements OnInit {
     if (!value) {
       this.matDialogRef.close(false);
     } else {
-      this.matDialogRef.close(this.testo?.nativeElement?.innerHTML);
+      this.matDialogRef.close(this.testo);
     }
   }
   calculateRemainingCharacters(descrizione: HTMLDivElement) {
+    debugger
     if (descrizione.innerHTML.includes('<del>')) {
       if (!descrizione.innerHTML.startsWith('<del>')) {
         descrizione.innerHTML = descrizione.innerHTML.replace('<del>', '');
@@ -128,5 +129,8 @@ export class InsertTextComponent implements OnInit {
       }
     });
     this.selectsForm.updateValueAndValidity();
+  }
+  ngAfterContentChecked(): void {
+    this.cdr.detectChanges();
   }
 }

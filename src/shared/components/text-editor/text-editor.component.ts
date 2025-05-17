@@ -1,5 +1,5 @@
 import { NgClass, NgFor } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ModeService } from '../../../services/mode.service';
 import { MatDialog } from '@angular/material/dialog';
 import { InsertTextComponent } from './components/insert-text/insert-text.component';
@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './text-editor.component.html',
   styleUrl: './text-editor.component.scss'
 })
-export class TextEditorComponent {
+export class TextEditorComponent implements AfterContentChecked{
   mode: string = 'light';
   icons: Set<{ value: string, label: string }> = new Set([
     { value: 'fw-bold', label: 'bi-type-bold' },
@@ -43,11 +43,11 @@ export class TextEditorComponent {
   ]);
   selectedItems: string[] = [];
   @Input() textareaInnerHTML: string = '';
-  @Output() sendUpdates: EventEmitter<string> = new EventEmitter<string>();
+  @Output() sendUpdates: EventEmitter<any> = new EventEmitter<any>();
   @Input() remainingCharacters: number = 0;
   previousValueC:string = 'text-dark';
   previousValueS:string = 'fs-6';
-  constructor(private modeService: ModeService, private matDialog: MatDialog, private toastr: ToastrService) {
+  constructor(private modeService: ModeService, private matDialog: MatDialog, private toastr: ToastrService, private cdr: ChangeDetectorRef) {
     this.modeService.mode.subscribe((data: string) => {
       this.mode = data;
     })
@@ -69,8 +69,8 @@ export class TextEditorComponent {
     })
   }
 
-  update(value: string) {
-    console.log(value)
+  update(value: any) {
+    console.log(value?.nativeElement)
     this.sendUpdates.emit(value);
   }
   clearSelectedItems(item: string) {
@@ -92,5 +92,9 @@ export class TextEditorComponent {
     }else{
       this.toastr.warning("What did you selected?");
     }
+  }
+
+  ngAfterContentChecked(): void {
+    this.cdr.detectChanges();
   }
 }
