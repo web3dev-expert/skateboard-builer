@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ProfileServive } from '../../../../../services/profile.service';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
@@ -75,7 +75,7 @@ export class InsertTextComponent implements OnInit {
   close(value?: boolean) {
     if (!value) {
       this.matDialogRef.close(false);
-    }else{
+    } else {
       this.matDialogRef.close(this.testo?.nativeElement?.innerHTML);
     }
   }
@@ -111,19 +111,19 @@ export class InsertTextComponent implements OnInit {
   selectedClasses() {
     return this.separatedClasses;
   }
-  initializeForm(){
-    this.selectsForm =  new FormGroup({
-    colors : new FormControl(''),
-    sizes: new FormControl('')
+  initializeForm() {
+    this.selectsForm = new FormGroup({
+      colors: new FormControl(''),
+      sizes: new FormControl('')
     });
 
-    this.colors.forEach(c=> {
-      if(c.value == this.data[0]){
+    this.colors.forEach(c => {
+      if (c.value == this.data[0]) {
         this.selectsForm.get('colors')?.setValue(this.data[0]);
       }
     });
-    this.sizes.forEach(s=> {
-      if(s.value == this.data[0]){
+    this.sizes.forEach(s => {
+      if (s.value == this.data[0]) {
         this.selectsForm.get('sizes')?.setValue(this.data[0]);
       }
     });

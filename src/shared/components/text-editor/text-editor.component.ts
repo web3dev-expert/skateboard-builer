@@ -80,9 +80,15 @@ export class TextEditorComponent {
     if(section=='color'){
       let color = document.getElementById('colors') as HTMLSelectElement;
       console.log(color.value,this.previousValueC)
+      if(color.value==this.previousValueC){
+        this.selectItems(value);
+      }
     }else if(section=='size'){
       let size = document.getElementById('sizes') as HTMLSelectElement;
       console.log(size.value, this.previousValueS)
+      if(size.value==this.previousValueS){
+        this.selectItems(value);
+      }
     }else{
       this.toastr.warning("What did you selected?");
     }
