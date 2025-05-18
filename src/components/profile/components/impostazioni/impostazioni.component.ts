@@ -1,5 +1,5 @@
 import { DatePipe, NgFor, NgIf } from '@angular/common';
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, Input, KeyValueChangeRecord, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { User } from '../../../../interfaces/interfaces';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -39,12 +39,26 @@ export class ImpostazioniComponent implements OnInit, OnDestroy, OnChanges {
   immagineForm: FormGroup = new FormGroup({});
   selectedImage: any = null;
   url: string = '';
-  constructor(private toastr: ToastrService, private profileService: ProfileServive, private datePipe: DatePipe, private matDialog: MatDialog, private formService: FormsService, private authService: AuthService) { }
+  @ViewChild('descrizione') descrizione!: HTMLDivElement;
+  constructor(private toastr: ToastrService, private profileService: ProfileServive, private datePipe: DatePipe, private matDialog: MatDialog,
+    private formService: FormsService, private authService: AuthService, private cdr: ChangeDetectorRef) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.section != 'Cambia la password') {
       this.codeForm.reset();
       this.cambiaPassword.reset();
+    }
+    if(this.section == 'Cambia altre informazioni'){
+      if (this.user?.descrizione) {
+        setTimeout(() => {
+          let div = document.createElement('div') as HTMLDivElement;
+          div.innerHTML = this.user!.descrizione;
+          this.descrizione.innerHTML += div.outerHTML;
+          this.cdr.detectChanges();
+          console.log(div);
+          console.log(this.descrizione);
+        }, 2000)
+      }
     }
   }
   ngOnDestroy(): void {
@@ -68,8 +82,7 @@ export class ImpostazioniComponent implements OnInit, OnDestroy, OnChanges {
     this.altreImpostazioniForm = new FormGroup({
       nome: new FormControl(this.user!.nome, Validators.required),
       cognome: new FormControl(this.user!.cognome, Validators.required),
-      citta: new FormControl(this.user!.citta.id, Validators.required),
-      descrizione: new FormControl(this.user!.descrizione, Validators.maxLength(5000))
+      citta: new FormControl(this.user!.citta.id, Validators.required)
     });
     this.cambiaPassword = new FormGroup({
       nuovaPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
@@ -261,18 +274,18 @@ export class ImpostazioniComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  putImage(){
-    if(this.selectedImage){
-    this.profileService.putImage(this.selectedImage).subscribe({
-      next:(data:any)=>{
-        this.authService.setUser(data);
-        this.authService.isAuthenticatedUser.next(true);
-        this.toastr.success("Immagine cambiata con successo.");
-        this.selectedImage = null;
-        this.url = '';
-      }
-    })
-    }else{
+  putImage() {
+    if (this.selectedImage) {
+      this.profileService.putImage(this.selectedImage).subscribe({
+        next: (data: any) => {
+          this.authService.setUser(data);
+          this.authService.isAuthenticatedUser.next(true);
+          this.toastr.success("Immagine cambiata con successo.");
+          this.selectedImage = null;
+          this.url = '';
+        }
+      })
+    } else {
       this.toastr.error("Non hai caricato nessuna nuova immagine.");
     }
   }

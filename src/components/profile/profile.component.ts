@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../interfaces/interfaces';
 import { ProfileServive } from '../../services/profile.service';
@@ -24,7 +24,7 @@ import { DescrizioneComponent } from './components/descrizione/descrizione.compo
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit ,AfterContentChecked{
   id: number = 0;
   visitedUser!: User | null;
   user!: User;
@@ -99,7 +99,7 @@ export class ProfileComponent implements OnInit {
   descrizioneForm: FormGroup = new FormGroup({});
   showMenu: boolean = false;
   constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService: GamefieldService, private matDialog: MatDialog,
-    public authService: AuthService, private modeService: ModeService, private httpClient: HttpClient, private toastr: ToastrService) {
+    public authService: AuthService, private modeService: ModeService, private httpClient: HttpClient, private toastr: ToastrService,private cdr:ChangeDetectorRef) {
     this.authService.isAuthenticatedUser.subscribe((bool: boolean) => {
       this.user = this.authService.getUser()!;
       if (this.visitedUser?.id == this.user?.id) {
@@ -292,5 +292,8 @@ export class ProfileComponent implements OnInit {
       return descr.innerHTML += div.outerHTML;
     }
     return;
+  }
+  ngAfterContentChecked(): void {
+    this.cdr.detectChanges();
   }
 }

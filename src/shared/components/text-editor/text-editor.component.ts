@@ -34,10 +34,9 @@ export class TextEditorComponent implements AfterContentChecked{
     { value: 'text-secondary', label: 'gray' }
   ]);
   sizes: Set<{ value: string, label: string }> = new Set([
-    { value: 'fs-6', label: 'smaller' },
-    { value: 'fs-5', label: 'small' },
-    { value: 'fs-4', label: 'medium small' },
-    { value: 'fs-3', label: 'medium big' },
+    { value: 'fs-5', label: 'smaller' },
+    { value: 'fs-4', label: 'small' },
+    { value: 'fs-3', label: 'medium' },
     { value: 'fs-2', label: 'big' },
     { value: 'fs-1', label: 'bigger' }
   ]);
