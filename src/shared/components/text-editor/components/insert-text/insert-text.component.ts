@@ -73,6 +73,7 @@ export class InsertTextComponent implements AfterContentChecked, AfterViewChecke
         this.testo.nativeElement.classList.remove(item);
         return;
       }
+      console.log(item);
       this.separatedClasses += (' ' + item);
       this.testo.nativeElement.classList.add(item);
     }
@@ -145,6 +146,7 @@ export class InsertTextComponent implements AfterContentChecked, AfterViewChecke
     this.sizes = this.data[3];
     this.remainingCharacters = this.data[4];
     this.initialRemainingCharacters = this.data[4];
+    this.initializeForm();
   }
   ngAfterContentChecked(): void {
     this.cdr.detectChanges();

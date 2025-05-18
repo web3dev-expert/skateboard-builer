@@ -50,6 +50,7 @@ export class DescrizioneComponent implements OnInit, AfterContentChecked {
   aggiungiDescrizione(descrizione: HTMLDivElement) {
     let checkTrick = (descrizione?.innerHTML === "<br>" && descrizione.innerHTML.length === 4) || descrizione.innerHTML.length == 0;
     if (!checkTrick) {
+      debugger
       this.profiloService.updateDescrizione(descrizione.innerHTML).subscribe({
         next: (resp: any) => {
           this.authService.setUser(resp);
