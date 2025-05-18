@@ -14,7 +14,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './insert-text.component.scss'
 })
 export class InsertTextComponent implements AfterContentChecked, AfterViewChecked, OnInit {
-
+  manuallyCopiedRange:any = null;
   icons: any[] = [];
   colors: any[] = [];
   sizes: any[] = [];
@@ -32,15 +32,42 @@ export class InsertTextComponent implements AfterContentChecked, AfterViewChecke
   }
 
   selectItems(item: string) {
-    if ((item as String).startsWith('<')) {
-      if (this.testo!.nativeElement!.innerHTML.includes(item.substring(0, item.indexOf('>') + 1))) {
-        this.testo!.nativeElement!.innerHTML = this.testo!.nativeElement!.innerHTML.replace(item.substring(0, item.indexOf('>') + 1), '');
-        this.testo!.nativeElement!.innerHTML = this.testo!.nativeElement!.innerHTML.replace(item.substring(item.lastIndexOf('<')));
+    if(item=='underline'|| item =='line-through'){
+      if(this.separatedClasses.includes(item)){
+        this.separatedClasses = this.separatedClasses.replace(item, '');
+        this.separatedClasses = this.separatedClasses.substring(0, this.separatedClasses.lastIndexOf(' '));
+        this.testo.nativeElement.classList.remove(item);
         return;
+      }else if(item=='underline'&& this.separatedClasses.includes('line-through')){
+        this.separatedClasses = this.separatedClasses.replace('line-through', '');
+        this.separatedClasses = this.separatedClasses.substring(0, this.separatedClasses.lastIndexOf(' '));
+        this.testo.nativeElement.classList.remove('line-through');
+        this.testo.nativeElement.classList.add('under-through');
+        this.separatedClasses += (' ' + 'under-through');
+      }else if(item=='line-through'&& this.separatedClasses.includes('underline')){
+        this.separatedClasses = this.separatedClasses.replace('underline', '');
+        this.separatedClasses = this.separatedClasses.substring(0, this.separatedClasses.lastIndexOf(' '));
+        this.testo.nativeElement.classList.remove('underline');
+        this.testo.nativeElement.classList.add('under-through');
+        this.separatedClasses += (' ' + 'under-through');
+      }else if(item=='underline'&& this.separatedClasses.includes('under-through')){
+        this.separatedClasses = this.separatedClasses.replace('under-through', '');
+        this.separatedClasses = this.separatedClasses.substring(0, this.separatedClasses.lastIndexOf(' '));
+        this.separatedClasses += (' ' + 'line-through');
+        this.testo.nativeElement.classList.remove('under-through');
+        this.testo.nativeElement.classList.add('line-through');
+      }else if(item=='line-through'&& this.separatedClasses.includes('under-through')){
+        this.separatedClasses = this.separatedClasses.replace('under-through', '');
+        this.separatedClasses = this.separatedClasses.substring(0, this.separatedClasses.lastIndexOf(' '));
+        this.separatedClasses += (' ' + 'underline');
+        this.testo.nativeElement.classList.remove('under-through');
+        this.testo.nativeElement.classList.add('underline');
+      }else{
+        this.testo.nativeElement.classList.add(item);
+        this.separatedClasses += (' ' + item);
       }
-      this.testo!.nativeElement!.innerHTML = item.substring(0, item.indexOf('>') + 1) + this.testo!.nativeElement!.innerHTML + item.substring(item.lastIndexOf('<'));
-    } else {
-      if (this.separatedClasses.includes(item)) {
+    }else{
+    if (this.separatedClasses.includes(item)) {
         this.separatedClasses = this.separatedClasses.replace(item, '');
         this.separatedClasses = this.separatedClasses.substring(0, this.separatedClasses.lastIndexOf(' '));
         this.testo.nativeElement.classList.remove(item);
@@ -61,19 +88,6 @@ export class InsertTextComponent implements AfterContentChecked, AfterViewChecke
     }
   }
   calculateRemainingCharacters(descrizione: HTMLDivElement) {
-    debugger
-    if (descrizione.innerHTML.includes('<del>') && descrizione.innerHTML.includes('<ul>')) {
-      descrizione.innerHTML = descrizione.innerHTML.replace('<del>', '');
-      descrizione.innerHTML = descrizione.innerHTML.replace('<ul>', '');
-      descrizione.innerHTML = '<del><ul>' + descrizione.innerHTML;
-    } else if (descrizione.innerHTML.includes('<del>')) {
-      descrizione.innerHTML = descrizione.innerHTML.replace('<del>', '');
-      descrizione.innerHTML = '<del>' + descrizione.innerHTML;
-    } else if (descrizione.innerHTML.includes('<u>')) {
-      descrizione.innerHTML = descrizione.innerHTML.replace('<u>', '');
-      descrizione.innerHTML = '<u>' + descrizione.innerHTML;
-    }
-
     let checkTrick = (descrizione?.innerHTML === "<br>" && descrizione.innerHTML.length === 4) || descrizione.innerHTML.length == 0;
     let descrizioneLength = checkTrick ? 0 : descrizione?.innerText?.length;
     if (descrizione?.innerText?.length <= this.initialRemainingCharacters) {
@@ -88,11 +102,9 @@ export class InsertTextComponent implements AfterContentChecked, AfterViewChecke
     if (checkTrick) {
       descrizione.innerHTML = '';
     }
+    
   }
 
-  selectedClasses() {
-    return this.separatedClasses;
-  }
   initializeForm() {
     this.selectsForm = new FormGroup({
       colors: new FormControl(''),
@@ -113,16 +125,10 @@ export class InsertTextComponent implements AfterContentChecked, AfterViewChecke
   }
   ngOnInit(): void {
     this.initializeForm();
-    if ((this.data[0] as String).startsWith('<')) {
-      setTimeout(() => {
-        this.testo!.nativeElement!.innerHTML += this.data[0];
-      }, 1000)
-    } else {
       this.separatedClasses += this.data[0];
       setTimeout(() => {
         this.testo.nativeElement.classList.add(this.data[0]);
       }, 1000)
-    }
     this.icons = this.data[1];
     this.colors = this.data[2];
     this.sizes = this.data[3];
