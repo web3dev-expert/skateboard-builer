@@ -283,5 +283,14 @@ export class ProfileComponent implements OnInit {
 
     }
   }
-
+  returnDescrizione: number = 0;
+  showDescrizione(descr: HTMLDivElement, descrizione: string) {
+    if (this.returnDescrizione < 1) {
+      let div = document.createElement('div') as HTMLDivElement;
+      div.innerHTML = descrizione;
+      this.returnDescrizione += 1;
+      return descr.innerHTML += div.outerHTML;
+    }
+    return;
+  }
 }

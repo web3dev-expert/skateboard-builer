@@ -79,7 +79,7 @@
                             </div> -->
                             <div class="col-md-12 py-5" *ngIf="visitedUser?.descrizione else noDescrizione">
                                 <p class="form-label fs-4 text-danger">Descrizione</p>
-                                <p class="fs-2 p-4">{{visitedUser?.descrizione}}</p>
+                                <div #descr>{{showDescrizione(descr,visitedUser!.descrizione)}}</div>
                             </div>
                             <ng-template #noDescrizione>
                                 <app-descrizione [visitedUser]="visitedUser">
