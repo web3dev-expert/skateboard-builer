@@ -70,7 +70,6 @@ export class TextEditorComponent implements AfterContentChecked{
   }
 
   update(value: any) {
-    console.log(value?.nativeElement)
     this.sendUpdates.emit(value);
   }
   clearSelectedItems(item: string) {
@@ -79,13 +78,11 @@ export class TextEditorComponent implements AfterContentChecked{
   checkValue(value:string,section:string){
     if(section=='color'){
       let color = document.getElementById('colors') as HTMLSelectElement;
-      console.log(color.value,this.previousValueC)
       if(color.value==this.previousValueC){
         this.selectItems(value);
       }
     }else if(section=='size'){
       let size = document.getElementById('sizes') as HTMLSelectElement;
-      console.log(size.value, this.previousValueS)
       if(size.value==this.previousValueS){
         this.selectItems(value);
       }

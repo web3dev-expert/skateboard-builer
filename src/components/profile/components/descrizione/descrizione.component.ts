@@ -64,7 +64,21 @@ export class DescrizioneComponent implements OnInit, AfterContentChecked {
   }
 
   onReceiveUpdatesFromTextEditor(event: any) {
- console.log(event);
+    
+    console.log(event.style)
+    console.log(event.classList)
+    console.log(event.textContent);
+    if (event.classList.contains('under-through')) {
+      event.style = 'text-decoration:underline line-through;';
+    } else if (event.classList.contains('underline')) {
+      event.style = 'text-decoration:underline;';
+    } else if (event.classList.contains('line-through')) {
+      event.style = 'text-decoration:line-through;';
+    }
+
+    let outerHTML = event.outerHTML.replaceAll('&amp;nbsp;',' ').replaceAll('&lt;div&gt;', "<div>").replaceAll('&lt;br&gt;', '<br>').replaceAll('&lt;/div&gt;',"<div>");
+    console.log(outerHTML)
+    this.descrizione!.nativeElement.innerHTML += outerHTML;
   }
 
   checkTextAreaElements() {
