@@ -6,12 +6,13 @@ import { ProfileServive } from '../../../../services/profile.service';
 import { AuthService } from '../../../../services/auth.service';
 import { User } from '../../../../interfaces/interfaces';
 import { ToastrService } from 'ngx-toastr';
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
+import { SharedModule } from '../../../../shared/modules/shared.module';
 
 @Component({
   selector: 'app-descrizione',
   standalone: true,
-  imports: [EmojiComponent, TextEditorComponent, ReactiveFormsModule, NgClass, EmojiComponent, TextEditorComponent],
+  imports: [EmojiComponent, TextEditorComponent, ReactiveFormsModule, NgClass, EmojiComponent, TextEditorComponent, NgIf, SharedModule],
   templateUrl: './descrizione.component.html',
   styleUrl: './descrizione.component.scss'
 })
@@ -22,11 +23,18 @@ export class DescrizioneComponent implements OnInit, AfterContentChecked {
   descrizioneInnerHTML: string = '';
   addedOptions: string[] = [];
   @ViewChild('descrizione') descrizione!: any;
+  isDescrizioneLoading: boolean = true;
   constructor(private profiloService: ProfileServive, private authService: AuthService, private toastr: ToastrService, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
-
+    setTimeout(() => {
+      this.isDescrizioneLoading = false;
+      setTimeout(() => {
+        this.descrizione.nativeElement.innerHTML = this.visitedUser?.descrizione;
+        this.calculateRemainingCharacters(this.descrizione.nativeElement);
+      }, 500)
+    }, 2000)
   }
 
 
@@ -50,13 +58,13 @@ export class DescrizioneComponent implements OnInit, AfterContentChecked {
   aggiungiDescrizione(descrizione: HTMLDivElement) {
     let checkTrick = (descrizione?.innerHTML === "<br>" && descrizione.innerHTML.length === 4) || descrizione.innerHTML.length == 0;
     if (!checkTrick) {
-      debugger
       this.profiloService.updateDescrizione(descrizione.innerHTML).subscribe({
         next: (resp: any) => {
           this.authService.setUser(resp);
           this.authService.authenticateUser(true);
           this.visitedUser = resp;
           localStorage.setItem('visitedUser', JSON.stringify(resp));
+          this.toastr.success("Descrizione aggiornata con successo.");
         }
       })
     } else {
@@ -65,10 +73,6 @@ export class DescrizioneComponent implements OnInit, AfterContentChecked {
   }
 
   onReceiveUpdatesFromTextEditor(event: any) {
-    
-    console.log(event.style)
-    console.log(event.classList)
-    console.log(event.textContent);
     if (event.classList.contains('under-through')) {
       event.style = 'text-decoration:underline line-through;';
     } else if (event.classList.contains('underline')) {
@@ -77,7 +81,7 @@ export class DescrizioneComponent implements OnInit, AfterContentChecked {
       event.style = 'text-decoration:line-through;';
     }
 
-    let outerHTML = event.outerHTML.replaceAll('&amp;nbsp;',' ').replaceAll('&lt;div&gt;', "<div>").replaceAll('&lt;br&gt;', '<br>').replaceAll('&lt;/div&gt;',"<div>");
+    let outerHTML = event.outerHTML.replaceAll('&amp;nbsp;', ' ').replaceAll('&lt;div&gt;', "<div>").replaceAll('&lt;br&gt;', '<br>').replaceAll('&lt;/div&gt;', "<div>");
     console.log(outerHTML)
     this.descrizione!.nativeElement.innerHTML += outerHTML;
   }

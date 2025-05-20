@@ -1,5 +1,5 @@
 import { DatePipe, NgFor, NgIf } from '@angular/common';
-import { AfterContentChecked, ChangeDetectorRef, Component, Input, KeyValueChangeRecord, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { User } from '../../../../interfaces/interfaces';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -9,11 +9,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { RichiestaComponent } from '../../../../shared/components/richiesta/richiesta.component';
 import { FormsService } from '../../../../services/forms.service';
 import { AuthService } from '../../../../services/auth.service';
+import { SharedModule } from '../../../../shared/modules/shared.module';
+import { InsertTextComponent } from '../../../../shared/components/text-editor/components/insert-text/insert-text.component';
 
 @Component({
   selector: 'app-impostazioni',
   standalone: true,
-  imports: [NgIf, ReactiveFormsModule, MatTooltipModule, NgFor],
+  imports: [NgIf, ReactiveFormsModule, MatTooltipModule, NgFor, SharedModule],
   templateUrl: './impostazioni.component.html',
   styleUrl: './impostazioni.component.scss'
 })
@@ -39,28 +41,45 @@ export class ImpostazioniComponent implements OnInit, OnDestroy, OnChanges {
   immagineForm: FormGroup = new FormGroup({});
   selectedImage: any = null;
   url: string = '';
-  @ViewChild('descrizione') descrizione!: HTMLDivElement;
+  @ViewChild('descrizione', { static: false }) descrizione!: any;
+  descrizioneUploaded: boolean = false;
+  descrizioneText: string = '';
+  icons: Set<{ value: string, label: string }> = new Set([
+    { value: 'fw-bold', label: 'bi-type-bold' },
+    { value: 'fst-italic', label: 'bi-type-italic' },
+    { value: 'underline', label: 'bi-type-underline' },
+    { value: 'line-through', label: 'bi-type-strikethrough' },
+    { value: 'text-center', label: 'bi-text-center' },
+    { value: 'text-start', label: 'bi-text-left' },
+    { value: 'text-end', label: 'bi-text-right' }
+  ]);
+  colors: Set<{ value: string, label: string }> = new Set([
+    { value: 'text-dark', label: 'dark' },
+    { value: 'text-white', label: 'white' },
+    { value: 'text-danger', label: 'red' },
+    { value: 'text-warning', label: 'yellow' },
+    { value: 'text-success', label: 'green' },
+    { value: 'text-primary', label: 'blue' },
+    { value: 'text-info', label: 'light blue' },
+    { value: 'text-secondary', label: 'gray' }
+  ]);
+  sizes: Set<{ value: string, label: string }> = new Set([
+    { value: 'fs-5', label: 'smaller' },
+    { value: 'fs-4', label: 'small' },
+    { value: 'fs-3', label: 'medium' },
+    { value: 'fs-2', label: 'big' },
+    { value: 'fs-1', label: 'bigger' }
+  ]);
   constructor(private toastr: ToastrService, private profileService: ProfileServive, private datePipe: DatePipe, private matDialog: MatDialog,
-    private formService: FormsService, private authService: AuthService, private cdr: ChangeDetectorRef) { }
+    private formService: FormsService, private authService: AuthService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.section != 'Cambia la password') {
       this.codeForm.reset();
       this.cambiaPassword.reset();
     }
-    if(this.section == 'Cambia altre informazioni'){
-      if (this.user?.descrizione) {
-        setTimeout(() => {
-          let div = document.createElement('div') as HTMLDivElement;
-          div.innerHTML = this.user!.descrizione;
-          this.descrizione.innerHTML += div.outerHTML;
-          this.cdr.detectChanges();
-          console.log(div);
-          console.log(this.descrizione);
-        }, 2000)
-      }
-    }
   }
+
   ngOnDestroy(): void {
     this.codeForm.reset();
     this.cambiaPassword.reset();
@@ -170,26 +189,27 @@ export class ImpostazioniComponent implements OnInit, OnDestroy, OnChanges {
     })
   }
   updateProfile() {
-    if (this.altreImpostazioniForm.valid) {
-      let user: any = {
-        nome: this.altreImpostazioniForm.get('nome')?.value,
-        cognome: this.altreImpostazioniForm.get('cognome')?.value,
-        cittaId: this.altreImpostazioniForm.get('citta')?.value,
-        descrizione: this.altreImpostazioniForm.get('descrizione')?.value,
-      }
+    console.log(this.descrizione)
+    // if (this.altreImpostazioniForm.valid) {
+    //   let user: any = {
+    //     nome: this.altreImpostazioniForm.get('nome')?.value,
+    //     cognome: this.altreImpostazioniForm.get('cognome')?.value,
+    //     cittaId: this.altreImpostazioniForm.get('citta')?.value,
+    //     descrizione: this.descrizione.nativeElement.innerHTML,
+    //   }
 
-      this.profileService.putUser(user, this.user!.id).subscribe({
-        next: (user: any) => {
-          this.user = user;
-          this.authService.setUser(user);
-          this.authService.isAuthenticatedUser.next(true);
-          this.toastr.success("Profilo aggiornato!");
-        }
-      })
+    //   this.profileService.putUser(user, this.user!.id).subscribe({
+    //     next: (user: any) => {
+    //       this.user = user;
+    //       this.authService.setUser(user);
+    //       this.authService.isAuthenticatedUser.next(true);
+    //       this.toastr.success("Profilo aggiornato!");
+    //     }
+    //   })
 
-    } else {
-      this.toastr.show("Completa correttamente il form");
-    }
+    // } else {
+    //   this.toastr.show("Completa correttamente il form");
+    // }
   }
   putPassword(form?: any) {
     if (this.cambiaPassword.valid) {

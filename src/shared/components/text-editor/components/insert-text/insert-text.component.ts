@@ -73,7 +73,6 @@ export class InsertTextComponent implements AfterContentChecked, AfterViewChecke
         this.testo.nativeElement.classList.remove(item);
         return;
       }
-      console.log(item);
       this.separatedClasses += (' ' + item);
       this.testo.nativeElement.classList.add(item);
     }

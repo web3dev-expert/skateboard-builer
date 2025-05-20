@@ -54,7 +54,7 @@ export class TextEditorComponent implements AfterContentChecked{
 
   selectItems(item: string) {
     
-    const dialogRef = this.matDialog.open(InsertTextComponent, { data: [item, this.icons, this.colors, this.sizes, this.remainingCharacters] });
+    const dialogRef = this.matDialog.open(InsertTextComponent, {data: [item, this.icons, this.colors, this.sizes, this.remainingCharacters] });
     dialogRef.afterClosed().subscribe((data: any) => {
       this.previousValueC = (document.getElementById('colors') as HTMLSelectElement).value
       this.previousValueS = (document.getElementById('sizes') as HTMLSelectElement).value

@@ -77,14 +77,10 @@
                             <!-- <div class="col-md-12 py-5">
                                 <app-leaflet [x]="cityX" [y]="cityY" *ngIf="cityX!=0&&cityY!=0"></app-leaflet>
                             </div> -->
-                            <div class="col-md-12 py-5" *ngIf="visitedUser?.descrizione else noDescrizione">
-                                <p class="form-label fs-4 text-danger">Descrizione</p>
-                                <div #descr>{{showDescrizione(descr,visitedUser!.descrizione)}}</div>
-                            </div>
-                            <ng-template #noDescrizione>
+                            <div>
                                 <app-descrizione [visitedUser]="visitedUser">
                                 </app-descrizione>
-                            </ng-template>
+                            </div>
                             <div class="map-container pt-5 mt-5" *ngIf="mapOptions">
                                 <google-map [options]="mapOptions" [width]="'100%'">
                                     <map-advanced-marker *ngFor="let marker of markers"

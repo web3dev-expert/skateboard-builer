@@ -217,6 +217,9 @@ export class ProfileComponent implements OnInit ,AfterContentChecked{
 
   switchSection(value: string) {
     this.section = value;
+    if(this.section!= 'Profilo'){
+      this.returnDescrizione = 0;
+    }
   }
 
   calculateEsito(esito: string): string {
