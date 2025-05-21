@@ -72,7 +72,7 @@
                             </div>
                             <div class="col-md-6 fs-2 p-4">
                                 <p class="fs-4 text-danger">Profilo creato in data</p>
-                                {{visitedUser?.createdAt}}
+                                {{formatDate(visitedUser!.createdAt)}}
                             </div>
                             <!-- <div class="col-md-12 py-5">
                                 <app-leaflet [x]="cityX" [y]="cityY" *ngIf="cityX!=0&&cityY!=0"></app-leaflet>

@@ -71,8 +71,9 @@ export class DescrizioneComponent implements OnInit, AfterContentChecked {
   }
 
   aggiungiDescrizione(descrizione: HTMLDivElement) {
-    let checkTrick = (descrizione?.innerHTML === "<br>" && descrizione.innerHTML.length === 4) || descrizione.innerHTML.length == 0;
-    if (!checkTrick) {
+    let checkTrick = (descrizione?.innerHTML === "<br>" && descrizione.innerHTML.length === 4);
+    if (checkTrick) descrizione.innerHTML = '';
+    if (descrizione.innerHTML.length <= 5000) {
       this.profiloService.updateDescrizione(
         {
           textAlignment:
@@ -91,11 +92,12 @@ export class DescrizioneComponent implements OnInit, AfterContentChecked {
           }
         })
     } else {
-      this.toastr.warning("Aggiungi una descrizione valida. Ricordati : \n " + " più di 0 caratteri, meno di 5000.")
+      this.toastr.warning("Aggiungi una descrizione valida. Ricordati : \n " + " meno di 5000 caratteri.")
     }
   }
 
   onReceiveUpdatesFromTextEditor(event: any) {
+    debugger
     if (event.classList.contains('under-through')) {
       event.style = 'text-decoration:underline line-through;';
     } else if (event.classList.contains('underline')) {
@@ -105,7 +107,6 @@ export class DescrizioneComponent implements OnInit, AfterContentChecked {
     }
 
     let outerHTML = event.outerHTML.replaceAll('&amp;nbsp;', ' ').replaceAll('&lt;div&gt;', "<div>").replaceAll('&lt;br&gt;', '<br>').replaceAll('&lt;/div&gt;', "<div>");
-    console.log(outerHTML)
     this.descrizione!.nativeElement.innerHTML += outerHTML;
   }
 
@@ -127,5 +128,10 @@ export class DescrizioneComponent implements OnInit, AfterContentChecked {
       }
       this.descrizione.nativeElement.classList.add(dClass);
     }
+  }
+
+  onReceiveEmoji(event: any) {
+    this.descrizione.nativeElement.innerText += event;
+    this.calculateRemainingCharacters(this.descrizione.nativeElement);
   }
 }

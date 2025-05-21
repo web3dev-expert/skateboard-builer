@@ -24,7 +24,7 @@ import { DescrizioneComponent } from './components/descrizione/descrizione.compo
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
-export class ProfileComponent implements OnInit ,AfterContentChecked{
+export class ProfileComponent implements OnInit, AfterContentChecked {
   id: number = 0;
   visitedUser!: User | null;
   user!: User;
@@ -99,7 +99,7 @@ export class ProfileComponent implements OnInit ,AfterContentChecked{
   descrizioneForm: FormGroup = new FormGroup({});
   showMenu: boolean = false;
   constructor(private route: ActivatedRoute, private router: Router, private profiloService: ProfileServive, private gamefieldService: GamefieldService, private matDialog: MatDialog,
-    public authService: AuthService, private modeService: ModeService, private httpClient: HttpClient, private toastr: ToastrService,private cdr:ChangeDetectorRef) {
+    public authService: AuthService, private modeService: ModeService, private httpClient: HttpClient, private toastr: ToastrService, private cdr: ChangeDetectorRef) {
     this.authService.isAuthenticatedUser.subscribe((bool: boolean) => {
       this.user = this.authService.getUser()!;
       if (this.visitedUser?.id == this.user?.id) {
@@ -217,7 +217,7 @@ export class ProfileComponent implements OnInit ,AfterContentChecked{
 
   switchSection(value: string) {
     this.section = value;
-    if(this.section!= 'Profilo'){
+    if (this.section != 'Profilo') {
       this.returnDescrizione = 0;
     }
   }
@@ -298,5 +298,9 @@ export class ProfileComponent implements OnInit ,AfterContentChecked{
   }
   ngAfterContentChecked(): void {
     this.cdr.detectChanges();
+  }
+  formatDate(date: string) {
+    let newDate = new Date(date);
+    return newDate.getDate()+'/'+newDate.getMonth()+1+'/'+newDate.getFullYear();
   }
 }
