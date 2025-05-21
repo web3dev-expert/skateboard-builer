@@ -43,5 +43,9 @@ export interface User {
         deletedAt: string
     }[],
     completed: boolean,
-    descrizione: string
+    descrizione: {
+        id: number,
+        textAlignment: string,
+        innerHTML: string
+    }
 }

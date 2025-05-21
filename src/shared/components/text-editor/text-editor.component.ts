@@ -18,10 +18,7 @@ export class TextEditorComponent implements AfterContentChecked{
     { value: 'fw-bold', label: 'bi-type-bold' },
     { value: 'fst-italic', label: 'bi-type-italic' },
     { value: 'underline', label: 'bi-type-underline' },
-    { value: 'line-through', label: 'bi-type-strikethrough' },
-    { value: 'text-center', label: 'bi-text-center' },
-    { value: 'text-start', label: 'bi-text-left' },
-    { value: 'text-end', label: 'bi-text-right' }
+    { value: 'line-through', label: 'bi-type-strikethrough' }
   ]);
   colors: Set<{ value: string, label: string }> = new Set([
     { value: 'text-dark', label: 'dark' },

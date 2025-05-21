@@ -93,7 +93,7 @@ export class ProfileServive {
         return this.http.put(environment.API_URL + this.user + this.profileImage, formData);
     }
 
-    updateDescrizione(descrizione: string) {
-        return this.http.put(environment.API_URL + this.user + "/descrizione", { descrizione: descrizione })
+    updateDescrizione(descrizione: {textAlignment:string,innerHTML:string}) {
+        return this.http.put(environment.API_URL + this.user + "/descrizione", descrizione)
     }
 }
