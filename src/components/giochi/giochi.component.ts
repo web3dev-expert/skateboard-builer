@@ -8,6 +8,7 @@ import { RecensioniComponent } from '../../shared/components/recensioni/recensio
 import { User } from '../../interfaces/interfaces';
 import { Router } from '@angular/router';
 import { RecensioneService } from '../../services/recensione.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-giochi',
@@ -37,8 +38,9 @@ export class GiochiComponent implements OnInit, OnDestroy {
   @Input() user: User | null = null;
   timeout: any = null;
   @Output() canSwitchLocation: EventEmitter<boolean> = new EventEmitter<boolean>(false);
-  @Input() mode:string = 'light';
-  constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router, private recensioniService: RecensioneService) { }
+  @Input() mode: string = 'light';
+  constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router,
+     private recensioniService: RecensioneService, private toastr:ToastrService) { }
 
   ngOnInit(): void {
     this.initializeGiocoForm();
@@ -65,6 +67,11 @@ export class GiochiComponent implements OnInit, OnDestroy {
       this.searchGiocoForm.get('sortOrder')?.value != null ?
       this.sortOrder = this.searchGiocoForm.get('sortOrder')?.value : ''
     this.isLoading = true;
+    setTimeout(()=>{
+      if(this.isLoading){
+        this.toastr.show("Ops... prova a refreshare la pagina!");
+      }
+    },6000)
     this.giochiService.searchGiochi(body, this.page, this.size, this.orderBy, this.sortOrder, true).pipe(throttleTime(1000)).subscribe({
       next: (data: any) => {
         if (!origin) data?.content?.map((g: any) => { this.giochi.push(g) })
