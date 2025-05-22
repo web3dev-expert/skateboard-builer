@@ -97,7 +97,6 @@ export class DescrizioneComponent implements OnInit, AfterContentChecked {
   }
 
   onReceiveUpdatesFromTextEditor(event: any) {
-    debugger
     if (event.classList.contains('under-through')) {
       event.style = 'text-decoration:underline line-through;';
     } else if (event.classList.contains('underline')) {
@@ -131,7 +130,7 @@ export class DescrizioneComponent implements OnInit, AfterContentChecked {
   }
 
   onReceiveEmoji(event: any) {
-    this.descrizione.nativeElement.innerText += event;
+    this.descrizione.nativeElement.innerHTML += event;
     this.calculateRemainingCharacters(this.descrizione.nativeElement);
   }
 }
