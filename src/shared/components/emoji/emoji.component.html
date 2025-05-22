@@ -8,12 +8,11 @@
         <div class="row">
             <div class="col-md-12 d-flex">
                 <form [formGroup]="searchEmojiesForm" class="w-75">
-                    <input type="text" class="form-control" formControlName="field" #field>
+                    <input type="text" class="form-control" formControlName="field" #field (input)="searchEmojies()">
                 </form>
-                <button class="btn border-0 pl-2" (click)="searchEmojies()">Cerca</button>
             </div>
         </div>
-        <div class="row" *ngIf="!emojiesSearched">
+        <div class="row" *ngIf="!emojiesSearched else searchedEmojies">
             <h2 class="col-md-12 text-start">Activities</h2>
             <div *ngFor="let a of activities index as i" class="col-2 fs-4">
                 <button class="btn boder-0 fs-4 p-0 emoji-button" (click)="emitEmoji(a.emoji)">
@@ -69,5 +68,17 @@
                 </button>
             </div>
         </div>
+        <ng-template #searchedEmojies>
+            <div class="row">
+                <div class="col-md-12 text-start">
+                <h2>Correspondant emojies</h2>
+                </div>
+                <div *ngFor="let e of emojies index as i" class="col-2 fs-4">
+                <button class="btn boder-0 fs-4 p-0 emoji-button" (click)="emitEmoji(e.emoji)">
+                    {{e.emoji}}
+                </button>
+            </div>
+            </div>
+        </ng-template>
     </div>
 </div>

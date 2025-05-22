@@ -3,17 +3,20 @@ import { Injectable } from "@angular/core";
 import { environment } from "../core/environment";
 
 @Injectable({
-    providedIn:'root'
+    providedIn: 'root'
 })
-export class EmojiService{
+export class EmojiService {
 
-    private emojies:string = '/emojies';
+    private emojies: string = '/emojies';
+    private title: string = '/title';
 
 
-constructor(private http:HttpClient){}
+    constructor(private http: HttpClient) { }
 
-    getAllEmojies(){
-        return this.http.get(environment.API_URL+this.emojies);
+    getAllEmojies() {
+        return this.http.get(environment.API_URL + this.emojies);
     }
-    
+    getByTitle(title: string) {
+        return this.http.get(environment.API_URL + this.emojies + this.title + '/' + title)
+    }
 }

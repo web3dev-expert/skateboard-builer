@@ -53,8 +53,12 @@ export class EmojiComponent implements OnInit {
   }
 
   searchEmojies() {
-    debugger
     if (this.searchEmojiesForm.valid) {
+      this.emojiService.getByTitle(this.searchEmojiesForm.controls['field'].value).subscribe({
+        next:(res:any)=>{
+          this.emojies = res;
+        }
+      })
       this.emojiesSearched = true;
     } else {
       this.emojiesSearched = false;
