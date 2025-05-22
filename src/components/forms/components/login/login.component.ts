@@ -272,7 +272,6 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
       const result = await signInWithPopup(this.auth, this.provider); 
       const user = result.user;
       if(user && user.emailVerified == true){
-        console.log("Let's authenticate!", user);
         let googleUser = {
           fullname: user.displayName,
           email: user.email,
