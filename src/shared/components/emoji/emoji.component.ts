@@ -55,7 +55,7 @@ export class EmojiComponent implements OnInit {
   searchEmojies() {
     if (this.searchEmojiesForm.valid) {
       this.emojiService.getByTitle(this.searchEmojiesForm.controls['field'].value).subscribe({
-        next:(res:any)=>{
+        next: (res: any) => {
           this.emojies = res;
         }
       })
@@ -65,7 +65,7 @@ export class EmojiComponent implements OnInit {
     }
   }
 
-  emitEmoji(emoji:string){
+  emitEmoji(emoji: string) {
     this.sendEmoji.emit(emoji);
   }
 }
