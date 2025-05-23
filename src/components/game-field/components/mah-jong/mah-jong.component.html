@@ -37,11 +37,11 @@
             </div>
             <div class="col-md-6">
                 <h2>Da sapere :</h2>
-                <ul class="m-auto">
-                    <li>
+                <ul class="m-auto text-start">
+                    <li class="p-1">
                         Questo gioco ha una difficoltà : {{gioco?.difficolta}} /5
                     </li>
-                    <li>
+                    <li class="p-1">
                         Puoi comunque impostare una difficoltà per questa partita, oltre alla difficoltà di base del
                         gioco.
                         <form [formGroup]="difficoltaPartita" class="d-flex justify-content-evenly">
@@ -52,6 +52,9 @@
                                 <option [value]="i" *ngFor="let i of difficoltaAvailables">{{i}}</option>
                             </select>
                         </form>
+                    </li>
+                    <li class="p-1">Verrà salvata una partita. Appena inizierai il gioco cliccando sul pulsante qui sotto "Avanti", inizierà una partita.
+                        A prescindere dal fatto se la completerai o no, noi la salveremo. Ovviamente, se non sarà completata, l'esito sarà : PERSA.
                     </li>
                 </ul>
             </div>
