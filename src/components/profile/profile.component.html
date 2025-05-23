@@ -93,7 +93,7 @@
                 <div *ngIf="section=='Recensioni'">
                     <div class="row text-center">
                         <div class="col-md-12">
-                            <h2>Recensioni</h2>
+                            <h2>Recensioni effettuate</h2>
                         </div>
                         <div class="col-md-12 d-flex justify-content-end">
                             <div class="p-1">
@@ -169,7 +169,7 @@
                 <div *ngIf="section=='Trofei'">
                     <div class="row">
                         <div class="col-md-12">
-                            <h2>Trofei</h2>
+                            <h2>Trofei vinti</h2>
                         </div>
                         <div class="col-md-12" *ngIf="!trofei || !trofei?.content || trofei?.content?.length==0">
                             <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">{{visitedUser?.fullName}} non ha
@@ -216,7 +216,7 @@
                     <div class="px-2">
                         <div class="row text-center">
                             <div class="col-md-12 p-3">
-                                <h2>Giochi </h2>
+                                <h2>Giochi utilizzati</h2>
                             </div>
                             <div class="col-md-6"></div>
                             <div class="col-md-6">
@@ -333,7 +333,7 @@
                 <div *ngIf="section=='Partite'">
                     <div class="row">
                         <div class="col-md-12 py-3" *ngIf="partite && partite?.content && partite?.contet?.size>0">
-                            <h2>Le tue partite</h2>
+                            <h2>Partite giocate</h2>
                         </div>
                         <div class="col-md-12" *ngIf="!partite || !partite?.content || partite?.content?.length == 0">
                             <h2 *ngIf="authService.getUser()!.id != visitedUser?.id">{{visitedUser?.fullName}} non ha

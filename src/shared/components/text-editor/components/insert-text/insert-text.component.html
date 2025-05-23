@@ -6,7 +6,7 @@
     </button>
     </p>
 </div>
-<div class="row text-start p-2" mat-dialog-content>
+<div class="row text-start p-2" mat-dialog-content [ngClass]="mode=='light'?'bg-light':'bg-dark'">
     <div class="col-md-12 p-1">
         <button class="btn shadow-none border-0" *ngFor="let i of icons" (click)="selectItems(i.value)">
             <i class="bi bi {{i.label}} h2" [ngClass]="mode=='light'?'text-dark':'text-light'"></i></button>
@@ -40,6 +40,6 @@
                     {{remainingCharacters}}
                 </span>
         </div>
-        <button class="btn" (click)="close(true)">Aggiungi</button>
+        <button class="btn" (click)="close(true)" [ngClass]="mode=='light'?'text-dark':'text-light'">Aggiungi</button>
     </div>
 </div>

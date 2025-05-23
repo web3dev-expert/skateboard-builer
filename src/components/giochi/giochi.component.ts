@@ -27,9 +27,9 @@ export class GiochiComponent implements OnInit, OnDestroy {
   orderBy: string = "id";
   sortOrder: string = "ASC";
   body: { nome: string, difficolta: number, punteggio: number } = {
-    nome: this.searchGiocoForm.get('nomeGioco')?.value,
-    difficolta: this.searchGiocoForm.get('difficolta')?.value,
-    punteggio: this.searchGiocoForm.get('punteggioRecensioniDa')?.value
+    nome: this.searchGiocoForm.get('nomeGioco')?.value||null,
+    difficolta: this.searchGiocoForm.get('difficolta')?.value||null,
+    punteggio: this.searchGiocoForm.get('punteggioRecensioniDa')?.value||null
   };
   isLoading: boolean = false;
   maxPages: number = 1;
