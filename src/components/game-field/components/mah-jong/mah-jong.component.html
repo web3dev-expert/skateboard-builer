@@ -1,1 +1,60 @@
-<p>mah-jong works!</p>
+<div class="row text-center">
+    <div class="col-md-12">
+        <h1>{{gioco?.nomeGioco}}</h1>
+    </div>
+    <div class="col-md-12" *ngIf="step == 1">
+
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Regole del gioco</h2>
+                <ol class="fs-5 text-start">
+                    <li class="py-1">
+                        <span class="fw-bold"><i class="bi bi-suit-club-fill text-danger p-1"></i>
+                            <i class="bi bi-suit-club-fill text-danger p-1"></i> Abbinamento: </span> Rimuovi coppie di
+                        tessere identiche, che non siano bloccate da altre tessere.
+                    </li>
+                    <li class="py-1">
+                        <span class="fw-bold"> <i class="bi bi-unlock-fill text-warning p-1"></i> Tessere libere:
+                        </span> Le tessere
+                        libere sono quelle che hanno almeno due lati liberi da altre tessere.
+                    </li>
+                    <li class="py-1">
+                        <span class="fw-bold"><i class="bi bi-check2-all text-success p-1"></i> Risolvere il puzzle:
+                        </span> Lo scopo è eliminare tutte le tessere dal
+                        tabellone.
+                    </li>
+                    <li class="py-1">
+                        <span class="fw-bold"><i class="bi bi-hand-index-thumb-fill text-danger-emphasis p-1"></i>
+                            Esecuzione: </span> Tocca o fai scorrere le tessere corrispondenti per
+                        rimuoverle.
+                    </li>
+                    <li class="py-1">
+                        <span class="fw-bold"><i class="bi bi-arrow-clockwise text-info p-1"></i> Rimescolamento:
+                        </span> In alcune versioni, è possibile rimescolare le
+                        tessere rimaste se si è bloccati.
+                    </li>
+                </ol>
+            </div>
+            <div class="col-md-6">
+                <h2>Da sapere :</h2>
+                <ul class="m-auto">
+                    <li>
+                        Questo gioco ha una difficoltà : {{gioco?.difficolta}} /5
+                    </li>
+                    <li>
+                        Puoi comunque impostare una difficoltà per questa partita, oltre alla difficoltà di base del
+                        gioco.
+                        <form [formGroup]="difficoltaPartita" class="d-flex justify-content-evenly">
+                            <p>Difficoltà partita:
+                            </p>
+                            <select name="difficolta" id="difficolta" formControlName="difficolta"
+                                class="form-select w-25">
+                                <option [value]="i" *ngFor="let i of difficoltaAvailables">{{i}}</option>
+                            </select>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

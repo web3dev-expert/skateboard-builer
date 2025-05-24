@@ -3,11 +3,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TrisComponent } from './components/tris/tris.component';
 import { MemoryComponent } from './components/memory/memory.component';
+import { MahJongComponent } from './components/mah-jong/mah-jong.component';
 
 @Component({
   selector: 'app-game-field',
   standalone: true,
-  imports: [NgIf,TrisComponent,MemoryComponent],
+  imports: [NgIf,TrisComponent,MemoryComponent,MahJongComponent],
   templateUrl: './game-field.component.html',
   styleUrl: './game-field.component.scss'
 })

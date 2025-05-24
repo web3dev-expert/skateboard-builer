@@ -69,7 +69,8 @@ export class GiochiComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     setTimeout(()=>{
       if(this.isLoading){
-        this.toastr.show("Ops... prova a refreshare la pagina!");
+        window.location.reload();
+        this.toastr.show("Abbiamo refreshato la pagina per te!");
       }
     },6000)
     this.giochiService.searchGiochi(body, this.page, this.size, this.orderBy, this.sortOrder, true).pipe(throttleTime(1000)).subscribe({

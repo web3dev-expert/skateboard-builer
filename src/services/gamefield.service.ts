@@ -51,4 +51,7 @@ export class GamefieldService {
   getGiochiByUser(userId: number) {
     return this.http.get(environment.API_URL + this.byGioco + this.byUser + `Id`)
   }
+  getGiocoById(giocoId:number){
+    return this.http.get(environment.API_URL+this.byGioco+'/'+giocoId)
+  }
 }
