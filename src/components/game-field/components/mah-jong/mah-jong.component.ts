@@ -5,11 +5,12 @@ import { User } from '../../../../interfaces/interfaces';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { GiochiService } from '../../../../services/giochi.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-mah-jong',
   standalone: true,
-  imports: [NgIf, NgFor, ReactiveFormsModule, NgClass],
+  imports: [NgIf, NgFor, ReactiveFormsModule, NgClass, MatTooltipModule],
   templateUrl: './mah-jong.component.html',
   styleUrl: './mah-jong.component.scss'
 })
