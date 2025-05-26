@@ -44,21 +44,26 @@
                     <li class="p-1">
                         Puoi comunque impostare una difficoltà per questa partita, oltre alla difficoltà di base del
                         gioco.
-                        <form [formGroup]="difficoltaPartita" class="d-flex justify-content-evenly">
+                        <form [formGroup]="difficoltaPartitaForm" class="d-flex justify-content-evenly">
                             <p>Difficoltà partita:
                                 <span>
                                     <i class="bi bi-1-circle-fill h5 p-1"
                                         [ngClass]="toNumber(difficolta.value)==1?'text-success':
-                                    toNumber(difficolta.value)==2?'text-warning':toNumber(difficolta.value)==3?'text-danger':''"
-                                        *ngIf="toNumber(difficolta.value)>=1"></i>
-                                    <i class="bi bi-2-circle h5 p-1" *ngIf="toNumber(difficolta.value)<2"></i>
+                                    toNumber(difficolta.value)==2?'text-warning':toNumber(difficolta.value)==3?'text-danger'
+                                    :toNumber(difficolta.value)==4?'text-super-danger':''"
+                                        *ngIf="toNumber(difficolta.value)>=1" (click)="setDifficolta(1)"></i>
+                                    <i class="bi bi-2-circle h5 p-1" *ngIf="toNumber(difficolta.value)<2" (click)="setDifficolta(2)"></i>
                                     <i class="bi bi-2-circle-fill h5 p-1"
-                                        [ngClass]="toNumber(difficolta.value)==2?'text-warning':toNumber(difficolta.value)==3?'text-danger':''"
-                                        *ngIf="toNumber(difficolta.value)>1"></i>
-                                    <i class="bi bi-3-circle h5 p-1" *ngIf="toNumber(difficolta.value)<3"></i>
+                                        [ngClass]="toNumber(difficolta.value)==2?'text-warning':toNumber(difficolta.value)==3?'text-danger'
+                                        :toNumber(difficolta.value)==4?'text-super-danger':''"
+                                        *ngIf="toNumber(difficolta.value)>1" (click)="setDifficolta(2)"></i>
+                                    <i class="bi bi-3-circle h5 p-1" *ngIf="toNumber(difficolta.value)<3" (click)="setDifficolta(3)"></i>
                                     <i class="bi bi-3-circle-fill h5 p-1"
-                                        [ngClass]="toNumber(difficolta.value)==3?'text-danger':''"
-                                        *ngIf="toNumber(difficolta.value)>2"></i>
+                                        [ngClass]="toNumber(difficolta.value)==3?'text-danger':toNumber(difficolta.value)==4?'text-super-danger':''"
+                                        *ngIf="toNumber(difficolta.value)>2" (click)="setDifficolta(3)"></i>
+                                        <i class="bi bi-4-circle h5 p-1" *ngIf="toNumber(difficolta.value)<4" (click)="setDifficolta(4)"></i>
+                                    <i class="bi bi-4-circle-fill h5 p-1 text-super-danger"
+                                        *ngIf="toNumber(difficolta.value)>3" (click)="setDifficolta(4)"></i>
                                 </span>
                             </p>
                             <select name="difficolta" id="difficolta" formControlName="difficolta" #difficolta

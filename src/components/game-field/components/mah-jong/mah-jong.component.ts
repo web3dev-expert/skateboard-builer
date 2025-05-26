@@ -19,8 +19,8 @@ export class MahJongComponent implements OnInit {
   user: User | null = null;
   step: number = 1;
   gioco: any = null;
-  difficoltaPartita: FormGroup = new FormGroup({});
-  difficoltaAvailables: number[] = [1, 2, 3];
+  difficoltaPartitaForm: FormGroup = new FormGroup({});
+  difficoltaAvailables: number[] = [1, 2, 3, 4];
   constructor(private gameFieldService: GamefieldService, private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -30,7 +30,7 @@ export class MahJongComponent implements OnInit {
   }
 
   initializeForms() {
-    this.difficoltaPartita = new FormGroup({
+    this.difficoltaPartitaForm = new FormGroup({
       difficolta: new FormControl(1, [Validators.required, Validators.min(1), Validators.max(3)])
     });
   }
@@ -41,7 +41,11 @@ export class MahJongComponent implements OnInit {
       }
     });
   }
-  toNumber(value:string){
+  toNumber(value: string) {
     return Number(value);
+  }
+  setDifficolta(value: number) {
+    this.difficoltaPartitaForm.controls['difficolta'].setValue(value);
+    this.difficoltaPartitaForm.updateValueAndValidity();
   }
 }
