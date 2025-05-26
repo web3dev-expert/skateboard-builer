@@ -27,9 +27,9 @@ export class GiochiComponent implements OnInit, OnDestroy {
   orderBy: string = "id";
   sortOrder: string = "ASC";
   body: { nome: string, difficolta: number, punteggio: number } = {
-    nome: this.searchGiocoForm.get('nomeGioco')?.value||null,
-    difficolta: this.searchGiocoForm.get('difficolta')?.value||null,
-    punteggio: this.searchGiocoForm.get('punteggioRecensioniDa')?.value||null
+    nome: this.searchGiocoForm.get('nomeGioco')?.value || null,
+    difficolta: this.searchGiocoForm.get('difficolta')?.value || null,
+    punteggio: this.searchGiocoForm.get('punteggioRecensioniDa')?.value || null
   };
   isLoading: boolean = false;
   maxPages: number = 1;
@@ -40,7 +40,7 @@ export class GiochiComponent implements OnInit, OnDestroy {
   @Output() canSwitchLocation: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   @Input() mode: string = 'light';
   constructor(private giochiService: GiochiService, private matDialog: MatDialog, private router: Router,
-     private recensioniService: RecensioneService, private toastr:ToastrService) { }
+    private recensioniService: RecensioneService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.initializeGiocoForm();
@@ -67,12 +67,12 @@ export class GiochiComponent implements OnInit, OnDestroy {
       this.searchGiocoForm.get('sortOrder')?.value != null ?
       this.sortOrder = this.searchGiocoForm.get('sortOrder')?.value : ''
     this.isLoading = true;
-    setTimeout(()=>{
-      if(this.isLoading){
+    setTimeout(() => {
+      if (this.isLoading) {
         window.location.reload();
         this.toastr.show("Abbiamo refreshato la pagina per te!");
       }
-    },6000)
+    }, 6000)
     this.giochiService.searchGiochi(body, this.page, this.size, this.orderBy, this.sortOrder, true).pipe(throttleTime(1000)).subscribe({
       next: (data: any) => {
         if (!origin) data?.content?.map((g: any) => { this.giochi.push(g) })
@@ -184,5 +184,11 @@ export class GiochiComponent implements OnInit, OnDestroy {
         }
       }
     })
+  }
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: any) {
+    if (event && event?.code && event?.code == 'Enter') {
+      this.searchGiochi('yes');
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, HostListener, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../interfaces/interfaces';
 import { ModeService } from '../../services/mode.service';
