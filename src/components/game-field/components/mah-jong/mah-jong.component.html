@@ -3,7 +3,6 @@
         <h1>{{gioco?.nomeGioco}}</h1>
     </div>
     <div class="col-md-12" *ngIf="step == 1">
-
         <div class="row">
             <div class="col-md-6">
                 <h2>Regole del gioco</h2>
@@ -47,21 +46,22 @@
                         <form [formGroup]="difficoltaPartitaForm" class="d-flex justify-content-evenly">
                             <p>Difficoltà partita:
                                 <span>
-                                    <i class="bi bi-1-circle-fill h5 p-1"
-                                        [ngClass]="toNumber(difficolta.value)==1?'text-success':
+                                    <i class="bi bi-1-circle-fill h5 p-1" [ngClass]="toNumber(difficolta.value)==1?'text-success':
                                     toNumber(difficolta.value)==2?'text-warning':toNumber(difficolta.value)==3?'text-danger'
                                     :toNumber(difficolta.value)==4?'text-super-danger':''"
                                         *ngIf="toNumber(difficolta.value)>=1" (click)="setDifficolta(1)"></i>
-                                    <i class="bi bi-2-circle h5 p-1" *ngIf="toNumber(difficolta.value)<2" (click)="setDifficolta(2)"></i>
-                                    <i class="bi bi-2-circle-fill h5 p-1"
-                                        [ngClass]="toNumber(difficolta.value)==2?'text-warning':toNumber(difficolta.value)==3?'text-danger'
+                                    <i class="bi bi-2-circle h5 p-1" *ngIf="toNumber(difficolta.value)<2"
+                                        (click)="setDifficolta(2)"></i>
+                                    <i class="bi bi-2-circle-fill h5 p-1" [ngClass]="toNumber(difficolta.value)==2?'text-warning':toNumber(difficolta.value)==3?'text-danger'
                                         :toNumber(difficolta.value)==4?'text-super-danger':''"
                                         *ngIf="toNumber(difficolta.value)>1" (click)="setDifficolta(2)"></i>
-                                    <i class="bi bi-3-circle h5 p-1" *ngIf="toNumber(difficolta.value)<3" (click)="setDifficolta(3)"></i>
+                                    <i class="bi bi-3-circle h5 p-1" *ngIf="toNumber(difficolta.value)<3"
+                                        (click)="setDifficolta(3)"></i>
                                     <i class="bi bi-3-circle-fill h5 p-1"
                                         [ngClass]="toNumber(difficolta.value)==3?'text-danger':toNumber(difficolta.value)==4?'text-super-danger':''"
                                         *ngIf="toNumber(difficolta.value)>2" (click)="setDifficolta(3)"></i>
-                                        <i class="bi bi-4-circle h5 p-1" *ngIf="toNumber(difficolta.value)<4" (click)="setDifficolta(4)"></i>
+                                    <i class="bi bi-4-circle h5 p-1" *ngIf="toNumber(difficolta.value)<4"
+                                        (click)="setDifficolta(4)"></i>
                                     <i class="bi bi-4-circle-fill h5 p-1 text-super-danger"
                                         *ngIf="toNumber(difficolta.value)>3" (click)="setDifficolta(4)"></i>
                                 </span>
@@ -80,8 +80,16 @@
                 </ul>
             </div>
             <div class="col-md-12 pt-3">
-                <button class="btn border-0 shadow-none btn-warning" matTooltip="Distribuisci tessere" matTooltipPosition="above"> Inizia</button>
+                <button class="btn border-0 shadow-none btn-warning" matTooltip="Distribuisci tessere"
+                    matTooltipPosition="above" (click)="letsPlay()"> Inizia</button>
             </div>
         </div>
+    </div>
+    <div class="col-md-12" *ngIf="step==2">
+<div class="row">
+    <div class="col-md-12 text-start">
+        <button class="btn btn-warning" (click)="indietro()">Indietro</button>
+    </div>
+</div>
     </div>
 </div>
