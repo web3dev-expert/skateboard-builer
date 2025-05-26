@@ -53,8 +53,7 @@ export class MahJongComponent implements OnInit, OnDestroy {
     this.step = 2;
     this.startCount = true;
     this.countTimer = setTimeout(()=>{
-      this.startCount = true;
-      console.log(this.startCount)
+      this.startCount = false;
     },4000)
   }
   indietro(){

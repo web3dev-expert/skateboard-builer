@@ -1,13 +1,142 @@
 @import url('../../../../shared/style/style.scss');
 
 
-ul{
-    list-style-type:lower-greek;
+ul {
+    list-style-type: lower-greek;
     width: fit-content;
 }
-.text-super-danger{
+
+.text-super-danger {
     color: rgb(104, 0, 0);
 }
-i{
+
+i {
     cursor: pointer;
+}
+
+.position-relative {
+    height: 300px;
+}
+
+.one {
+    animation-name: one;
+    animation-duration: 4s;
+    animation-iteration-count: 1;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+}
+
+.two {
+    animation-name: two;
+    animation-duration: 4s;
+    animation-iteration-count: 1;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+}
+
+.three {
+    animation-name: three;
+    animation-duration: 4s;
+    animation-iteration-count: 1;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    visibility: hidden;
+}
+
+@keyframes one {
+    0%{
+        visibility: hidden;
+    }
+    4% {
+        visibility: visible;
+        scale: 0.1;
+        color: rgba(0, 0, 0, .1);
+    }
+
+    15% {
+        scale: 1.5;
+        color: rgba(0, 0, 0, 1);
+    }
+
+    30% {
+        scale: 0.1;
+        color: rgba(0, 0, 0, .1);
+    }
+
+    33% {
+        visibility: hidden;
+
+    }
+
+    100% {
+        visibility: hidden;
+    }
+}
+
+@keyframes two {
+    0% {
+        visibility: hidden;
+    }
+
+    30% {
+        visibility: hidden;
+    }
+
+    31% {
+        visibility: visible;
+        scale: 0.1;
+        color: rgba(0, 0, 0, .1);
+    }
+
+    48% {
+        scale: 1.5;
+        color: rgba(0, 0, 0, 1);
+    }
+
+    60% {
+        scale: 0.1;
+        color: rgba(0, 0, 0, .1);
+    }
+
+    66% {
+        visibility: hidden;
+    }
+
+    100% {
+        visibility: hidden;
+    }
+}
+
+@keyframes three {
+    0% {
+        visibility: hidden;
+    }
+
+    63% {
+        visibility: hidden;
+    }
+
+    64% {
+        visibility: visible;
+        scale: 0.1;
+        color: rgba(0, 0, 0, .1);
+    }
+
+    81% {
+        scale: 1.5;
+        color: rgba(0, 0, 0, 1);
+    }
+
+    90% {
+        scale: 0.1;
+        color: rgba(0, 0, 0, .1);
+    }
+
+    100% {
+        scale: 0;
+        visibility: hidden;
+    }
 }
