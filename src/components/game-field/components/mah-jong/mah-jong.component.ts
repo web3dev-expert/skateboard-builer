@@ -2,14 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { GamefieldService } from '../../../../services/gamefield.service';
 import { AuthService } from '../../../../services/auth.service';
 import { User } from '../../../../interfaces/interfaces';
-import { NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { GiochiService } from '../../../../services/giochi.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-mah-jong',
   standalone: true,
-  imports: [NgIf, NgFor, ReactiveFormsModule],
+  imports: [NgIf, NgFor, ReactiveFormsModule, NgClass],
   templateUrl: './mah-jong.component.html',
   styleUrl: './mah-jong.component.scss'
 })
@@ -39,5 +39,8 @@ export class MahJongComponent implements OnInit {
         this.gioco = value;
       }
     });
+  }
+  toNumber(value:string){
+    return Number(value);
   }
 }

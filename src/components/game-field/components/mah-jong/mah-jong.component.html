@@ -46,15 +46,31 @@
                         gioco.
                         <form [formGroup]="difficoltaPartita" class="d-flex justify-content-evenly">
                             <p>Difficoltà partita:
+                                <span>
+                                    <i class="bi bi-1-circle-fill h5 p-1"
+                                        [ngClass]="toNumber(difficolta.value)==1?'text-success':
+                                    toNumber(difficolta.value)==2?'text-warning':toNumber(difficolta.value)==3?'text-danger':''"
+                                        *ngIf="toNumber(difficolta.value)>=1"></i>
+                                    <i class="bi bi-2-circle h5 p-1" *ngIf="toNumber(difficolta.value)<2"></i>
+                                    <i class="bi bi-2-circle-fill h5 p-1"
+                                        [ngClass]="toNumber(difficolta.value)==2?'text-warning':toNumber(difficolta.value)==3?'text-danger':''"
+                                        *ngIf="toNumber(difficolta.value)>1"></i>
+                                    <i class="bi bi-3-circle h5 p-1" *ngIf="toNumber(difficolta.value)<3"></i>
+                                    <i class="bi bi-3-circle-fill h5 p-1"
+                                        [ngClass]="toNumber(difficolta.value)==3?'text-danger':''"
+                                        *ngIf="toNumber(difficolta.value)>2"></i>
+                                </span>
                             </p>
-                            <select name="difficolta" id="difficolta" formControlName="difficolta"
+                            <select name="difficolta" id="difficolta" formControlName="difficolta" #difficolta
                                 class="form-select w-25">
                                 <option [value]="i" *ngFor="let i of difficoltaAvailables">{{i}}</option>
                             </select>
                         </form>
                     </li>
-                    <li class="p-1">Verrà salvata una partita. Appena inizierai il gioco cliccando sul pulsante qui sotto "Avanti", inizierà una partita.
-                        A prescindere dal fatto se la completerai o no, noi la salveremo. Ovviamente, se non sarà completata, l'esito sarà : <span class="text-danger">PERSA</span>
+                    <li class="p-1">Verrà salvata una partita. Appena inizierai il gioco cliccando sul pulsante qui
+                        sotto "Avanti", inizierà una partita.
+                        A prescindere dal fatto se la completerai o no, noi la salveremo. Ovviamente, se non sarà
+                        completata, l'esito sarà : <span class="text-danger">PERSA</span>
                     </li>
                 </ul>
             </div>
