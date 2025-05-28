@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, KeyValueChangeRecord, OnDestroy, OnInit } from '@angular/core';
 import { GamefieldService } from '../../../../services/gamefield.service';
 import { AuthService } from '../../../../services/auth.service';
 import { User } from '../../../../interfaces/interfaces';
@@ -21,8 +21,8 @@ export class MahJongComponent implements OnInit, OnDestroy {
   difficoltaPartitaForm: FormGroup = new FormGroup({});
   difficoltaAvailables: number[] = [1, 2, 3, 4];
   startCount: boolean = false;
-  countTimer:any;
-  constructor(private gameFieldService: GamefieldService, private authService: AuthService) { }
+  countTimer: any;
+  constructor(private gameFieldService: GamefieldService, private authService: AuthService, private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
@@ -52,14 +52,15 @@ export class MahJongComponent implements OnInit, OnDestroy {
   letsPlay() {
     this.step = 2;
     this.startCount = true;
-    this.countTimer = setTimeout(()=>{
+    this.countTimer = setTimeout(() => {
       this.startCount = false;
-    },4000)
+    }, 4000)
   }
-  indietro(){
-    this.step = 1;
+  indietro() {
     clearTimeout(this.countTimer)
     this.startCount = false;
+    this.step = 1;
+    this.changeDetectorRef.detectChanges();
   }
   ngOnDestroy(): void {
     clearTimeout(this.countTimer)

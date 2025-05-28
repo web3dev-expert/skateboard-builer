@@ -49,6 +49,7 @@ i {
 @keyframes one {
     0%{
         visibility: hidden;
+        scale: 0;
     }
     4% {
         visibility: visible;
