@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, KeyValueChangeRecord, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { GamefieldService } from '../../../../services/gamefield.service';
 import { AuthService } from '../../../../services/auth.service';
 import { User } from '../../../../interfaces/interfaces';
@@ -13,7 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   templateUrl: './mah-jong.component.html',
   styleUrl: './mah-jong.component.scss'
 })
-export class MahJongComponent implements OnInit, OnDestroy {
+export class MahJongComponent implements OnInit, OnDestroy, AfterContentChecked {
   @Input() game: number = 0;
   user: User | null = null;
   step: number = 1;
@@ -22,6 +22,12 @@ export class MahJongComponent implements OnInit, OnDestroy {
   difficoltaAvailables: number[] = [1, 2, 3, 4];
   startCount: boolean = false;
   countTimer: any;
+  firstFloor: string[] = [];
+  secondFloor: string[] = [];
+  thirdFloor: string[] = [];
+  fourthFloor: string[] = [];
+  allCards: string[] = [];
+  mixedAllCards: string[] = [];
   constructor(private gameFieldService: GamefieldService, private authService: AuthService, private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
@@ -54,6 +60,7 @@ export class MahJongComponent implements OnInit, OnDestroy {
     this.startCount = true;
     this.countTimer = setTimeout(() => {
       this.startCount = false;
+      this.giveCards();
     }, 4000)
   }
   indietro() {
@@ -64,5 +71,47 @@ export class MahJongComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     clearTimeout(this.countTimer)
+  }
+  giveCards() {
+    for (let i = 0; i <= 1; i++) {
+      for (let a = 0; a <= 31; a++) {
+        this.firstFloor.push('A' + a);
+      }
+    }
+    for (let a = 0; a <= 1; a++) {
+      for (let i = 0; i <= 21; i++) {
+        this.secondFloor.push('B' + i);
+      }
+    }
+    for (let a = 0; a <= 1; a++) {
+      for (let i = 0; i <= 16; i++) {
+        this.thirdFloor.push('C' + i);
+      }
+    }
+    for (let a = 0; a <= 1; a++) {
+      for (let i = 0; i <= 4; i++) {
+        this.fourthFloor.push('D' + i)
+      }
+    }
+    this.allCards.push(...this.firstFloor);
+    this.allCards.push(...this.secondFloor);
+    this.allCards.push(...this.thirdFloor);
+    this.allCards.push(...this.fourthFloor);
+
+
+    this.mixAllCards();
+  }
+
+  mixAllCards() {
+    while (this.allCards.length>0) {
+        let randomNumber = Math.floor(Math.random() * this.allCards.length);
+        let randomCard = this.allCards[randomNumber];
+        this.mixedAllCards.push(randomCard);
+        this.allCards = this.allCards.filter((i => v => v !== randomCard || --i)(1));
+      }
+      console.log(this.mixedAllCards)
+  }
+  ngAfterContentChecked(): void {
+    this.changeDetectorRef.detectChanges();
   }
 }
