@@ -1,4 +1,4 @@
-import { AfterContentChecked, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { GamefieldService } from '../../../../services/gamefield.service';
 import { AuthService } from '../../../../services/auth.service';
 import { User } from '../../../../interfaces/interfaces';
@@ -28,6 +28,7 @@ export class MahJongComponent implements OnInit, OnDestroy, AfterContentChecked 
   fourthFloor: string[] = [];
   allCards: string[] = [];
   mixedAllCards: string[] = [];
+  @ViewChild('base', { static: false }) base: any;
   constructor(private gameFieldService: GamefieldService, private authService: AuthService, private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
@@ -103,15 +104,50 @@ export class MahJongComponent implements OnInit, OnDestroy, AfterContentChecked 
   }
 
   mixAllCards() {
-    while (this.allCards.length>0) {
-        let randomNumber = Math.floor(Math.random() * this.allCards.length);
-        let randomCard = this.allCards[randomNumber];
-        this.mixedAllCards.push(randomCard);
-        this.allCards = this.allCards.filter((i => v => v !== randomCard || --i)(1));
-      }
-      console.log(this.mixedAllCards)
+    while (this.allCards.length > 0) {
+      let randomNumber = Math.floor(Math.random() * this.allCards.length);
+      let randomCard = this.allCards[randomNumber];
+      this.mixedAllCards.push(randomCard);
+      this.allCards = this.allCards.filter((i => v => v !== randomCard || --i)(1));
+    }
+    console.log(this.mixedAllCards)
+    this.createWalls();
   }
   ngAfterContentChecked(): void {
     this.changeDetectorRef.detectChanges();
+  }
+
+  createWalls() {
+    let divs: any[] = []
+    let firstWall:any[] = []
+    let secondWall:any[] = []
+    let thirdWall:any[] = []
+    let fourthWall:any[] = []
+    for (let i = 0; i <= 3; i++) {
+      let div = document.createElement('div') as HTMLDivElement;
+
+      switch (i) {
+        case 0: {
+          firstWall = this.mixedAllCards.slice(0, 62);
+          break;
+        }
+        case 1: {
+          secondWall = this.mixedAllCards.slice(62, 104);
+          break;
+        }
+        case 2: {
+          thirdWall = this.mixedAllCards.slice(104, 136);
+          break;
+        }
+        case 3: {
+          fourthWall = this.mixedAllCards.slice(136, 152);
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+        console.log(firstWall,secondWall,thirdWall,fourthWall);
+    }
   }
 }
