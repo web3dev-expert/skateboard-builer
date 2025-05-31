@@ -74,33 +74,35 @@ export class MahJongComponent implements OnInit, OnDestroy, AfterContentChecked 
     clearTimeout(this.countTimer)
   }
   giveCards() {
-    for (let i = 0; i <= 1; i++) {
-      for (let a = 0; a <= 31; a++) {
-        this.firstFloor.push('A' + a);
+    setTimeout(() => {
+      for (let i = 0; i <= 1; i++) {
+        for (let a = 0; a <= 31; a++) {
+          this.firstFloor.push('A' + a);
+        }
       }
-    }
-    for (let a = 0; a <= 1; a++) {
-      for (let i = 0; i <= 21; i++) {
-        this.secondFloor.push('B' + i);
+      for (let a = 0; a <= 1; a++) {
+        for (let i = 0; i <= 21; i++) {
+          this.secondFloor.push('B' + i);
+        }
       }
-    }
-    for (let a = 0; a <= 1; a++) {
-      for (let i = 0; i <= 16; i++) {
-        this.thirdFloor.push('C' + i);
+      for (let a = 0; a <= 1; a++) {
+        for (let i = 0; i <= 16; i++) {
+          this.thirdFloor.push('C' + i);
+        }
       }
-    }
-    for (let a = 0; a <= 1; a++) {
-      for (let i = 0; i <= 4; i++) {
-        this.fourthFloor.push('D' + i)
+      for (let a = 0; a <= 1; a++) {
+        for (let i = 0; i <= 4; i++) {
+          this.fourthFloor.push('D' + i)
+        }
       }
-    }
-    this.allCards.push(...this.firstFloor);
-    this.allCards.push(...this.secondFloor);
-    this.allCards.push(...this.thirdFloor);
-    this.allCards.push(...this.fourthFloor);
+      this.allCards.push(...this.firstFloor);
+      this.allCards.push(...this.secondFloor);
+      this.allCards.push(...this.thirdFloor);
+      this.allCards.push(...this.fourthFloor);
 
 
-    this.mixAllCards();
+      this.mixAllCards();
+    }, 1000);
   }
 
   mixAllCards() {
@@ -110,7 +112,6 @@ export class MahJongComponent implements OnInit, OnDestroy, AfterContentChecked 
       this.mixedAllCards.push(randomCard);
       this.allCards = this.allCards.filter((i => v => v !== randomCard || --i)(1));
     }
-    console.log(this.mixedAllCards)
     this.createWalls();
   }
   ngAfterContentChecked(): void {
@@ -118,36 +119,45 @@ export class MahJongComponent implements OnInit, OnDestroy, AfterContentChecked 
   }
 
   createWalls() {
-    let divs: any[] = []
-    let firstWall:any[] = []
-    let secondWall:any[] = []
-    let thirdWall:any[] = []
-    let fourthWall:any[] = []
-    for (let i = 0; i <= 3; i++) {
-      let div = document.createElement('div') as HTMLDivElement;
+    let firstWall: any[] = this.mixedAllCards.slice(0, 62);
+    let secondWall: any[] = this.mixedAllCards.slice(62, 104);
+    let thirdWall: any[] = this.mixedAllCards.slice(104, 136);
+    let fourthWall: any[] = this.mixedAllCards.slice(136, 152);
 
-      switch (i) {
-        case 0: {
-          firstWall = this.mixedAllCards.slice(0, 62);
-          break;
-        }
-        case 1: {
-          secondWall = this.mixedAllCards.slice(62, 104);
-          break;
-        }
-        case 2: {
-          thirdWall = this.mixedAllCards.slice(104, 136);
-          break;
-        }
-        case 3: {
-          fourthWall = this.mixedAllCards.slice(136, 152);
-          break;
-        }
-        default: {
-          break;
-        }
-      }
-        console.log(firstWall,secondWall,thirdWall,fourthWall);
+    let firstFloor: HTMLDivElement[] = [];
+    let secondFloor: HTMLDivElement[] = [];
+    let thirdFloor: HTMLDivElement[] = [];
+    let fourthFloor: HTMLDivElement[] = [];
+
+    this.initializeFloors(firstWall, firstFloor);
+    this.initializeFloors(secondWall, secondFloor);
+    this.initializeFloors(thirdWall, thirdFloor);
+    this.initializeFloors(fourthWall, fourthFloor);
+
+
+    this.distribuiteFloors(firstFloor, this.base?.nativeElement, 1);
+    this.distribuiteFloors(secondFloor, this.base?.nativeElement, 2);
+    this.distribuiteFloors(thirdFloor, this.base?.nativeElement, 3);
+    this.distribuiteFloors(fourthFloor, this.base?.nativeElement, 4);
+  }
+
+  initializeFloors(walls: any[], floor: HTMLDivElement[]) {
+    for (let w of walls) {
+      let div = document.createElement('div');
+      div.classList.add('p-2');
+      div.classList.add('border');
+      div.classList.add('col-1');
+      div.textContent = w;
+      floor.push(div);
     }
+  }
+
+  distribuiteFloors(floor: HTMLDivElement[], div: any, zIndex: number) {
+    let floorContainer = document.createElement('div');
+    floorContainer.classList.add('row')
+    floor.forEach(d => {
+      floorContainer.append(d);
+      this.base.nativeElement.append(floorContainer)
+    });
   }
 }
