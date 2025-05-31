@@ -9,18 +9,16 @@
     bottom: 20px;
     right: 30px;
     transform: rotate(.1deg);
-    z-index: 10!important;
+    z-index: 10 !important;
+    box-shadow: 0 0 .00001rem #f3aa6f,
+        0 0 .00001rem #f3aa6f,
+        0 0 2rem #ff7300,
+        0 0 0.8rem #ff7300,
+        0 0 2.8rem #ff7300,
+        inset 0 0 1.3rem #ff7300;
 
     .arrow_up_button {
-        box-shadow: 0 0 .2rem #fff,
-            0 0 .2rem #fff,
-            0 0 2rem #ff7300,
-            0 0 0.8rem #ff7300,
-            0 0 2.8rem #ff7300,
-            inset 0 0 1.3rem #ff7300;
-        border-radius: 50%;
         transition: 1s;
-        
         &:hover {
             max-width: 45px;
             max-height: 45px;
