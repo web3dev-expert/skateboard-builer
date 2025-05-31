@@ -47,10 +47,11 @@ i {
 }
 
 @keyframes one {
-    0%{
+    0% {
         visibility: hidden;
         scale: 0;
     }
+
     4% {
         visibility: visible;
         scale: 0.1;
@@ -140,4 +141,20 @@ i {
         scale: 0;
         visibility: hidden;
     }
+}
+
+.width-fit-content {
+    width: fit-content !important;
+}
+
+.w-85 {
+    width: 85% !important;
+}
+
+.w-65 {
+    width: 65% !important;
+}
+
+.w-55 {
+    width: 55% !important;
 }

@@ -154,10 +154,31 @@ export class MahJongComponent implements OnInit, OnDestroy, AfterContentChecked 
 
   distribuiteFloors(floor: HTMLDivElement[], div: any, zIndex: number) {
     let floorContainer = document.createElement('div');
-    floorContainer.classList.add('row')
+    floorContainer.classList.add('row');
+    switch (zIndex) {
+      case (1): {
+        floorContainer.classList.add('w-100');
+      }
+        break;
+      case (2): {
+        floorContainer.classList.add('w-85');
+      }
+        break;
+      case (3): {
+        floorContainer.classList.add('w-65');
+      }
+        break;
+      case (4): {
+        floorContainer.classList.add('w-55');
+      }
+        break;
+      default: {
+        return;
+      }
+    }
     floor.forEach(d => {
       floorContainer.append(d);
-      this.base.nativeElement.append(floorContainer)
+      div.append(floorContainer)
     });
   }
 }
