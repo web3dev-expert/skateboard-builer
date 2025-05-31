@@ -1,4 +1,4 @@
-import { AfterContentChecked, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { GamefieldService } from '../../../../services/gamefield.service';
 import { AuthService } from '../../../../services/auth.service';
 import { User } from '../../../../interfaces/interfaces';
@@ -11,7 +11,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   standalone: true,
   imports: [NgIf, NgFor, ReactiveFormsModule, NgClass, MatTooltipModule],
   templateUrl: './mah-jong.component.html',
-  styleUrl: './mah-jong.component.scss'
+  styleUrl: './mah-jong.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class MahJongComponent implements OnInit, OnDestroy, AfterContentChecked {
   @Input() game: number = 0;
@@ -119,34 +120,43 @@ export class MahJongComponent implements OnInit, OnDestroy, AfterContentChecked 
   }
 
   createWalls() {
-    let firstWall: any[] = this.mixedAllCards.slice(0, 62);
-    let secondWall: any[] = this.mixedAllCards.slice(62, 104);
-    let thirdWall: any[] = this.mixedAllCards.slice(104, 136);
-    let fourthWall: any[] = this.mixedAllCards.slice(136, 152);
+    let firstWall: any[] = this.mixedAllCards.slice(0, 60);
+    let secondWall: any[] = this.mixedAllCards.slice(60, 96);
+    let thirdWall: any[] = this.mixedAllCards.slice(96, 132);
+    let fourthWall: any[] = this.mixedAllCards.slice(132, 150);
+    let fifthWall: any[] = this.mixedAllCards.slice(150, 152);
+
 
     let firstFloor: HTMLDivElement[] = [];
     let secondFloor: HTMLDivElement[] = [];
     let thirdFloor: HTMLDivElement[] = [];
     let fourthFloor: HTMLDivElement[] = [];
+    let fifthFloor: HTMLDivElement[] = [];
 
     this.initializeFloors(firstWall, firstFloor);
     this.initializeFloors(secondWall, secondFloor);
     this.initializeFloors(thirdWall, thirdFloor);
-    this.initializeFloors(fourthWall, fourthFloor);
+    this.initializeFloors(fourthWall, fourthFloor,2);
+    this.initializeFloors(fifthWall, fifthFloor, 6);
 
 
     this.distribuiteFloors(firstFloor, this.base?.nativeElement, 1);
     this.distribuiteFloors(secondFloor, this.base?.nativeElement, 2);
     this.distribuiteFloors(thirdFloor, this.base?.nativeElement, 3);
     this.distribuiteFloors(fourthFloor, this.base?.nativeElement, 4);
+    this.distribuiteFloors(fifthFloor, this.base?.nativeElement, 5);
+
   }
 
-  initializeFloors(walls: any[], floor: HTMLDivElement[]) {
+  initializeFloors(walls: any[], floor: HTMLDivElement[], col?: number) {
     for (let w of walls) {
       let div = document.createElement('div');
       div.classList.add('p-2');
       div.classList.add('border');
-      div.classList.add('col-1');
+      div.classList.add('d-flex');
+      div.classList.add('align-items-middle');
+      div.classList.add('justify-content-center');
+      div.classList.add(col ? `col-${col}` : 'col-1');
       div.textContent = w;
       floor.push(div);
     }
@@ -155,23 +165,32 @@ export class MahJongComponent implements OnInit, OnDestroy, AfterContentChecked 
   distribuiteFloors(floor: HTMLDivElement[], div: any, zIndex: number) {
     let floorContainer = document.createElement('div');
     floorContainer.classList.add('row');
+    floorContainer.classList.add('fs-1');
+    floorContainer.classList.add('fw-bold');
+    floorContainer.classList.add('position-relative');
+    floorContainer.classList.add('p-3');
+    floorContainer.classList.add(`z-${zIndex}`);
     switch (zIndex) {
       case (1): {
         floorContainer.classList.add('w-100');
       }
         break;
       case (2): {
-        floorContainer.classList.add('w-85');
+        floorContainer.classList.add('width-85');
       }
         break;
       case (3): {
-        floorContainer.classList.add('w-65');
+        floorContainer.classList.add('width-65');
       }
         break;
       case (4): {
-        floorContainer.classList.add('w-55');
+        floorContainer.classList.add('width-55');
       }
         break;
+      case (5): {
+        floorContainer.classList.add('width-25');
+      }
+      break;
       default: {
         return;
       }
@@ -180,5 +199,35 @@ export class MahJongComponent implements OnInit, OnDestroy, AfterContentChecked 
       floorContainer.append(d);
       div.append(floorContainer)
     });
+    if (5 == zIndex) {
+      this.colorCards();
+    }
+  }
+
+  colorCards() {
+    let nephewsArray: HTMLDivElement[] = [];
+    for (let child of this.base.nativeElement.children) {
+      for (let nephew of child.children) {
+        nephewsArray.push(nephew);
+      }
+    }
+    for (let i = 0; i <= nephewsArray.length - 1; i++) {
+      for (let j = i + 1; j <= nephewsArray.length - 1; j++) {
+        if (nephewsArray[i].textContent == nephewsArray[j].textContent) {
+          this.assignBackgroundColor(nephewsArray[i], nephewsArray[j]);
+        }
+      }
+    }
+  }
+
+  assignBackgroundColor(firstCard: HTMLDivElement, secondCard: HTMLDivElement) {
+    let colors: string[] = ['bg-warning', 'bg-light', 'bg-danger', 'bg-success', 'bg-info', 'bg-secondary', 'bg-primary'];
+    firstCard.classList.add('bg-gradient');
+    secondCard.classList.add('bg-gradient');
+
+    let randomColor = Math.floor(Math.random() * colors.length - 1);
+    if (randomColor < 0) randomColor = 0;
+    firstCard.classList.add(colors[randomColor]);
+    secondCard.classList.add(colors[randomColor]);
   }
 }

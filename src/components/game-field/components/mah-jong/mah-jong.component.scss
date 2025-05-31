@@ -147,14 +147,32 @@ i {
     width: fit-content !important;
 }
 
-.w-85 {
+.width-85 {
+    left: 8.5%;
     width: 85% !important;
+    height: auto;
+    width: fit-content !important;
 }
 
-.w-65 {
+.width-65 {
+    left: 18.5%;
     width: 65% !important;
+    height: auto;
+    width: fit-content !important;
 }
 
-.w-55 {
+.width-55 {
+    left: 23%;
     width: 55% !important;
+    height: auto;
+}
+
+.width-25 {
+    left: 33%;
+    width: 25% !important;
+    height: auto;
+}
+
+.w-100 {
+    width: fit-content !important;
 }
