@@ -5,6 +5,7 @@ import { User } from '../../../../interfaces/interfaces';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { TreeKeyManager } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-mah-jong',
@@ -133,11 +134,11 @@ export class MahJongComponent implements OnInit, OnDestroy, AfterContentChecked 
     let fourthFloor: HTMLDivElement[] = [];
     let fifthFloor: HTMLDivElement[] = [];
 
-    this.initializeFloors(firstWall, firstFloor);
-    this.initializeFloors(secondWall, secondFloor);
-    this.initializeFloors(thirdWall, thirdFloor);
-    this.initializeFloors(fourthWall, fourthFloor,4);
-    this.initializeFloors(fifthWall, fifthFloor, 6);
+    this.initializeFloors(firstWall, firstFloor, 'first');
+    this.initializeFloors(secondWall, secondFloor, 'second');
+    this.initializeFloors(thirdWall, thirdFloor, 'third');
+    this.initializeFloors(fourthWall, fourthFloor, 'fourth', 4);
+    this.initializeFloors(fifthWall, fifthFloor, 'fifth', 6);
 
 
     this.distribuiteFloors(firstFloor, this.base?.nativeElement, 5);
@@ -148,16 +149,19 @@ export class MahJongComponent implements OnInit, OnDestroy, AfterContentChecked 
 
   }
 
-  initializeFloors(walls: any[], floor: HTMLDivElement[], col?: number) {
-    for (let w of walls) {
+  initializeFloors(walls: any[], floor: HTMLDivElement[], floorNumber: string, col?: number) {
+    for (let w = 0; w < walls.length; w++) {
       let div = document.createElement('div');
       div.classList.add('p-2');
       div.classList.add('border');
       div.classList.add('d-flex');
       div.classList.add('align-items-middle');
       div.classList.add('justify-content-center');
+      div.classList.add('tessera');
       div.classList.add(col ? `col-${col}` : 'col-1');
-      div.textContent = w;
+      div.textContent = walls[w];
+      div.id = floorNumber + '-' + (w + 1);
+      div.addEventListener('click', () => this.checkMove(div));
       floor.push(div);
     }
   }
@@ -189,7 +193,7 @@ export class MahJongComponent implements OnInit, OnDestroy, AfterContentChecked 
       case (1): {
         floorContainer.classList.add('width-25');
       }
-      break;
+        break;
       default: {
         return;
       }
@@ -228,5 +232,72 @@ export class MahJongComponent implements OnInit, OnDestroy, AfterContentChecked 
     if (randomColor < 0) randomColor = 0;
     firstCard.classList.add(colors[randomColor]);
     secondCard.classList.add(colors[randomColor]);
+  }
+
+  checkMove(div: HTMLDivElement) {
+    let rows = this.checkRows(div);
+    let idNumber = Number(div?.id.substring(div?.id?.lastIndexOf('-') + 1));
+    let isCardFree: boolean = this.checkIfFree(div, rows, idNumber);
+    console.log(isCardFree);
+  }
+
+
+  checkRows(div: HTMLDivElement): number {
+    if (div?.id.startsWith('first')) return 5;
+    else if (div?.id.startsWith('second')) return 4;
+    else if (div?.id.startsWith('third')) return 3;
+    else if (div?.id.startsWith('fourth')) return 2;
+    else if (div?.id.startsWith('fifth')) return 1;
+    else return 0;
+  }
+
+  checkIfFree(div: HTMLDivElement, rows: number, idNumber: number): boolean {
+    if ((idNumber == 1 || idNumber == 12 || idNumber == 49 || idNumber == 60) && rows == 5) return true;
+    else if ((idNumber == 1 || idNumber == 12 || idNumber == 37 || idNumber == 48) && rows == 4) return true;
+    else if ((idNumber == 1 || idNumber == 12 || idNumber == 25 || idNumber == 36) && rows == 3) return true;
+    else if (rows == 1) return true;
+    else if ((idNumber - 12) < 0) {
+      //Controllo se nella prima riga ci sono carte a sinistra o a desta
+      if (this.checkIfDivIsPresent(document.getElementById(this.translateRow(rows) + String(idNumber - 1))) ||
+        this.checkIfDivIsPresent(document.getElementById(this.translateRow(rows) + String(idNumber + 1)))) {
+        if (!(document.getElementById(this.translateRow(rows) + String(idNumber - 1))!.textContent!.length > 0)) {
+          console.log('left free on first line , row : ' + this.translateRow(rows).substring(0, this.translateRow(rows).lastIndexOf('-')));
+          return true;
+        } else if (!(document.getElementById(this.translateRow(rows) + String(idNumber + 1))!.textContent!.length > 0)) {
+          console.log('right free on first line , row : ' + this.translateRow(rows).substring(0, this.translateRow(rows).lastIndexOf('-')));
+          return true;
+        } else {
+          console.log('both left and right occupied on first line , row : ' + this.translateRow(rows).substring(0, this.translateRow(rows).lastIndexOf('-')));
+          return false;
+        }
+      } else if (!this.checkIfDivIsPresent(document.getElementById(this.translateRow(rows) + String(idNumber - 1))) ||
+        !this.checkIfDivIsPresent(document.getElementById(this.translateRow(rows) + String(idNumber + 1)))) {
+        console.log('left or right undefined on first line , row : ' + this.translateRow(rows).substring(0, this.translateRow(rows).lastIndexOf('-')));
+        return true;
+      } else {
+        return false;
+      }
+    } else if (((idNumber + 12) > 60 && rows == 5) || ((idNumber + 12) > 48 && rows == 4) || ((idNumber + 12) > 36 && rows == 3) || ((idNumber + 3) > 6 && rows == 2)) {
+      //just to fix return error... to do ...
+      console.log('to do ...');
+      return true;
+    }
+    else return false;
+  }
+  translateRow(rows: number): string {
+    if (rows == 5) {
+      return 'first-';
+    } else if (rows == 4) {
+      return 'second-';
+    } else if (rows == 3) {
+      return 'third-';
+    } else if (rows == 2) {
+      return 'fourth-';
+    } else {
+      return 'fifth-'
+    }
+  }
+  checkIfDivIsPresent(div: any) {
+    return (undefined != div && null != div);
   }
 }
